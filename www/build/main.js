@@ -197,9 +197,14 @@ var MyApp = /** @class */ (function () {
         });
     }
     MyApp = __decorate([
+<<<<<<< HEAD
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"C:\Users\Dennis-Esop\WahlprojektSS18\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"C:\Users\Dennis-Esop\WahlprojektSS18\src\app\app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
+=======
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/start.component.html"*/'\n\n<ion-header>\n  <ion-toolbar position = "top">\n    <ion-title>\n		<div text-center>	\n			<img class="logo "src="assets/imgs/FreiRaumLogo.png" height=80 width=80>  \n		</div>\n	</ion-title>\n   </ion-toolbar>\n </ion-header>\n\n<ion-content padding>\n   Bitte wähle dein Gebäude aus.\n    <div text-center>\n      <img class="logo "src="assets/imgs/Campusplan.png">\n    </div><br><br><br><br><br>\n   \n    <button ion-button (click)="scrollToTop()">To Top</button>	\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/start.component.html"*/,
+        })
+>>>>>>> 35c53cebb116de12e3aec6debe3d10df2252244e
     ], MyApp);
     return MyApp;
 }());
