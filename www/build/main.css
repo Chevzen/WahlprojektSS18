@@ -25677,3 +25677,15 @@ ion-navbar.toolbar {
   min-height: calc(46px + constant(safe-area-inset-bottom));
   min-height: calc(46px + env(safe-area-inset-bottom));
 }
+
+a {
+  display: block;
+  border-style: dotted;
+  width: 87px;
+  height: 41px;
+  position: absolute;
+  left: 179px;
+  top: 266px;
+  -webkit-transform: rotate(67deg);
+  transform: rotate(67deg);
+}
