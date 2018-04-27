@@ -71,7 +71,7 @@ var HomePage = /** @class */ (function () {
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"C:\Users\Dennis-Esop\WahlprojektSS18\src\pages\home\home.html"*/'<ion-header>\n\n	<ion-toolbar position = "top">\n\n    <ion-title>\n\n		<div text-center>	\n\n			<img class="logo "src="assets/imgs/FreiRaumLogo.png" height=80 width=80>  \n\n		</div>\n\n	</ion-title>\n\n   </ion-toolbar>\n\n</ion-header>\n\n\n\n<ion-content padding>\n\n	\n\n    <img class="logo" src="assets/imgs/Campusplan.png" height=490 width=524 usemap="#campusmap"/>\n\n    \n\n\n\n    <a (click)="next()"></a>\n\n   \n\n	<button ion-button (click)="next()">Nächste Seite</button>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\Dennis-Esop\WahlprojektSS18\src\pages\home\home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n	<ion-toolbar position="top" text-left>\n	<img class="logo "src="assets/imgs/Logo.jpg" height="42" width="50">\n    <ion-title>\n		<div text-left>	\n			  \n		</div>\n	</ion-title>\n   </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n    <b>Bitte wähle dein Gebäude!</b>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n	kevin dinh\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="next()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="next()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n   \n	<button ion-button (click)="next()">Nächste Seite</button>\n</ion-content>\n'/*ion-inline-end:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/pages/home/home.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]])
     ], HomePage);
@@ -196,7 +196,7 @@ var MyApp = /** @class */ (function () {
         });
     }
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"C:\Users\Dennis-Esop\WahlprojektSS18\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"C:\Users\Dennis-Esop\WahlprojektSS18\src\app\app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/app/app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/app/app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
@@ -241,7 +241,7 @@ var NewPage = /** @class */ (function () {
     };
     NewPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-new',template:/*ion-inline-start:"C:\Users\Dennis-Esop\WahlprojektSS18\src\pages\new\new.html"*/'<!--\n  Generated template for the NewPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>new-page</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n<p>Eine neue Seite</p>\n</ion-content>\n'/*ion-inline-end:"C:\Users\Dennis-Esop\WahlprojektSS18\src\pages\new\new.html"*/,
+            selector: 'page-new',template:/*ion-inline-start:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/pages/new/new.html"*/'<!--\n  Generated template for the NewPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>new-page</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n<p>Eine neue Seite</p>\n</ion-content>\n'/*ion-inline-end:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/pages/new/new.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
     ], NewPage);
