@@ -14,13 +14,10 @@ export class HomePage {
   }
 
   nextC() {
-	  this.navCtrl.push( Cgebaude);
+	  this.navCtrl.setRoot( Cgebaude);
   }
 
   nextD() {
-	  this.navCtrl.push( Dgebaude);
+	  this.navCtrl.setRoot( Dgebaude);
   }
-
-
-
 }

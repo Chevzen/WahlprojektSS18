@@ -1,16 +1,14 @@
 <ion-header>
-	<ion-toolbar position="top" text-left>
-	<img class="logo "src="assets/imgs/Logo.jpg" height="42" width="50">
-    <ion-title>
-
-	</ion-title>
-   </ion-toolbar>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Campusplan</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 	<b>Bitte wähle dein Gebäude!</b>
-
-	<ion-searchbar (ionCancel)="onCancel($event)" placeholder="Raumsuche"></ion-searchbar>
 
 	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/><br>
 	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>

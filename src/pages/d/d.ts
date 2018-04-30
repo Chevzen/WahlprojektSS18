@@ -19,7 +19,7 @@ export class Dgebaude {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Dgebaude');
+    console.log('ionViewDidLoad DPage');
   }
 
 }

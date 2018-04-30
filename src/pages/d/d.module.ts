@@ -10,4 +10,4 @@ import { Dgebaude } from './d';
     IonicPageModule.forChild(Dgebaude),
   ],
 })
-export class DgebaudeModule {}
+export class DPageModule {}

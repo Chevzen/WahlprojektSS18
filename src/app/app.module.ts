@@ -1,20 +1,23 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
+
 import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Cgebaude } from '../pages/c/c';
 import { Dgebaude } from '../pages/d/d';
+import { Search } from '../pages/search/search';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-	  Cgebaude,
-    Dgebaude
+    Cgebaude,
+    Dgebaude,
+    Search
   ],
   imports: [
     BrowserModule,
@@ -24,8 +27,9 @@ import { Dgebaude } from '../pages/d/d';
   entryComponents: [
     MyApp,
     HomePage,
-	  Cgebaude,
-    Dgebaude
+    Cgebaude,
+    Dgebaude,
+    Search
   ],
   providers: [
     StatusBar,

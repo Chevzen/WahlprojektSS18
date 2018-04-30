@@ -1,10 +1,18 @@
-<ion-menu side="right" [content]="mycontent">
-        <ion-content>
-          <ion-list>
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title><img class="logo" src="assets/imgs/FreiRaumLogo.png" width="40"/></ion-title>
+    </ion-toolbar>
+  </ion-header>
 
+  <ion-content padding>
+    <ion-list>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
 
-          </ion-list>
-        </ion-content>
-      </ion-menu>
+</ion-menu>
 
-<ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

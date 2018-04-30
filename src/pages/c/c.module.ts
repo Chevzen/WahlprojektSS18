@@ -10,4 +10,4 @@ import { Cgebaude } from './c';
     IonicPageModule.forChild(Cgebaude),
   ],
 })
-export class CgebaudeModule {}
+export class CPageModule {}
