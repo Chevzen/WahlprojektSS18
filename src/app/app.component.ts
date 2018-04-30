@@ -27,7 +27,6 @@ export class MyApp {
       { title: 'Gebäude D', component: Dgebaude },
       { title: 'Raumsuche', component: Search }
     ];
-
   }
 
   initializeApp() {
