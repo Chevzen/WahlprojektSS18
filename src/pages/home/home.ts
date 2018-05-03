@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { NewPage } from '../new/new'
+import { Cgebaude } from '../c/c'
+import { Dgebaude } from '../d/d'
 
 @Component({
   selector: 'page-home',
@@ -11,11 +12,12 @@ export class HomePage {
   constructor(public navCtrl: NavController) {
 
   }
-  
-  next() {
-	  this.navCtrl.push(NewPage);
-  }
-  
-  
 
+  nextC() {
+	  this.navCtrl.setRoot( Cgebaude);
+  }
+
+  nextD() {
+	  this.navCtrl.setRoot( Dgebaude);
+  }
 }

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { NewPage } from './new';
+import { Dgebaude } from './d';
 
 @NgModule({
   declarations: [
-    NewPage,
+    Dgebaude,
   ],
   imports: [
-    IonicPageModule.forChild(NewPage),
+    IonicPageModule.forChild(Dgebaude),
   ],
 })
-export class NewPageModule {}
+export class DPageModule {}
