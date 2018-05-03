@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { Cgebaude } from '../pages/c/c';
 import { Dgebaude } from '../pages/d/d';
 import { Search } from '../pages/search/search';
+import { LoginPage } from '../pages/login/login';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { Search } from '../pages/search/search';
     HomePage,
     Cgebaude,
     Dgebaude,
-    Search
+    Search,
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,8 @@ import { Search } from '../pages/search/search';
     HomePage,
     Cgebaude,
     Dgebaude,
-    Search
+    Search,
+    LoginPage
   ],
   providers: [
     StatusBar,
