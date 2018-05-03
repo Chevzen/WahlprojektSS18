@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { Cgebaude } from '../pages/c/c';
 import { Dgebaude } from '../pages/d/d';
 import { Search } from '../pages/search/search';
+import { LoginPage } from '../pages/login/login';
 
 @Component({
   templateUrl: 'app.html'
@@ -25,7 +26,8 @@ export class MyApp {
       { title: 'Campusplan', component: HomePage },
       { title: 'Gebäude C', component: Cgebaude },
       { title: 'Gebäude D', component: Dgebaude },
-      { title: 'Raumsuche', component: Search }
+      { title: 'Raumsuche', component: Search },
+      { title: 'Aktualisieren', component: LoginPage}
     ];
   }
 

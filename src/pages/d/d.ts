@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the DPage page.
@@ -20,6 +21,10 @@ export class Dgebaude {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DPage');
+  }
+
+  BackToCampus(){
+    this.navCtrl.setRoot(HomePage);
   }
 
 }
