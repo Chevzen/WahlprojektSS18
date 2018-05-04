@@ -3,6 +3,8 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+
+
 import { HomePage } from '../pages/home/home';
 import { Cgebaude } from '../pages/c/c';
 import { Dgebaude } from '../pages/d/d';
@@ -14,14 +16,16 @@ import { LoginPage } from '../pages/login/login';
 })
 export class MyApp {
   @ViewChild(Nav) nav:Nav;
-  rootPage:any = HomePage;
+  rootPage:any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
-    this.initializeApp();
+  this.platform.ready().then(() => {
+    this.statusBar.styleDefault();
+    this.splashScreen.hide();
+  });
 
-    // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Campusplan', component: HomePage },
       { title: 'Gebäude C', component: Cgebaude },
@@ -29,15 +33,6 @@ export class MyApp {
       { title: 'Raumsuche', component: Search },
       { title: 'Aktualisieren', component: LoginPage}
     ];
-  }
-
-  initializeApp() {
-    this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
   }
 
   openPage(page) {

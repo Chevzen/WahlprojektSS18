@@ -1,28 +1,23 @@
 <ion-header>
+
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-title>Login</ion-title>
   </ion-navbar>
+
 </ion-header>
 
-<ion-content class="background">
-<ion-card>
-	<ion-card-header>
-		Login
-	</ion-card-header>
-	<ion-card-content>
-		<ion-list no-line>
-			<ion-item>
-				<ion-input type="text" placeholder="Username"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-input type="password" placeholder="Password"></ion-input>
-			</ion-item>
-			<button ion-button>Login</button>
-		</ion-list>
-	</ion-card-content>
-</ion-card>
-</ion-content>
 
+<ion-content padding>
+
+  <div *ngIf="showLogin">
+    <ion-item>
+      <ion-input type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+  </div>
+
+  <button ion-button color="dark" full (click)="doLogin()">Login</button>
+</ion-content>
