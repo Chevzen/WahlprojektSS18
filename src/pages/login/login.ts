@@ -19,26 +19,28 @@ export class LoginPage {
   ionViewDidLoad() {
     console.log('Dat is die LoginPage');
   }
+
+  clicked(){
+    var fehlerFeld: HTMLElement = document.getElementById('Fehler');
+    fehlerFeld.style.display = "none";
+  }
+
   doLogin() {
     if(this.showLogin) {
       console.log('login im gange');
-
-        if(this.benutzername === '' || this.password === '') {
-          let alert = this.alertCtrl.create({
-            title:'Register Error',
-            subTitle:'Alle Felder ausfüllen',
-            buttons:['OK']
-          });
-      alert.present();
-      return;
-    }
-    /*let loader = this.loadingCtrl.create({
-      content: "Logging in..."
-    });
-    loader.present();
-    setTimeout(2000);
-    loader.dismissAll();*/
-    this.navCtrl.setRoot(HomePage);
+      if(this.benutzername === '' || this.password === '') {
+        var fehlerFeld: HTMLElement = document.getElementById('Fehler');
+        fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
+        fehlerFeld.style.display = "block";
+        return;
+      }
+      let loader = this.loadingCtrl.create({
+        content: "Daten werden geladen..."
+      });
+      loader.present();
+      setTimeout(2000);
+      loader.dismiss();
+      this.navCtrl.setRoot(HomePage);
 
     } else {
       this.showLogin = true;

@@ -32,24 +32,25 @@ var LoginPage = /** @class */ (function () {
     LoginPage.prototype.ionViewDidLoad = function () {
         console.log('Dat is die LoginPage');
     };
+    LoginPage.prototype.clicked = function () {
+        var fehlerFeld = document.getElementById('Fehler');
+        fehlerFeld.style.display = "none";
+    };
     LoginPage.prototype.doLogin = function () {
         if (this.showLogin) {
             console.log('login im gange');
             if (this.benutzername === '' || this.password === '') {
-                var alert = this.alertCtrl.create({
-                    title: 'Register Error',
-                    subTitle: 'Alle Felder ausfüllen',
-                    buttons: ['OK']
-                });
-                alert.present();
+                var fehlerFeld = document.getElementById('Fehler');
+                fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
+                fehlerFeld.style.display = "block";
                 return;
             }
-            /*let loader = this.loadingCtrl.create({
-              content: "Logging in..."
+            var loader = this.loadingCtrl.create({
+                content: "Daten werden geladen..."
             });
             loader.present();
             setTimeout(2000);
-            loader.dismissAll();*/
+            loader.dismiss();
             this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
         }
         else {
@@ -58,7 +59,7 @@ var LoginPage = /** @class */ (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n  <div *ngIf="showLogin">\n    <ion-item>\n      <ion-input type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n\n  <button ion-button color="dark" full (click)="doLogin()">Login</button>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n\n  <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _c || Object])
     ], LoginPage);
@@ -310,8 +311,7 @@ var MyApp = /** @class */ (function () {
             { title: 'Campusplan', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */] },
             { title: 'Gebäude C', component: __WEBPACK_IMPORTED_MODULE_5__pages_c_c__["a" /* Cgebaude */] },
             { title: 'Gebäude D', component: __WEBPACK_IMPORTED_MODULE_6__pages_d_d__["a" /* Dgebaude */] },
-            { title: 'Raumsuche', component: __WEBPACK_IMPORTED_MODULE_7__pages_search_search__["a" /* Search */] },
-            { title: 'Aktualisieren', component: __WEBPACK_IMPORTED_MODULE_8__pages_login_login__["a" /* LoginPage */] }
+            { title: 'Raumsuche', component: __WEBPACK_IMPORTED_MODULE_7__pages_search_search__["a" /* Search */] }
         ];
     }
     MyApp.prototype.openPage = function (page) {

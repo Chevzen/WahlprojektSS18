@@ -8,16 +8,17 @@
 
 
 <ion-content padding>
-
-  <div *ngIf="showLogin">
+  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">
+  </span>
+  <div *ngIf="showLogin" style="margin-top: 10px;">
     <ion-item>
-      <ion-input type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>
+      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
     </ion-item>
   </div>
 
-  <button ion-button color="dark" full (click)="doLogin()">Login</button>
+  <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>
 </ion-content>
