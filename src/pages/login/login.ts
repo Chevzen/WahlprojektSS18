@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, AlertController, LoadingController } from 'ionic-angular';
+import { HomePage } from '../home/home';
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,11 +10,39 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  showLogin:boolean = true;   //Variablen anlegen
+  benutzername:string = '';
+  password:string = '';
+
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl:LoadingController) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+    console.log('Dat is die LoginPage');
   }
+  doLogin() {
+    if(this.showLogin) {
+      console.log('login im gange');
 
+        if(this.benutzername === '' || this.password === '') {
+          let alert = this.alertCtrl.create({
+            title:'Register Error',
+            subTitle:'Alle Felder ausfüllen',
+            buttons:['OK']
+          });
+      alert.present();
+      return;
+    }
+    /*let loader = this.loadingCtrl.create({
+      content: "Logging in..."
+    });
+    loader.present();
+    setTimeout(2000);
+    loader.dismissAll();*/
+    this.navCtrl.setRoot(HomePage);
+
+    } else {
+      this.showLogin = true;
+    }
+
+  }
 }
