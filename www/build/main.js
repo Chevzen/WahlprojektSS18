@@ -297,15 +297,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var MyApp = /** @class */ (function () {
     function MyApp(platform, statusBar, splashScreen) {
-        var _this = this;
         this.platform = platform;
         this.statusBar = statusBar;
         this.splashScreen = splashScreen;
-        this.rootPage = __WEBPACK_IMPORTED_MODULE_8__pages_login_login__["a" /* LoginPage */];
-        this.platform.ready().then(function () {
-            _this.statusBar.styleDefault();
-            _this.splashScreen.hide();
-        });
+        this.rootPage = __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */];
+        this.initializeApp();
+        // used for an example of ngFor and navigation
         this.pages = [
             { title: 'Campusplan', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */] },
             { title: 'Gebäude C', component: __WEBPACK_IMPORTED_MODULE_5__pages_c_c__["a" /* Cgebaude */] },
@@ -314,6 +311,15 @@ var MyApp = /** @class */ (function () {
             { title: 'Aktualisieren', component: __WEBPACK_IMPORTED_MODULE_8__pages_login_login__["a" /* LoginPage */] }
         ];
     }
+    MyApp.prototype.initializeApp = function () {
+        var _this = this;
+        this.platform.ready().then(function () {
+            // Okay, so the platform is ready and our plugins are available.
+            // Here you can do any higher level native things you might need.
+            _this.statusBar.styleDefault();
+            _this.splashScreen.hide();
+        });
+    };
     MyApp.prototype.openPage = function (page) {
         // Reset the content nav to have just this page
         // we wouldn't want the back button to show in this scenario
