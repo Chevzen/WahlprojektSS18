@@ -38,9 +38,16 @@ export class LoginPage {
         content: "Daten werden geladen..."
       });
       loader.present();
-      setTimeout(2000);
-      loader.dismiss();
-      this.navCtrl.setRoot(HomePage);
+      $http.post('https://aor.cs.hs-rm.de/login', { login_account: this.benutzername, login_password: this.password})
+      .success(function(response){
+        console.log("Erfolg: "+response);
+        //setTimeout(2000);
+        loader.dismiss();
+        this.navCtrl.setRoot(HomePage);
+      })
+      .error(function(response){
+        console.log("Error: "+response);
+      });
 
     } else {
       this.showLogin = true;
