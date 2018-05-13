@@ -2,7 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-
+import { HttpClientModule, HttpClient} from '@angular/common/http';
+import { HTTP } from '@ionic-native/http'
+import { HttpModule } from '@angular/http'  
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -25,7 +27,9 @@ import { LoginPage } from '../pages/login/login';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpClientModule,
+    HttpModule
     
   ],
   bootstrap: [IonicApp],
@@ -41,6 +45,10 @@ import { LoginPage } from '../pages/login/login';
     StatusBar,
     SplashScreen,
     InAppBrowser,
+    HttpClient,
+    HTTP,
+    
+     
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
