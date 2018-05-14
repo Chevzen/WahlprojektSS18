@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { HttpClientModule, HttpClient} from '@angular/common/http';
 import { HTTP } from '@ionic-native/http'
 import { HttpModule } from '@angular/http'  
@@ -44,7 +43,6 @@ import { LoginPage } from '../pages/login/login';
   providers: [
     StatusBar,
     SplashScreen,
-    InAppBrowser,
     HttpClient,
     HTTP,
     

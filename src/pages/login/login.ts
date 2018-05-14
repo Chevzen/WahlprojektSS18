@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController } from 'ionic-angular';
 import { HomePage } from '../home/home';
-import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
-import { Http, HttpModule, Headers, RequestOptions } from '@angular/http'
+import { Http, Headers, RequestOptions } from '@angular/http'
 
  
 
@@ -12,36 +11,14 @@ import { Http, HttpModule, Headers, RequestOptions } from '@angular/http'
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  options : InAppBrowserOptions = {
-    location : 'yes',//Or 'no' 
-    hidden : 'no', //Or  'yes'
-    clearcache : 'yes',
-    clearsessioncache : 'yes',
-    zoom : 'yes',//Android only ,shows browser zoom controls 
-    hardwareback : 'yes',
-    mediaPlaybackRequiresUserAction : 'no',
-    shouldPauseOnSuspend : 'no', //Android only 
-    closebuttoncaption : 'Close', //iOS only
-    disallowoverscroll : 'no', //iOS only 
-    toolbar : 'yes', //iOS only 
-    enableViewportScale : 'no', //iOS only 
-    allowInlineMediaPlayback : 'no',//iOS only 
-    presentationstyle : 'pagesheet',//iOS only 
-    fullscreen : 'yes',//Windows only    t { HTTP } from '@ionic-native/http' 
-};
+
 
   showLogin:boolean = true;   //Variablen anlegen
   benutzername:string = '';
   password:string = '';
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl:LoadingController, private theInAppBrowser: InAppBrowser, private http: Http) {}
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl:LoadingController, private http: Http) {}
   
-  
-  public openWithInAppBrowser(url : string){
-    let target = "_blank";
-    this.theInAppBrowser.create(url,target,this.options);
-  }
-
   ionViewDidLoad() {
     console.log('Dat is die LoginPage');
   }
@@ -64,23 +41,14 @@ export class LoginPage {
       let loader = this.loadingCtrl.create({
         content: "Daten werden geladen..."
       });
-
-    var body = JSON.stringify({
-    login_account: this.benutzername,
-    login_password: this.password
-    });
     
     var body = `login_account=${this.benutzername}&login_password=${this.password}`;
     var headers = new Headers();
-    headers.append('Access-Control-Allow-Origin' , '*');
-    headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
-    headers.append('Accept','application/json');
-    headers.append('content-type','application/json');
+    headers.append('Content-Type','text/html; charset=utf-8');
     let options = new RequestOptions({headers: headers});
-    this.http.post('https://aor.cs.hs-rm.de/login', body, options)
-    .subscribe(data => {
+    this.http.get('https://aor.cs.hs-rm.de/login', body).subscribe(result => {
               console.log('login API success');
-              console.log(data);
+              console.log(result);
           }, error => {
               console.log(JSON.stringify(error.json()));
     });
