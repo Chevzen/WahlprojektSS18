@@ -4,116 +4,6 @@ webpackJsonp([4],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(158);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var LoginPage = /** @class */ (function () {
-    function LoginPage(navCtrl, alertCtrl, loadingCtrl, http) {
-        this.navCtrl = navCtrl;
-        this.alertCtrl = alertCtrl;
-        this.loadingCtrl = loadingCtrl;
-        this.http = http;
-        this.showLogin = true; //Variablen anlegen
-        this.benutzername = '';
-        this.password = '';
-    }
-    LoginPage.prototype.ionViewDidLoad = function () {
-        console.log('Dat is die LoginPage');
-    };
-    LoginPage.prototype.clicked = function () {
-        var fehlerFeld = document.getElementById('Fehler');
-        fehlerFeld.style.display = "none";
-    };
-    LoginPage.prototype.doLogin = function () {
-        if (this.showLogin) {
-            console.log('login im gange');
-            if (this.benutzername.length != 8 || this.password === '') {
-                var fehlerFeld = document.getElementById('Fehler');
-                fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
-                fehlerFeld.style.display = "block";
-                return;
-            }
-            var loader = this.loadingCtrl.create({
-                content: "Daten werden geladen..."
-            });
-            var body = 'utf8=%E2%9C%93&' +
-                // TOKEN ÄNDERN
-                'authenticity_token=%2BToF7JE%2BQ8HDAkMJ8LzJDRZcg%2F2SyQDxd6wnYgaw3JlqWEM3yd36daKKLqYCDI918Xu206UdvWol55eMHDpObw%3D%3D' +
-                '&login%5Baccount%5D=' + this.benutzername +
-                '&login%5Bpassword%5D=' + this.password +
-                '&login%5Bterm_id%5D=343737466' +
-                '&commit=Anmeldung';
-            //let body = new URLSearchParams();
-            //body.set('login[account]', this.benutzername);
-            //body.set('login[password]', this.password);
-            console.log("Body: " + body);
-            //var headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-            //      var headers = new Headers();
-            //    headers.append('Content-Type','text/html; charset=utf-8');
-            //headers.append('Content-Type','application/x-www-form-urlencoded');
-            //let options = new RequestOptions({headers: headers, withCredentials:true});
-            var options = {
-                headers: new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-                withCredentials: true
-            };
-            this.http.get('https://aor.cs.hs-rm.de/login', body).subscribe(function (result) {
-                console.log('login API success');
-                console.log("Result: " + result);
-                //window.localStorage.setItem("Token",result);
-                /*loader.present();
-                //Daten herunterladen!!
-                setTimeout(2000);
-                loader.dismiss();
-                window.localStorage.setItem("benutzer",this.benutzername);
-                window.localStorage.setItem("passwort",this.password);
-                console.log(window.localStorage.getItem('benutzer'));
-                console.log(window.localStorage.getItem('passwort'));
-                this.navCtrl.setRoot(HomePage);*/
-            }, function (error) {
-                console.log("Error: " + JSON.stringify(error.json()));
-            });
-            this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
-                console.log("POST: " + result);
-            }, function (error) {
-                console.log("Error: POST: " + error);
-            });
-        }
-        else {
-            this.showLogin = true;
-        }
-    };
-    LoginPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n\n  <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n</ion-content>\n'/*ion-inline-end:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/pages/login/login.html"*/,
-        }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _d || Object])
-    ], LoginPage);
-    return LoginPage;
-    var _a, _b, _c, _d;
-}());
-
-;
-//# sourceMappingURL=login.js.map
-
-/***/ }),
-
-/***/ 103:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Search; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
@@ -155,6 +45,148 @@ var Search = /** @class */ (function () {
 
 /***/ }),
 
+/***/ 103:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(158);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+function get_Token(text) {
+    return text.substring(text.search('authenticity_token') + 61, text.search('authenticity_token') + 149);
+}
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+var LoginPage = /** @class */ (function () {
+    function LoginPage(navCtrl, alertCtrl, loadingCtrl, http) {
+        this.navCtrl = navCtrl;
+        this.alertCtrl = alertCtrl;
+        this.loadingCtrl = loadingCtrl;
+        this.http = http;
+        this.showLogin = true; //Variablen anlegen
+        this.benutzername = '';
+        this.password = '';
+        this.token = '';
+        this.x = '';
+        this.i = 0;
+    }
+    LoginPage.prototype.ionViewDidLoad = function () {
+        console.log('Dat is die LoginPage');
+    };
+    LoginPage.prototype.clicked = function () {
+        var fehlerFeld = document.getElementById('Fehler');
+        fehlerFeld.style.display = "none";
+    };
+    /*function post(body:string, options:let) {
+          this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
+            result => {
+              console.log("POST: "+result);
+            }, error => {
+              console.log("Error: POST: "+error);
+            }
+          );
+    }*/
+    LoginPage.prototype.doLogin = function () {
+        var _this = this;
+        if (this.showLogin) {
+            console.log('login im gange');
+            if (this.benutzername.length != 8 || this.password === '') {
+                var fehlerFeld = document.getElementById('Fehler');
+                fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
+                fehlerFeld.style.display = "block";
+                return;
+            }
+            var loader = this.loadingCtrl.create({
+                content: "Daten werden geladen..."
+            });
+            this.http.get('https://aor.cs.hs-rm.de/login').subscribe(function (result) {
+                console.log('login API success');
+                //window.localStorage.setItem("Token",result);
+                /*loader.present();
+                //Daten herunterladen!!
+                setTimeout(2000);
+                loader.dismiss();
+                window.localStorage.setItem("benutzer",this.benutzername);
+                window.localStorage.setItem("passwort",this.password);
+                console.log(window.localStorage.getItem('benutzer'));
+                console.log(window.localStorage.getItem('passwort'));
+                this.navCtrl.setRoot(HomePage); */
+                _this.x = JSON.stringify(result, null, 2);
+                _this.token = get_Token(_this.x);
+                console.log(_this.token);
+                for (var i = 0; i < 100; i++) {
+                    _this.token = _this.token.replace('+', '%2B');
+                    _this.token = _this.token.replace('/', '%2F');
+                    _this.token = _this.token.replace('=', '%3D');
+                }
+                console.log("hallo: " + _this.token);
+                var body = 'utf8=%E2%9C%93&' +
+                    // TOKEN ÄNDERN
+                    'authenticity_token=' + _this.token +
+                    '&login%5Baccount%5D=' + _this.benutzername +
+                    '&login%5Bpassword%5D=' + _this.password +
+                    '&login%5Bterm_id%5D=343737466' +
+                    '&commit=Anmeldung';
+                //let body = new URLSearchParams();
+                //body.set('login[account]', this.benutzername);
+                //body.set('login[password]', this.password);
+                console.log("Body: " + body);
+                //var headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+                //      var headers = new Headers();
+                //    headers.append('Content-Type','text/html; charset=utf-8');
+                //headers.append('Content-Type','application/x-www-form-urlencoded');
+                //let options = new RequestOptions({headers: headers, withCredentials:true});
+                var options = {
+                    headers: new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+                    withCredentials: true
+                };
+                _this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
+                    console.log("POST: " + result);
+                }, function (error) {
+                    console.log("Error: POST: " + error);
+                });
+            }, function (error) {
+                console.log("Error: " + JSON.stringify(error.json()));
+            });
+        }
+        else {
+            this.showLogin = true;
+        }
+    };
+    LoginPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-login',template:/*ion-inline-start:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n\n  <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n</ion-content>\n'/*ion-inline-end:"/home/dinh/Dropbox/SS2018/Wahlprojekt/clone/WahlprojektSS18/src/pages/login/login.html"*/,
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _d || Object])
+    ], LoginPage);
+    return LoginPage;
+    var _a, _b, _c, _d;
+}());
+
+;
+//# sourceMappingURL=login.js.map
+
+/***/ }),
+
 /***/ 115:
 /***/ (function(module, exports) {
 
@@ -185,11 +217,11 @@ var map = {
 		2
 	],
 	"../pages/login/login.module": [
-		282,
+		283,
 		1
 	],
 	"../pages/search/search.module": [
-		283,
+		282,
 		0
 	]
 };
@@ -239,8 +271,8 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_c_c__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_d_d__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_search_search__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_search_search__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -279,8 +311,8 @@ var AppModule = /** @class */ (function () {
                     links: [
                         { loadChildren: '../pages/c/c.module#CPageModule', name: 'Cgebaude', segment: 'c', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/d/d.module#DPageModule', name: 'Dgebaude', segment: 'd', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClientModule */],
@@ -322,8 +354,8 @@ var AppModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_c_c__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_d_d__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_login_login__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_login_login__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);

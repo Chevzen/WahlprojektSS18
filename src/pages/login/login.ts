@@ -3,6 +3,19 @@ import { NavController, AlertController, LoadingController } from 'ionic-angular
 import { HomePage } from '../home/home';
 import { Http, Headers, RequestOptions } from '@angular/http'
 
+function get_Token(text:string) {
+	return text.substring(text.search('authenticity_token')+61, text.search('authenticity_token')+149);
+}
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
 
 
 @IonicPage()
@@ -16,6 +29,9 @@ export class LoginPage {
   showLogin:boolean = true;   //Variablen anlegen
   benutzername:string = '';
   password:string = '';
+  token:string ='';
+  x:string = '';
+  i:number = 0;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl:LoadingController, private http: Http) {}
 
@@ -27,6 +43,16 @@ export class LoginPage {
     var fehlerFeld: HTMLElement = document.getElementById('Fehler');
     fehlerFeld.style.display = "none";
   }
+
+/*function post(body:string, options:let) {
+      this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
+        result => {
+          console.log("POST: "+result);
+        }, error => {
+          console.log("Error: POST: "+error);
+        }
+      ); 
+}*/
 
 
   doLogin() {
@@ -42,12 +68,34 @@ export class LoginPage {
         content: "Daten werden geladen..."
       });
 
+     this.http.get('https://aor.cs.hs-rm.de/login').subscribe(
+        result => {
+          console.log('login API success');
+          //window.localStorage.setItem("Token",result);
+          /*loader.present();
+          //Daten herunterladen!!
+          setTimeout(2000);
+          loader.dismiss();
+          window.localStorage.setItem("benutzer",this.benutzername);
+          window.localStorage.setItem("passwort",this.password);
+          console.log(window.localStorage.getItem('benutzer'));
+          console.log(window.localStorage.getItem('passwort'));
+          this.navCtrl.setRoot(HomePage); */
+	      this.x = JSON.stringify(result, null, 2);
+		  this.token = get_Token(this.x);
+		  console.log(this.token);
+		  for(var i=0;i<100;i++){
+		  this.token = this.token.replace('+', '%2B');
+		  this.token = this.token.replace('/', '%2F');
+		  this.token = this.token.replace('=', '%3D');
+		  }
+	      console.log("hallo: " + this.token);
 
-      var body = 'utf8=%E2%9C%93&' +
+var body = 'utf8=%E2%9C%93&' +
 
 
 // TOKEN ÄNDERN
-'authenticity_token=%2BToF7JE%2BQ8HDAkMJ8LzJDRZcg%2F2SyQDxd6wnYgaw3JlqWEM3yd36daKKLqYCDI918Xu206UdvWol55eMHDpObw%3D%3D'+ 
+'authenticity_token='+ this.token +
 '&login%5Baccount%5D='+this.benutzername+
 '&login%5Bpassword%5D='+this.password+
 '&login%5Bterm_id%5D=343737466'+
@@ -66,31 +114,19 @@ export class LoginPage {
           withCredentials:true
       };
 
-      this.http.get('https://aor.cs.hs-rm.de/login', body).subscribe(
-        result => {
-          console.log('login API success');
-          console.log("Result: "+result);
-          //window.localStorage.setItem("Token",result);
-          /*loader.present();
-          //Daten herunterladen!!
-          setTimeout(2000);
-          loader.dismiss();
-          window.localStorage.setItem("benutzer",this.benutzername);
-          window.localStorage.setItem("passwort",this.password);
-          console.log(window.localStorage.getItem('benutzer'));
-          console.log(window.localStorage.getItem('passwort'));
-          this.navCtrl.setRoot(HomePage);*/
+
+	  this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
+      	result => {
+        	console.log("POST: "+result);
+        	}, error => {
+          	console.log("Error: POST: "+error);
+        }
+      ); 
+
+
         }, error => {
           console.log("Error: "+JSON.stringify(error.json()));
-        });
-
-      this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
-        result => {
-          console.log("POST: "+result);
-        }, error => {
-          console.log("Error: POST: "+error);
-        }
-      );
+        });        
 
 
     } else {
