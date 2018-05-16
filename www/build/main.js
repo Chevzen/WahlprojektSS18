@@ -138,9 +138,8 @@ var LoginPage = /** @class */ (function () {
                     _this.token = _this.token.replace('/', '%2F');
                     _this.token = _this.token.replace('=', '%3D');
                 }
-                console.log("hallo: " + _this.token);
+                console.log("token: " + _this.token);
                 var body = 'utf8=%E2%9C%93&' +
-                    // TOKEN ÄNDERN
                     'authenticity_token=' + _this.token +
                     '&login%5Baccount%5D=' + _this.benutzername +
                     '&login%5Bpassword%5D=' + _this.password +

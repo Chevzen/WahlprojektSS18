@@ -7,16 +7,6 @@ function get_Token(text:string) {
 	return text.substring(text.search('authenticity_token')+61, text.search('authenticity_token')+149);
 }
 
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-
-
 
 @IonicPage()
 @Component({
@@ -89,39 +79,38 @@ export class LoginPage {
 		  this.token = this.token.replace('/', '%2F');
 		  this.token = this.token.replace('=', '%3D');
 		  }
-	      console.log("hallo: " + this.token);
+	      console.log("token: " + this.token);
 
-var body = 'utf8=%E2%9C%93&' +
+		var body = 'utf8=%E2%9C%93&' +
 
 
-// TOKEN ÄNDERN
-'authenticity_token='+ this.token +
-'&login%5Baccount%5D='+this.benutzername+
-'&login%5Bpassword%5D='+this.password+
-'&login%5Bterm_id%5D=343737466'+
-'&commit=Anmeldung'   ;
+		'authenticity_token='+ this.token +
+		'&login%5Baccount%5D='+this.benutzername+
+		'&login%5Bpassword%5D='+this.password+
+		'&login%5Bterm_id%5D=343737466'+
+		'&commit=Anmeldung'   ;
       //let body = new URLSearchParams();
       //body.set('login[account]', this.benutzername);
       //body.set('login[password]', this.password);
-      console.log("Body: "+body);
+	      console.log("Body: "+body);
       //var headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
 //      var headers = new Headers();
   //    headers.append('Content-Type','text/html; charset=utf-8');
       //headers.append('Content-Type','application/x-www-form-urlencoded');
       //let options = new RequestOptions({headers: headers, withCredentials:true});
-      let options = {
-          headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-          withCredentials:true
-      };
+	      let options = {
+	          headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+	          withCredentials:true
+	      };
 
 
-	  this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
-      	result => {
-        	console.log("POST: "+result);
-        	}, error => {
-          	console.log("Error: POST: "+error);
-        }
-      ); 
+		  this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
+	      	result => {
+	        	console.log("POST: "+result);
+	        	}, error => {
+	          	console.log("Error: POST: "+error);
+	        }
+	      ); 
 
 
         }, error => {
