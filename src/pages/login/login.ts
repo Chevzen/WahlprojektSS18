@@ -34,17 +34,6 @@ export class LoginPage {
     fehlerFeld.style.display = "none";
   }
 
-/*function post(body:string, options:let) {
-      this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
-        result => {
-          console.log("POST: "+result);
-        }, error => {
-          console.log("Error: POST: "+error);
-        }
-      ); 
-}*/
-
-
   doLogin() {
     if(this.showLogin) {
       console.log('login im gange');
@@ -75,9 +64,9 @@ export class LoginPage {
 		  this.token = get_Token(this.x);
 		  console.log(this.token);
 		  for(var i=0;i<100;i++){
-		  this.token = this.token.replace('+', '%2B');
-		  this.token = this.token.replace('/', '%2F');
-		  this.token = this.token.replace('=', '%3D');
+		  	this.token = this.token.replace('+', '%2B');
+		  	this.token = this.token.replace('/', '%2F');
+		  	this.token = this.token.replace('=', '%3D');
 		  }
 	      console.log("token: " + this.token);
 
