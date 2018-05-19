@@ -40,7 +40,7 @@ var LoginPage = /** @class */ (function () {
         this.token = '';
         this.x = '';
         this.i = 0;
-        this.semster = '';
+        this.semester = '';
     }
     LoginPage.prototype.ionViewDidLoad = function () {
         console.log('Dat is die LoginPage');
@@ -77,8 +77,8 @@ var LoginPage = /** @class */ (function () {
                 _this.x = JSON.stringify(result, null, 2);
                 console.log('X: ' + _this.x);
                 _this.token = get_Token(_this.x);
-                _this.semster = get_Semester(_this.x);
-                console.log('Semester: ' + _this.semster);
+                _this.semester = get_Semester(_this.x);
+                console.log('Semester: ' + _this.semester);
                 console.log('Token: ' + _this.token);
                 /*for(var i=0;i<100;i++){
                     this.token = this.token.replace('+', '%2B');
@@ -90,7 +90,7 @@ var LoginPage = /** @class */ (function () {
                     'authenticity_token=' + _this.token +
                     '&login[account]=' + _this.benutzername +
                     '&login[password]=' + _this.password +
-                    '&login[term_id]=' + _this.semster +
+                    '&login[term_id]=' + _this.semester +
                     '&commit=Anmeldung';
                 //let body = new URLSearchParams();
                 //body.set('login[account]', this.benutzername);

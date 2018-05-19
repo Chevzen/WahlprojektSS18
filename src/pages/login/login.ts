@@ -28,7 +28,7 @@ export class LoginPage {
   token:string ='';
   x:string = '';
   i:number = 0;
-	semster:string='';
+	semester:string='';
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl:LoadingController, private http: Http) {}
 
@@ -70,8 +70,8 @@ export class LoginPage {
 	      	this.x = JSON.stringify(result, null, 2);
 					console.log('X: '+this.x);
 		  	this.token = get_Token(this.x);
-				this.semster = get_Semester(this.x);
-				console.log('Semester: '+this.semster);
+				this.semester = get_Semester(this.x);
+				console.log('Semester: '+this.semester);
 		  	console.log('Token: '+this.token);
 		  	/*for(var i=0;i<100;i++){
 		  		this.token = this.token.replace('+', '%2B');
@@ -84,7 +84,7 @@ export class LoginPage {
 				'authenticity_token='+this.token +
 				'&login[account]='+this.benutzername+
 				'&login[password]='+this.password+
-				'&login[term_id]='+this.semster+
+				'&login[term_id]='+this.semester+
 				'&commit=Anmeldung';
       //let body = new URLSearchParams();
       //body.set('login[account]', this.benutzername);
