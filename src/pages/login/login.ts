@@ -4,7 +4,13 @@ import { HomePage } from '../home/home';
 import { Http, Headers, RequestOptions } from '@angular/http'
 
 function get_Token(text:string) {
-	return text.substring(text.search('authenticity_token')+61, text.search('authenticity_token')+149);
+	console.log("text.indexOf(authenticity_token, 600): "+text.indexOf("authenticity_token", 600));
+	return text.substring(text.indexOf("authenticity_token", 600)+29, text.indexOf("authenticity_token", 600)+117);
+}
+
+function get_Semester(text:string) {
+	console.log("text.indexOf(option selected): "+text.indexOf("option selected"));
+	return text.substring(text.indexOf("option selected")+37, text.indexOf("option selected")+46);
 }
 
 
@@ -22,6 +28,7 @@ export class LoginPage {
   token:string ='';
   x:string = '';
   i:number = 0;
+	semster:string='';
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl:LoadingController, private http: Http) {}
 
@@ -60,24 +67,25 @@ export class LoginPage {
           console.log(window.localStorage.getItem('benutzer'));
           console.log(window.localStorage.getItem('passwort'));
           this.navCtrl.setRoot(HomePage); */
-	      this.x = JSON.stringify(result, null, 2);
-		  this.token = get_Token(this.x);
-		  console.log(this.token);
-		  for(var i=0;i<100;i++){
-		  	this.token = this.token.replace('+', '%2B');
-		  	this.token = this.token.replace('/', '%2F');
-		  	this.token = this.token.replace('=', '%3D');
-		  }
-	      console.log("token: " + this.token);
+	      	this.x = JSON.stringify(result, null, 2);
+					console.log('X: '+this.x);
+		  	this.token = get_Token(this.x);
+				this.semster = get_Semester(this.x);
+				console.log('Semester: '+this.semster);
+		  	console.log('Token: '+this.token);
+		  	/*for(var i=0;i<100;i++){
+		  		this.token = this.token.replace('+', '%2B');
+		  		this.token = this.token.replace('/', '%2F');
+		  		this.token = this.token.replace('=', '%3D');
+		  	}*/
+	      //console.log("token: " + this.token);
 
-		var body = 'utf8=%E2%9C%93&' +
-
-
-		'authenticity_token='+ this.token +
-		'&login%5Baccount%5D='+this.benutzername+
-		'&login%5Bpassword%5D='+this.password+
-		'&login%5Bterm_id%5D=343737466'+
-		'&commit=Anmeldung'   ;
+				var body = 'utf8=%E2%9C%93&' +
+				'authenticity_token='+this.token +
+				'&login[account]='+this.benutzername+
+				'&login[password]='+this.password+
+				'&login[term_id]='+this.semster+
+				'&commit=Anmeldung';
       //let body = new URLSearchParams();
       //body.set('login[account]', this.benutzername);
       //body.set('login[password]', this.password);
@@ -99,12 +107,12 @@ export class LoginPage {
 	        	}, error => {
 	          	console.log("Error: POST: "+error);
 	        }
-	      ); 
+	      );
 
 
         }, error => {
           console.log("Error: "+JSON.stringify(error.json()));
-        });        
+        });
 
 
     } else {
