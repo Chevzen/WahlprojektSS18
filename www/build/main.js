@@ -8,6 +8,7 @@ webpackJsonp([4],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(158);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,14 +21,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+function get_Token(text) {
+    //console.log("text.indexOf(authenticity_token): "+text.indexOf("authenticity_token"));
+    //return text.substring(text.indexOf("authenticity_token")+61, text.indexOf("authenticity_token")+149);
+    console.log("text.indexOf(authenticity_token, 600): " + text.indexOf("authenticity_token", 600));
+    return text.substring(text.indexOf("authenticity_token", 600) + 29, text.indexOf("authenticity_token", 600) + 117);
+}
+function get_Semester(text) {
+    console.log("text.indexOf(option selected): " + text.indexOf("option selected"));
+    return text.substring(text.indexOf("option selected") + 37, text.indexOf("option selected") + 46);
+}
 var LoginPage = /** @class */ (function () {
-    function LoginPage(navCtrl, alertCtrl, loadingCtrl) {
+    function LoginPage(navCtrl, alertCtrl, loadingCtrl, http) {
         this.navCtrl = navCtrl;
         this.alertCtrl = alertCtrl;
         this.loadingCtrl = loadingCtrl;
-        this.showLogin = true; //Variablen anlegen
+        this.http = http;
+        //Variablen anlegen
+        this.showLogin = true;
         this.benutzername = '';
         this.password = '';
+        this.token = '';
+        this.x = '';
+        this.i = 0;
+        this.semester = '';
     }
     LoginPage.prototype.ionViewDidLoad = function () {
         console.log('Dat is die LoginPage');
@@ -37,27 +55,76 @@ var LoginPage = /** @class */ (function () {
         fehlerFeld.style.display = "none";
     };
     LoginPage.prototype.doLogin = function () {
+        var _this = this;
         if (this.showLogin) {
             console.log('login im gange');
-            if (this.benutzername === '' || this.password === '') {
+            if (this.benutzername.length != 8 || this.password === '') {
                 var fehlerFeld = document.getElementById('Fehler');
                 fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
                 fehlerFeld.style.display = "block";
                 return;
             }
-            var loader_1 = this.loadingCtrl.create({
-                content: "Daten werden geladen..."
-            });
-            loader_1.present();
-            $http.post('https://aor.cs.hs-rm.de/login', { login_account: this.benutzername, login_password: this.password })
-                .success(function (response) {
-                console.log("Erfolg: " + response);
-                //setTimeout(2000);
-                loader_1.dismiss();
-                this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-            })
-                .error(function (response) {
-                console.log("Error: " + response);
+            this.http.get('https://aor.cs.hs-rm.de/login').subscribe(function (result) {
+                console.log('login API success');
+                //window.localStorage.setItem("Token",result);
+                _this.x = JSON.stringify(result, null, 2);
+                console.log('X: ' + _this.x);
+                _this.token = get_Token(_this.x);
+                _this.semester = get_Semester(_this.x);
+                console.log('Semester: ' + _this.semester);
+                console.log('Token: ' + _this.token);
+                /*for(var i=0;i<100;i++){
+                    this.token = this.token.replace('+', '%2B');
+                    this.token = this.token.replace('/', '%2F');
+                    this.token = this.token.replace('=', '%3D');
+                }*/
+                console.log("token: " + _this.token);
+                var body = 'utf8=%E2%9C%93' +
+                    '&authenticity_token=' + _this.token +
+                    '&login[account]=' + _this.benutzername +
+                    '&login[password]=' + _this.password +
+                    '&login[term_id]=' + _this.semester +
+                    '&commit=Anmeldung';
+                /*var body = 'utf8=%E2%9C%93&' +
+                'authenticity_token='+this.token +
+                '&login%5Baccount%5D='+this.benutzername+
+                '&login%5Bpassword%5D='+this.password+
+                '&login%5Bterm_id%5D='+this.semester+
+                '&commit=Anmeldung';*/
+                //let body = new URLSearchParams();
+                //body.set('login[account]', this.benutzername);
+                //body.set('login[password]', this.password);
+                console.log("Body: " + body);
+                //var headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+                //var headers = new Headers();
+                //headers.append('Content-Type','text/html; charset=utf-8');
+                //headers.append('Content-Type','application/x-www-form-urlencoded');
+                //let options = new RequestOptions({headers: headers, withCredentials:true});
+                var options = {
+                    headers: new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+                    withCredentials: true
+                };
+                _this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
+                    console.log("POST: " + JSON.stringify(result, null, 2));
+                    var loader = _this.loadingCtrl.create({
+                        content: "Daten werden geladen..."
+                    });
+                    loader.present();
+                    //Daten herunterladen!!
+                    setTimeout(2000);
+                    loader.dismiss();
+                    window.localStorage.setItem("benutzer", _this.benutzername);
+                    window.localStorage.setItem("passwort", _this.password);
+                    window.localStorage.setItem("semester", _this.semester);
+                    console.log(window.localStorage.getItem('benutzer'));
+                    console.log(window.localStorage.getItem('passwort'));
+                    console.log(window.localStorage.getItem('semester'));
+                    _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+                }, function (error) {
+                    console.log("Error: POST: " + JSON.stringify(error, null, 2));
+                });
+            }, function (error) {
+                console.log("Error: " + JSON.stringify(error, null, 2));
             });
         }
         else {
@@ -68,12 +135,13 @@ var LoginPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n\n  <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]) === "function" && _d || Object])
     ], LoginPage);
     return LoginPage;
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
 }());
 
+;
 //# sourceMappingURL=login.js.map
 
 /***/ }),
@@ -199,14 +267,16 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(279);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_c_c__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_d_d__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_search_search__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_login_login__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__(265);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(279);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_c_c__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_d_d__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_search_search__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(102);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -224,42 +294,47 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */],
-                __WEBPACK_IMPORTED_MODULE_6__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_7__pages_c_c__["a" /* Cgebaude */],
-                __WEBPACK_IMPORTED_MODULE_8__pages_d_d__["a" /* Dgebaude */],
-                __WEBPACK_IMPORTED_MODULE_9__pages_search_search__["a" /* Search */],
-                __WEBPACK_IMPORTED_MODULE_10__pages_login_login__["a" /* LoginPage */]
+                __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */],
+                __WEBPACK_IMPORTED_MODULE_8__pages_home_home__["a" /* HomePage */],
+                __WEBPACK_IMPORTED_MODULE_9__pages_c_c__["a" /* Cgebaude */],
+                __WEBPACK_IMPORTED_MODULE_10__pages_d_d__["a" /* Dgebaude */],
+                __WEBPACK_IMPORTED_MODULE_11__pages_search_search__["a" /* Search */],
+                __WEBPACK_IMPORTED_MODULE_12__pages_login_login__["a" /* LoginPage */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
+                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */], {}, {
                     links: [
                         { loadChildren: '../pages/c/c.module#CPageModule', name: 'Cgebaude', segment: 'c', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/d/d.module#DPageModule', name: 'Dgebaude', segment: 'd', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] }
                     ]
-                })
+                }),
+                __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_4__angular_http__["c" /* HttpModule */]
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicApp */]],
             entryComponents: [
-                __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */],
-                __WEBPACK_IMPORTED_MODULE_6__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_7__pages_c_c__["a" /* Cgebaude */],
-                __WEBPACK_IMPORTED_MODULE_8__pages_d_d__["a" /* Dgebaude */],
-                __WEBPACK_IMPORTED_MODULE_9__pages_search_search__["a" /* Search */],
-                __WEBPACK_IMPORTED_MODULE_10__pages_login_login__["a" /* LoginPage */]
+                __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */],
+                __WEBPACK_IMPORTED_MODULE_8__pages_home_home__["a" /* HomePage */],
+                __WEBPACK_IMPORTED_MODULE_9__pages_c_c__["a" /* Cgebaude */],
+                __WEBPACK_IMPORTED_MODULE_10__pages_d_d__["a" /* Dgebaude */],
+                __WEBPACK_IMPORTED_MODULE_11__pages_search_search__["a" /* Search */],
+                __WEBPACK_IMPORTED_MODULE_12__pages_login_login__["a" /* LoginPage */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__["a" /* StatusBar */],
-                __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__["a" /* SplashScreen */],
+                __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__["a" /* StatusBar */],
+                __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__["a" /* SplashScreen */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["a" /* HttpClient */],
                 { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicErrorHandler */] }
             ]
         })
