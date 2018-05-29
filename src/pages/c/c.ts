@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
+import { Search } from '../search/search'
 
 /**
  * Generated class for the CPage page.
@@ -25,6 +26,10 @@ export class Cgebaude {
 
   BackToCampus(){
     this.navCtrl.setRoot(HomePage);
+  }
+
+  search() {
+    this.navCtrl.setRoot( Search);
   }
 
 }

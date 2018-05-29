@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header id="header" hide-nav-bar="true">
 
   <ion-navbar>
     <ion-title>Login</ion-title>
@@ -7,12 +7,12 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content id="content" padding>
   <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">
   </span>
   <div *ngIf="showLogin" style="margin-top: 10px;">
     <ion-item>
-      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" autofocus></ion-input>
+      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -21,4 +21,13 @@
   </div>
 
   <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>
+</ion-content>
+
+<ion-content id="login" padding style="display:none;">
+  <ion-grid style="height: 60%">
+    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">
+      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>
+      <h1>Finde deinen freien Raum!</h1>
+    </ion-row>
+  </ion-grid>
 </ion-content>
