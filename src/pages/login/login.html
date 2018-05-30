@@ -1,28 +1,59 @@
-<ion-header>
+<ion-header id="header" hide-nav-bar="true">
+
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Login</ion-title>
+    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>
   </ion-navbar>
+
 </ion-header>
 
-<ion-content class="background">
-<ion-card>
-	<ion-card-header>
-		Login
-	</ion-card-header>
-	<ion-card-content>
-		<ion-list no-line>
-			<ion-item>
-				<ion-input type="text" placeholder="Username"></ion-input>
-			</ion-item>
-			<ion-item>
-				<ion-input type="password" placeholder="Password"></ion-input>
-			</ion-item>
-			<button ion-button>Login</button>
-		</ion-list>
-	</ion-card-content>
-</ion-card>
+<!--<ion-content id="content" padding>
+  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>
+  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">
+  </span>
+  <div *ngIf="showLogin" style="margin-top: 10px;">
+    <ion-item>
+      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+  </div>
+  <span style="width: 100%; text-align: center;">
+    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>
+    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>
+  </span>
+</ion-content>-->
+
+<ion-content id="content" padding>
+  <ion-grid style="height: 50%">
+    <ion-row style="height: 100%">
+      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>
+      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">
+      </span>
+      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">
+        <ion-item>
+          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+      </div>
+      <span style="width: 100%; text-align: center;">
+        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>
+        <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>
+      </span>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
+<ion-content id="login" padding style="display:none;">
+  <ion-grid style="height: 60%">
+    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">
+      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/><br><br>
+      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span><br>
+      <h1>Finde deinen freien Raum!</h1>
+    </ion-row>
+  </ion-grid>
+</ion-content>
