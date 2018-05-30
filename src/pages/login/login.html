@@ -29,9 +29,9 @@
   <ion-grid style="height: 50%">
     <ion-row style="height: 100%">
       <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>
-      <span id="Fehler" style="display: none; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">
+      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">
       </span>
-      <div *ngIf="showLogin" style="margin-left: -5px; margin-top: 10px; text-align:center; width: 100%;">
+      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">
         <ion-item>
           <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>
         </ion-item>

@@ -384,7 +384,7 @@ export class LoginPage {
 		//-ob schon Benutzerdaten vorhanden sind.
 		//Wenn ja, dann Login-formular ausblenden und Login durchführen.
 		var FehlerFeld: HTMLElement = document.getElementById('Fehler');
-		Fehler.style.display = "none";
+		FehlerFeld.style.display = "none";
 
 		//Nachfolgenden Abschnitt einkommentieren um automatisch angemeldet zu werden:
 		if(window.localStorage.getItem("benutzer") != null && window.localStorage.getItem("passwort") != null){
