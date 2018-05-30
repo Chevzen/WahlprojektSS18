@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Cgebaude } from '../c/c'
 import { Dgebaude } from '../d/d'
+import { Search } from '../search/search'
 
 @Component({
   selector: 'page-home',
@@ -19,5 +20,14 @@ export class HomePage {
 
   nextD() {
 	  this.navCtrl.setRoot( Dgebaude);
+  }
+
+  search() {
+    this.navCtrl.setRoot( Search);
+  }
+
+  deleteDaten() {
+    window.localStorage.removeItem("benutzer");
+    window.localStorage.removeItem("passwort");
   }
 }

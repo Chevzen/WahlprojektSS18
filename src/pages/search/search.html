@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <b>Suche nach deinem Lieblingsraum:</b>
-  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Raumsuche"></ion-searchbar>
+  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>
 
 
 </ion-content>

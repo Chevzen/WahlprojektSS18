@@ -1,13 +1,14 @@
 webpackJsonp([4],{
 
-/***/ 102:
+/***/ 103:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(158);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,18 +21,385 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+function get_Token(text) {
+    console.log("text.indexOf(authenticity_token, 600): " + text.indexOf("authenticity_token", 600));
+    return text.substring(text.indexOf("authenticity_token", 600) + 29, text.indexOf("authenticity_token", 600) + 117);
+}
+function get_Semester(text) {
+    console.log("text.indexOf(option selected): " + text.indexOf("option selected"));
+    return text.substring(text.indexOf("option selected") + 37, text.indexOf("option selected") + 46);
+}
+function get_Plan(text) {
+    return text.substring(text.indexOf("_body") + 9, text.indexOf("Cache-Control") - 76);
+}
+function timeout(zahl) {
+    var start = new Date().getTime();
+    var i;
+    for (i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > zahl * 1000) {
+            break;
+        }
+    }
+}
+function loginFunction(element) {
+    var options = {
+        headers: new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+        withCredentials: true
+    };
+    var zahl = 0;
+    for (var i = 0; i < 20; i++) {
+        element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
+            console.log('login API success');
+            element.x = JSON.stringify(result, null, 2);
+            //console.log('X: '+ element.x);
+            element.token = get_Token(element.x);
+            element.semester = get_Semester(element.x);
+            //console.log('Semester: '+ element.semester);
+            //console.log('Token: '+ element.token);
+            var body = 'utf8=%E2%9C%93' +
+                '&authenticity_token=' + element.token +
+                '&login[account]=' + element.benutzername +
+                '&login[password]=' + element.password +
+                '&login[term_id]=' + element.semester +
+                '&commit=Anmeldung';
+            //console.log("Body: "+ body);
+            element.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
+                console.log("POST: " + JSON.stringify(result, null, 2));
+                var loader = element.loadingCtrl.create({
+                    content: "Daten werden geladen..."
+                });
+                loader.present();
+                //Falls vorhanden auch die Reservierungspläne herunterladen
+                //Raum D01:
+                /*element.http.get('https://aor.cs.hs-rm.de/rooms/1001264429/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D01", element.x);
+                        console.log("D01: "+window.localStorage.getItem("D01"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum D02:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264431/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D02", element.x);
+                        console.log("D02: "+window.localStorage.getItem("D02"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum D11:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131924/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D11", element.x);
+                        console.log("D11: "+window.localStorage.getItem("D11"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum D12:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131925/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D12", element.x);
+                        console.log("D12: "+window.localStorage.getItem("D12"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum D13:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131926/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D13", element.x);
+                        console.log("D13: "+window.localStorage.getItem("D13"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum D14:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131927/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D14", element.x);
+                        console.log("D14: "+window.localStorage.getItem("D14"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum D15:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131928/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D15", element.x);
+                        console.log("D15: "+window.localStorage.getItem("D15"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum D17:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131930/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D17", element.x);
+                        console.log("D17: "+window.localStorage.getItem("D17"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum D18:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131931/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("D18", element.x);
+                        console.log("D18: "+window.localStorage.getItem("D18"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C001:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/967118069/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C001", element.x);
+                        console.log("C001: "+window.localStorage.getItem("C001"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C007:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/967118075/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C007", element.x);
+                        console.log("C007: "+window.localStorage.getItem("C007"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C035:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/967321020/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C035", element.x);
+                        console.log("C035: "+window.localStorage.getItem("C035"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C037:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/967321022/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C037", element.x);
+                        console.log("C037: "+window.localStorage.getItem("C037"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C113:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/975705394/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C113", element.x);
+                        console.log("C113: "+window.localStorage.getItem("C113"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C213:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/984225074/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C213", element.x);
+                        console.log("C213: "+window.localStorage.getItem("C213"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C237:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/984360376/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C237", element.x);
+                        console.log("C237: "+window.localStorage.getItem("C237"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C305:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/992677104/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C305", element.x);
+                        console.log("C305: "+window.localStorage.getItem("C305"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C313:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/992744751/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C313", element.x);
+                        console.log("C313: "+window.localStorage.getItem("C313"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C361:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264469/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C361", element.x);
+                        console.log("C361: "+window.localStorage.getItem("C361"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C375:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264470/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C375", element.x);
+                        console.log("C375: "+window.localStorage.getItem("C375"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C377:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264471/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C377", element.x);
+                        console.log("C377: "+window.localStorage.getItem("C377"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C405:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001196781/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C405", element.x);
+                        console.log("C405: "+window.localStorage.getItem("C405"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C407:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001196783/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C407", element.x);
+                        console.log("C407: "+window.localStorage.getItem("C407"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });
+                //Raum C413:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264428/plans.ics', options).subscribe(
+                    result => {
+                        console.log('login API success');
+                        element.x = JSON.stringify(result, null, 2);
+                        element.x = get_Plan(element.x);
+                        window.localStorage.setItem("C413", element.x);
+                        console.log("C413: "+window.localStorage.getItem("C413"));
+                    }, error => {
+                        console.log("Error: "+ JSON.stringify(error, null, 2));
+                    });*/
+                timeout(4);
+                loader.dismiss();
+                window.localStorage.setItem("benutzer", element.benutzername);
+                window.localStorage.setItem("passwort", element.password);
+                console.log("Benutzername und Passwort gespeichert.");
+                console.log(window.localStorage.getItem("benutzer"));
+                element.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+            }, function (error) {
+                console.log("Error: POST: " + JSON.stringify(error, null, 2));
+                console.log("Fehler " + zahl);
+                zahl++;
+                //Überprüfen ob alle Versuche gescheitert sind:
+                if (zahl >= 20) {
+                    var fehlerFeld = document.getElementById('Fehler');
+                    fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
+                    fehlerFeld.style.display = "block";
+                    var fehlerFeldZwei = document.getElementById('Fehler2');
+                    fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte die App erneut starten.";
+                    fehlerFeldZwei.style.display = "block";
+                    var feldZwei = document.getElementById('Feld2');
+                    feldZwei.style.display = "none";
+                    return;
+                }
+            }); //post
+        }, function (error) {
+            console.log("Error: " + JSON.stringify(error, null, 2));
+        }); //get
+    } //for
+}
 var LoginPage = /** @class */ (function () {
-    function LoginPage(navCtrl, alertCtrl, loadingCtrl, http) {
+    function LoginPage(navCtrl, menuCtrl, alertCtrl, loadingCtrl, http) {
         this.navCtrl = navCtrl;
+        this.menuCtrl = menuCtrl;
         this.alertCtrl = alertCtrl;
         this.loadingCtrl = loadingCtrl;
         this.http = http;
-        this.showLogin = true; //Variablen anlegen
+        //Variablen anlegen
+        this.showLogin = true;
         this.benutzername = '';
         this.password = '';
+        this.token = '';
+        this.x = '';
+        this.i = 0;
+        this.semester = '';
     }
     LoginPage.prototype.ionViewDidLoad = function () {
         console.log('Dat is die LoginPage');
+        //Hier überprüfen:
+        //-ob schon Benutzerdaten vorhanden sind.
+        //Wenn ja, dann Login-formular ausblenden und Login durchführen.
+        var FehlerFeld = document.getElementById('Fehler');
+        FehlerFeld.style.display = "none";
+        //Nachfolgenden Abschnitt einkommentieren um automatisch angemeldet zu werden:
+        if (window.localStorage.getItem("benutzer") != null && window.localStorage.getItem("passwort") != null) {
+            this.benutzername = window.localStorage.getItem("benutzer");
+            this.password = window.localStorage.getItem("passwort");
+            timeout(3);
+            var formular = document.getElementById('content');
+            formular.style.display = "none";
+            var header = document.getElementById('header');
+            header.style.display = "none";
+            var login = document.getElementById('login');
+            login.style.display = "block";
+            loginFunction(this);
+        }
     };
     LoginPage.prototype.clicked = function () {
         var fehlerFeld = document.getElementById('Fehler');
@@ -46,105 +414,36 @@ var LoginPage = /** @class */ (function () {
                 fehlerFeld.style.display = "block";
                 return;
             }
-            var loader = this.loadingCtrl.create({
-                content: "Daten werden geladen..."
-            });
-            var body = 'login[account]=' + this.benutzername + '&login[password]=' + this.password;
-            //let body = new URLSearchParams();
-            //body.set('login[account]', this.benutzername);
-            //body.set('login[password]', this.password);
-            console.log("Body: " + body);
-            //var headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-            //      var headers = new Headers();
-            //    headers.append('Content-Type','text/html; charset=utf-8');
-            //headers.append('Content-Type','application/x-www-form-urlencoded');
-            //let options = new RequestOptions({headers: headers, withCredentials:true});
-            var options = {
-                headers: new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]({ 'Content-Type': 'text/plain; charset=utf-8' }),
-                withCredentials: true
-            };
-            this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
-                console.log("POST: " + result);
-            }, function (error) {
-                console.log("Error: POST: " + error);
-            });
-            this.http.get('https://aor.cs.hs-rm.de/login', body).subscribe(function (result) {
-                console.log('login API success');
-                console.log("Result: " + result);
-                //window.localStorage.setItem("Token",result);
-                /*loader.present();
-                //Daten herunterladen!!
-                setTimeout(2000);
-                loader.dismiss();
-                window.localStorage.setItem("benutzer",this.benutzername);
-                window.localStorage.setItem("passwort",this.password);
-                console.log(window.localStorage.getItem('benutzer'));
-                console.log(window.localStorage.getItem('passwort'));
-                this.navCtrl.setRoot(HomePage);*/
-            }, function (error) {
-                console.log("Error: " + JSON.stringify(error.json()));
-            });
+            loginFunction(this);
+            var feldZwei = document.getElementById('Feld2');
+            feldZwei.innerText = "Login wird durchgeführt.";
+            feldZwei.style.display = "block";
         }
         else {
             this.showLogin = true;
         }
     };
+    LoginPage.prototype.testLogin = function () {
+        //Um einfach ohne Login auf die Startseite zu kommen diese Funktion verwenden:
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+    };
+    LoginPage.prototype.ionViewWillEnter = function () {
+        this.menuCtrl.swipeEnable(false);
+    };
+    LoginPage.prototype.ionViewDidLeave = function () {
+        this.menuCtrl.swipeEnable(true);
+    };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n\n  <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; margin-top: 10px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n        <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/><br><br>\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span><br>\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]])
     ], LoginPage);
     return LoginPage;
 }());
 
 ;
 //# sourceMappingURL=login.js.map
-
-/***/ }),
-
-/***/ 103:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Search; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-/**
- * Generated class for the SearchPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var Search = /** @class */ (function () {
-    function Search(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    Search.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad SearchPage');
-    };
-    Search = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-search',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Raumsuche"></ion-searchbar>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
-    ], Search);
-    return Search;
-}());
-
-//# sourceMappingURL=search.js.map
 
 /***/ }),
 
@@ -229,11 +528,11 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(198);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(201);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(279);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_c_c__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_d_d__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_search_search__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_c_c__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_d_d__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_search_search__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -312,11 +611,11 @@ var AppModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(198);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_c_c__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_d_d__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_login_login__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_c_c__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_d_d__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_login_login__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -359,13 +658,13 @@ var MyApp = /** @class */ (function () {
         this.nav.setRoot(page.component);
     };
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Nav */])
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
     return MyApp;
 }());
@@ -374,15 +673,13 @@ var MyApp = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 46:
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Search; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__c_c__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__d_d__ = __webpack_require__(52);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -392,6 +689,55 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
+/**
+ * Generated class for the SearchPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var Search = /** @class */ (function () {
+    function Search(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    Search.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SearchPage');
+    };
+    Search = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-search',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+    ], Search);
+    return Search;
+}());
+
+//# sourceMappingURL=search.js.map
+
+/***/ }),
+
+/***/ 42:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__c_c__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__d_d__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__search_search__ = __webpack_require__(33);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 
 
@@ -406,11 +752,18 @@ var HomePage = /** @class */ (function () {
     HomePage.prototype.nextD = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__d_d__["a" /* Dgebaude */]);
     };
+    HomePage.prototype.search = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__search_search__["a" /* Search */]);
+    };
+    HomePage.prototype.deleteDaten = function () {
+        window.localStorage.removeItem("benutzer");
+        window.localStorage.removeItem("passwort");
+    };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Campusplan</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<b>Bitte wähle dein Gebäude!</b>\n\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<b>Herzlich Willkommen!<br></b>Bitte wähle dein Gebäude:\n\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="deleteDaten()">Benutzerdaten löschen</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]])
     ], HomePage);
     return HomePage;
 }());
@@ -419,14 +772,15 @@ var HomePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 51:
+/***/ 52:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Cgebaude; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -436,6 +790,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -456,11 +811,14 @@ var Cgebaude = /** @class */ (function () {
     Cgebaude.prototype.BackToCampus = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
     };
+    Cgebaude.prototype.search = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__search_search__["a" /* Search */]);
+    };
     Cgebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-c',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>C-Gebäude</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im C-Gebäude frei:</b><br><br>\n  <ion-list>\n    <h3>08:15 - 09:45</h3>\n    <ion-item>\n      C001\n    </ion-item>\n    <ion-item>\n      C035\n    </ion-item>\n    <ion-item>\n      C037\n    </ion-item>\n    <ion-item>\n      C007\n    </ion-item>\n    <ion-item>\n      C313\n    </ion-item>\n    <ion-item>\n      C377\n    </ion-item><br>\n    <h3>10:00 - 11:30</h3>\n    <ion-item>\n      C035\n    </ion-item>\n    <ion-item>\n      C037\n    </ion-item>\n    <ion-item>\n      C213\n    </ion-item>\n    <ion-item>\n      C313\n    </ion-item>\n    <ion-item>\n      C377\n    </ion-item>\n    <ion-item>\n      C405\n    </ion-item>\n  </ion-list><br><br>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
+            selector: 'page-c',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">C-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im C-Gebäude frei:</b><br><br>\n  <ion-list>\n    <h3>08:15 - 09:45</h3>\n    <ion-item>\n      C001\n    </ion-item>\n    <ion-item>\n      C035\n    </ion-item>\n    <ion-item>\n      C037\n    </ion-item>\n    <ion-item>\n      C007\n    </ion-item>\n    <ion-item>\n      C313\n    </ion-item>\n    <ion-item>\n      C377\n    </ion-item><br>\n    <h3>10:00 - 11:30</h3>\n    <ion-item>\n      C035\n    </ion-item>\n    <ion-item>\n      C037\n    </ion-item>\n    <ion-item>\n      C213\n    </ion-item>\n    <ion-item>\n      C313\n    </ion-item>\n    <ion-item>\n      C377\n    </ion-item>\n    <ion-item>\n      C405\n    </ion-item>\n  </ion-list><br><br>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Cgebaude);
     return Cgebaude;
 }());
@@ -469,14 +827,15 @@ var Cgebaude = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 52:
+/***/ 53:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Dgebaude; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -486,6 +845,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -506,11 +866,14 @@ var Dgebaude = /** @class */ (function () {
     Dgebaude.prototype.BackToCampus = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
     };
+    Dgebaude.prototype.search = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__search_search__["a" /* Search */]);
+    };
     Dgebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-d',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>D-Gebäude</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n  <ion-list>\n    <h3>08:15 - 09:45</h3>\n    <ion-item>\n      D01\n    </ion-item>\n    <ion-item>\n      D11\n    </ion-item>\n    <ion-item>\n      D12\n    </ion-item>\n    <ion-item>\n      D13\n    </ion-item>\n    <ion-item>\n      D15\n    </ion-item>\n    <ion-item>\n      D17\n    </ion-item><br>\n    <h3>10:00 - 11:30</h3>\n    <ion-item>\n      D02\n    </ion-item>\n    <ion-item>\n      D12\n    </ion-item>\n    <ion-item>\n      D13\n    </ion-item>\n    <ion-item>\n      D14\n    </ion-item>\n    <ion-item>\n      D15\n    </ion-item>\n    <ion-item>\n      D17\n    </ion-item>\n  </ion-list><br><br>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
+            selector: 'page-d',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">D-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n  <ion-list>\n    <h3>08:15 - 09:45</h3>\n    <ion-item>\n      D01\n    </ion-item>\n    <ion-item>\n      D11\n    </ion-item>\n    <ion-item>\n      D12\n    </ion-item>\n    <ion-item>\n      D13\n    </ion-item>\n    <ion-item>\n      D15\n    </ion-item>\n    <ion-item>\n      D17\n    </ion-item><br>\n    <h3>10:00 - 11:30</h3>\n    <ion-item>\n      D02\n    </ion-item>\n    <ion-item>\n      D12\n    </ion-item>\n    <ion-item>\n      D13\n    </ion-item>\n    <ion-item>\n      D14\n    </ion-item>\n    <ion-item>\n      D15\n    </ion-item>\n    <ion-item>\n      D17\n    </ion-item>\n  </ion-list><br><br>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Dgebaude);
     return Dgebaude;
 }());
