@@ -25,4 +25,9 @@ export class HomePage {
   search() {
     this.navCtrl.setRoot( Search);
   }
+
+  deleteDaten() {
+    window.localStorage.removeItem("benutzer");
+    window.localStorage.removeItem("passwort");
+  }
 }

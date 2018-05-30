@@ -329,12 +329,11 @@ function loginFunction(element:any) {
 						}, error => {
 							console.log("Error: "+ JSON.stringify(error, null, 2));
 						});*/
-					timeout(3);
+					timeout(4);
 					loader.dismiss();
 					window.localStorage.setItem("benutzer", element.benutzername);
 					window.localStorage.setItem("passwort", element.password);
-					window.localStorage.setItem("semester", element.semester);
-					console.log("Benutzername, Passwort und Semester gespeichert.");
+					console.log("Benutzername und Passwort gespeichert.");
 					console.log(window.localStorage.getItem("benutzer"));
 					element.navCtrl.setRoot(HomePage);
 				}, error => {
@@ -346,6 +345,11 @@ function loginFunction(element:any) {
 						var fehlerFeld: HTMLElement = document.getElementById('Fehler');
 						fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
 						fehlerFeld.style.display = "block";
+						var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
+						fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte die App erneut starten.";
+						fehlerFeldZwei.style.display = "block";
+						var feldZwei: HTMLElement = document.getElementById('Feld2');
+						feldZwei.style.display = "none";
 						return;
 					}
 				});//post
@@ -379,9 +383,11 @@ export class LoginPage {
 		//Hier überprüfen:
 		//-ob schon Benutzerdaten vorhanden sind.
 		//Wenn ja, dann Login-formular ausblenden und Login durchführen.
+		var FehlerFeld: HTMLElement = document.getElementById('Fehler');
+		Fehler.style.display = "none";
 
 		//Nachfolgenden Abschnitt einkommentieren um automatisch angemeldet zu werden:
-		/*if(window.localStorage.getItem("benutzer") != null && window.localStorage.getItem("passwort") != null){
+		if(window.localStorage.getItem("benutzer") != null && window.localStorage.getItem("passwort") != null){
 			this.benutzername = window.localStorage.getItem("benutzer");
 			this.password = window.localStorage.getItem("passwort");
 			timeout(3);
@@ -392,7 +398,7 @@ export class LoginPage {
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
 			loginFunction(this);
-		}*/
+		}
   }
 
   clicked(){
@@ -410,7 +416,11 @@ export class LoginPage {
         return;
       }
 
+
 			loginFunction(this);
+			var feldZwei: HTMLElement = document.getElementById('Feld2');
+			feldZwei.innerText = "Login wird durchgeführt.";
+			feldZwei.style.display = "block";
 
     } else {
       this.showLogin = true;
