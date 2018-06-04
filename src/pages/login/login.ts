@@ -73,7 +73,7 @@ function loginFunction(element:any) {
 
 						//Falls vorhanden auch die Reservierungspläne herunterladen
 						//Raum D01:
-						/*element.http.get('https://aor.cs.hs-rm.de/rooms/1001264429/plans.ics', options).subscribe(
+						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264429/plans.ics', options).subscribe(
 							result => {
 								console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
@@ -335,7 +335,7 @@ function loginFunction(element:any) {
 								console.log("C413: "+window.localStorage.getItem("C413"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});*/
+							});
 						timeout(4);
 						loader.dismiss();
 						window.localStorage.setItem("benutzer", element.benutzername);
