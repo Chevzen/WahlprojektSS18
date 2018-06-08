@@ -418,7 +418,8 @@ export class LoginPage {
 			header.style.display = "none";
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
-			loginFunction(this);
+			//loginFunction(this);
+			this.navCtrl.setRoot(HomePage);
 		}
   }
 
@@ -438,7 +439,7 @@ export class LoginPage {
       }
 
 
-			loginFunction(this);
+			//loginFunction(this);
 			var ladeicon: HTMLElement = document.getElementById('laden');
 			ladeicon.style.display ="block";
 
