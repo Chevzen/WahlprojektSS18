@@ -418,8 +418,9 @@ export class LoginPage {
 			header.style.display = "none";
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
-			//loginFunction(this);
-			this.navCtrl.setRoot(HomePage);
+			loginFunction(this);
+			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
+			//this.navCtrl.setRoot(HomePage);
 		}
   }
 
@@ -439,7 +440,7 @@ export class LoginPage {
       }
 
 
-			//loginFunction(this);
+			loginFunction(this);
 			var ladeicon: HTMLElement = document.getElementById('laden');
 			ladeicon.style.display ="block";
 
