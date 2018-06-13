@@ -5,17 +5,17 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import ICAL from "ical.js";
 
 function get_Token(text:string) {
-	console.log("text.indexOf(authenticity_token, 600): "+text.indexOf("authenticity_token", 600));
+	//console.log("text.indexOf(authenticity_token, 600): "+text.indexOf("authenticity_token", 600));
 	return text.substring(text.indexOf("authenticity_token", 600)+29, text.indexOf("authenticity_token", 600)+117);
 }
 
 function get_Semester(text:string) {
-	console.log("text.indexOf(option selected): "+text.indexOf("option selected"));
+	//console.log("text.indexOf(option selected): "+text.indexOf("option selected"));
 	return text.substring(text.indexOf("option selected")+37, text.indexOf("option selected")+46);
 }
 
 function get_Header(text:string) {
-	console.log("text.indexOf(Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten): "+text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten"));
+	//console.log("text.indexOf(Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten): "+text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten"));
 	return text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten");
 }
 
@@ -63,8 +63,8 @@ function loginFunction(element:any) {
 
 			element.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
 				result => {
-					console.log("POST: "+ JSON.stringify(result, null, 2));
-					console.log("Header: "+ get_Header(JSON.stringify(result, null, 2)));
+					//console.log("POST: "+ JSON.stringify(result, null, 2));
+					//console.log("Header: "+ get_Header(JSON.stringify(result, null, 2)));
 					if(-1 == get_Header(JSON.stringify(result, null, 2))){
 
 						let loader = element.loadingCtrl.create({
@@ -83,9 +83,9 @@ function loginFunction(element:any) {
 
 
 
-								console.log("D01: "+window.localStorage.getItem("D01"));
+								//console.log("D01: "+window.localStorage.getItem("D01"));
 							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
+								//console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
 						//Raum D02:
 						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264431/plans.ics', options).subscribe(
@@ -422,9 +422,9 @@ export class LoginPage {
 			header.style.display = "none";
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
-			//loginFunction(this);
+			loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-			this.navCtrl.setRoot(HomePage);
+			//this.navCtrl.setRoot(HomePage);
 
 		}
   }
