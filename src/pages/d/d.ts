@@ -12,7 +12,8 @@ function getICS(text:string) {
 }
 
 function wochenTag(text:string) {
-  var datum = text.split("T");
+	console.log("TEXT: "+text);
+	var datum = text.split("T");
   datum.pop();
   datum = datum[0].split("-");
   var datum2 = new Date(datum[0],datum[1]-1,datum[2]);
