@@ -68,6 +68,7 @@ export class Cgebaude {
       //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
     }
     console.log(C001);
+<<<<<<< HEAD
 
     //Raum C007:
     let C007 = new RaumModel("C007");
@@ -376,6 +377,12 @@ export class Cgebaude {
       //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
     }
     console.log(C413);
+=======
+    let C002 = new RaumModel("C002");
+    console.log(C001);
+    let C003 = new RaumModel("C003");
+    console.log(C001);
+>>>>>>> cfa561f8b46650affbac13dc814acf84cd2b2d56
   }
 
   BackToCampus(){
