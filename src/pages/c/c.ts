@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
-import { Search } from '../search/search'
+import { Search } from '../search/search';
+import { RaumModel } from '../../model/RaumModel';
 
 /**
  * Generated class for the CPage page.
@@ -22,6 +23,8 @@ export class Cgebaude {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CPage');
+    let C001 = new RaumModel("C001");
+    console.log(C001);
   }
 
   BackToCampus(){
