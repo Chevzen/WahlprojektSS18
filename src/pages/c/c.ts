@@ -25,6 +25,8 @@ export class Cgebaude {
     console.log('ionViewDidLoad CPage');
     let C001 = new RaumModel("C001");
     console.log(C001);
+    let C002 = new RaumModel("C002");
+    console.log(C001);
   }
 
   BackToCampus(){
