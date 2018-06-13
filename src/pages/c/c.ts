@@ -27,6 +27,8 @@ export class Cgebaude {
     console.log(C001);
     let C002 = new RaumModel("C002");
     console.log(C001);
+    let C003 = new RaumModel("C003");
+    console.log(C001);
   }
 
   BackToCampus(){
