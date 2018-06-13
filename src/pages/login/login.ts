@@ -23,12 +23,6 @@ function get_Plan(text:string) {
 	return text.substring(text.indexOf("_body")+9, text.indexOf("Cache-Control")-78);
 }
 
-function getICS(text:string) {
-	text.trim();
-	console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
-	return text.split("\\r\\n");
-}
-
 function timeout(zahl:number) {
 	var start:any = new Date().getTime();
 	var i:number;
@@ -430,17 +424,6 @@ export class LoginPage {
 			login.style.display = "block";
 			//loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-
-			var ics = getICS(window.localStorage.getItem("D01"));
-			ics.pop();
-			console.log(window.localStorage.getItem("D01"));
-
-			var jcalData = ICAL.parse(ics.join("\r\n"));
-			var vcalendar = new ICAL.Component(jcalData);
-			var vevent = vcalendar.getFirstSubcomponent('vevent');
-			var summary = vevent.getFirstPropertyValue('description');
-			console.log('description: ' + summary);
-
 			this.navCtrl.setRoot(HomePage);
 
 		}
