@@ -12,19 +12,18 @@ function getICS(text:string) {
 }
 
 function wochenTag(text:string) {
-	console.log("TEXT: "+text);
-	var datum = text.split("T");
+	var datum:any = text.split("T");
   datum.pop();
   datum = datum[0].split("-");
-  var datum2 = new Date(datum[0],datum[1]-1,datum[2]);
-  var tag = datum2.getDay();
-  var wochentag = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  var datum2:any = new Date(datum[0],datum[1]-1,datum[2]);
+  var tag:any = datum2.getDay();
+  var wochentag:any = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
   return wochentag[tag];
 }
 
 function uhrZeit(text:string) {
-  var datum = text.split("T");
-  var tmp = datum[1];
+  var datum:any = text.split("T");
+  var tmp:any = datum[1];
   return tmp;
 }
 
