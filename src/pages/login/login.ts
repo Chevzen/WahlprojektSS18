@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, MenuController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { RaumModel } from '../../model/RaumModel';
 import ICAL from "ical.js";
 
 function get_Token(text:string) {
@@ -32,6 +33,35 @@ function timeout(zahl:number) {
 		}
 	}
 }
+function giveWochentag(){
+    var jetzt = new Date();
+    switch(jetzt.getDay()){
+      case 1: return "Montag";
+      case 2: return "Dienstag";
+      case 3: return "Mittwoch";
+      case 4: return "Donnerstag";
+      case 5: return "Freitag";
+      case 6: return "Samstag";
+      case 0: return "Sonntag";
+      default: break;
+      }
+    }
+  
+function giveUhrzeit(){
+      var jetzt = new Date();
+      var stunden = jetzt.getHours();
+      var minuten = jetzt.getMinutes();
+      switch(true){
+        case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";  
+        case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11  && minuten <= 30): return "10:00:00";
+        case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+        case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+        case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+        case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+        default: break;
+      }
+  }
+console.log(giveWochentag(), giveUhrzeit());
 
 function loginFunction(element:any) {
 	let options = {
@@ -443,62 +473,6 @@ export class LoginPage {
         fehlerFeld.style.display = "block";
         return;
       }
-<<<<<<< HEAD
-=======
-      let loader = this.loadingCtrl.create({
-        content: "Daten werden geladen..."
-      });
-
-
-      var body = 'utf8=%E2%9C%93&' +
-
-
-// TOKEN ÄNDERN
-'authenticity_token=%2BToF7JE%2BQ8HDAkMJ8LzJDRZcg%2F2SyQDxd6wnYgaw3JlqWEM3yd36daKKLqYCDI918Xu206UdvWol55eMHDpObw%3D%3D'+ 
-'&login%5Baccount%5D='+this.benutzername+
-'&login%5Bpassword%5D='+this.password+
-'&login%5Bterm_id%5D=343737466'+
-'&commit=Anmeldung'   ;
-      //let body = new URLSearchParams();
-      //body.set('login[account]', this.benutzername);
-      //body.set('login[password]', this.password);
-      console.log("Body: "+body);
-      //var headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
-//      var headers = new Headers();
-  //    headers.append('Content-Type','text/html; charset=utf-8');
-      //headers.append('Content-Type','application/x-www-form-urlencoded');
-      //let options = new RequestOptions({headers: headers, withCredentials:true});
-      let options = {
-          headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-          withCredentials:true
-      };
-
-      this.http.get('https://aor.cs.hs-rm.de/login').subscribe(
-        result => {
-          console.log('login API success');
-          console.log("Result: "+result);
-          //window.localStorage.setItem("Token",result);
-          /*loader.present();
-          //Daten herunterladen!!
-          setTimeout(2000);
-          loader.dismiss();
-          window.localStorage.setItem("benutzer",this.benutzername);
-          window.localStorage.setItem("passwort",this.password);
-          console.log(window.localStorage.getItem('benutzer'));
-          console.log(window.localStorage.getItem('passwort'));
-          this.navCtrl.setRoot(HomePage);*/
-        }, error => {
-          console.log("Error: "+JSON.stringify(error.json()));
-        });
-
-      this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
-        result => {
-          console.log("POST: "+result);
-        }, error => {
-          console.log("Error: POST: "+error);
-        }
-      );
->>>>>>> 0cbab921ca933a0c9d99c539f92fa554583e655d
 
 
 			loginFunction(this);
