@@ -33,35 +33,7 @@ function timeout(zahl:number) {
 		}
 	}
 }
-function giveWochentag(){
-    var jetzt = new Date();
-    switch(jetzt.getDay()){
-      case 1: return "Montag";
-      case 2: return "Dienstag";
-      case 3: return "Mittwoch";
-      case 4: return "Donnerstag";
-      case 5: return "Freitag";
-      case 6: return "Samstag";
-      case 0: return "Sonntag";
-      default: break;
-      }
-    }
-  
-function giveUhrzeit(){
-      var jetzt = new Date();
-      var stunden = jetzt.getHours();
-      var minuten = jetzt.getMinutes();
-      switch(true){
-        case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";  
-        case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11  && minuten <= 30): return "10:00:00";
-        case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
-        case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
-        case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
-        case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
-        default: break;
-      }
-  }
-console.log(giveWochentag(), giveUhrzeit());
+
 
 function loginFunction(element:any) {
 	let options = {
@@ -70,7 +42,7 @@ function loginFunction(element:any) {
 	};
 
 	var zahl: number = 0;
-	for(var i:number = 0; i < 20; i++){
+	for(var i:number = 0; i < 40; i++){
 	element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(
 		result => {
 			console.log('login API success');
@@ -393,7 +365,7 @@ function loginFunction(element:any) {
 					console.log("Fehler "+zahl);
 					zahl++;
 					//Überprüfen ob alle Versuche gescheitert sind:
-					if(zahl >= 20){
+					if(zahl >= 40){
 						var fehlerFeld: HTMLElement = document.getElementById('Fehler');
 						fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
 						fehlerFeld.style.display = "block";
@@ -454,7 +426,7 @@ export class LoginPage {
 			login.style.display = "block";
 			loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-			//this.navCtrl.setRoot(HomePage);
+			this.navCtrl.setRoot(HomePage);
 
 		}
   }

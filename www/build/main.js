@@ -8,7 +8,7 @@ webpackJsonp([4],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(158);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -46,41 +46,13 @@ function timeout(zahl) {
         }
     }
 }
-function giveWochentag() {
-    var jetzt = new Date();
-    switch (jetzt.getDay()) {
-        case 1: return "Montag";
-        case 2: return "Dienstag";
-        case 3: return "Mittwoch";
-        case 4: return "Donnerstag";
-        case 5: return "Freitag";
-        case 6: return "Samstag";
-        case 0: return "Sonntag";
-        default: break;
-    }
-}
-function giveUhrzeit() {
-    var jetzt = new Date();
-    var stunden = jetzt.getHours();
-    var minuten = jetzt.getMinutes();
-    switch (true) {
-        case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";
-        case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
-        case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
-        case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
-        case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
-        case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
-        default: break;
-    }
-}
-console.log(giveWochentag(), giveUhrzeit());
 function loginFunction(element) {
     var options = {
         headers: new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
         withCredentials: true
     };
     var zahl = 0;
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 40; i++) {
         element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
             console.log('login API success');
             element.x = JSON.stringify(result, null, 2);
@@ -369,7 +341,7 @@ function loginFunction(element) {
                 console.log("Fehler " + zahl);
                 zahl++;
                 //Überprüfen ob alle Versuche gescheitert sind:
-                if (zahl >= 20) {
+                if (zahl >= 40) {
                     var fehlerFeld = document.getElementById('Fehler');
                     fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
                     fehlerFeld.style.display = "block";
@@ -424,7 +396,7 @@ var LoginPage = /** @class */ (function () {
             login.style.display = "block";
             loginFunction(this);
             //Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-            //this.navCtrl.setRoot(HomePage);
+            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
         }
     };
     LoginPage.prototype.clicked = function () {
@@ -462,10 +434,9 @@ var LoginPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-login',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <div id="laden" style="display:none; margin: -15px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      Login wird durchgeführt.\n    </div>\n  </div>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span><br>\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]])
     ], LoginPage);
     return LoginPage;
-    var _a, _b, _c, _d, _e;
 }());
 
 ;
@@ -495,19 +466,19 @@ webpackEmptyAsyncContext.id = 115;
 
 var map = {
 	"../pages/c/c.module": [
-		282,
+		284,
 		3
 	],
 	"../pages/d/d.module": [
-		283,
+		285,
 		2
 	],
 	"../pages/login/login.module": [
-		284,
+		286,
 		1
 	],
 	"../pages/search/search.module": [
-		285,
+		287,
 		0
 	]
 };
@@ -527,52 +498,13 @@ module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 158:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RaumModel; });
-var RaumModel = /** @class */ (function () {
-    function RaumModel(raumname) {
-        this.wochentag = [];
-        this.uhrzeit = [];
-        this.veranstaltung = [];
-        this.raumname = raumname;
-    }
-    //Hilfsfunktion
-    RaumModel.prototype.getICS = function (text) {
-        text.trim();
-        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
-        return text.split("\\r\\n");
-    };
-    RaumModel.prototype.getUhrZeit = function (text) {
-        var datum = text.split("T");
-        var tmp = datum[1];
-        return tmp;
-    };
-    RaumModel.prototype.getwochenTag = function (text) {
-        var datum = text.split("T");
-        datum.pop();
-        datum = datum[0].split("-");
-        var datum2 = new Date(datum[0], datum[1] - 1, datum[2]);
-        var tag = datum2.getDay();
-        var wochentag = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
-        return wochentag[tag];
-    };
-    return RaumModel;
-}());
-
-//# sourceMappingURL=RaumModel.js.map
-
-/***/ }),
-
-/***/ 204:
+/***/ 202:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(205);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(225);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(223);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -580,7 +512,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 225:
+/***/ 223:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -588,11 +520,11 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__(267);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(203);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(281);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(283);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_c_c__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_d_d__ = __webpack_require__(53);
@@ -667,15 +599,134 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 281:
+/***/ 248:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RaumModel; });
+var RaumModel = /** @class */ (function () {
+    function RaumModel(raumname) {
+        this.raumname = "";
+        this.veranstaltungen = [];
+        this.raumname = raumname;
+    }
+    RaumModel.prototype.addVeranstaltung = function (veranstaltung) {
+        this.veranstaltungen.push(veranstaltung);
+    };
+    //Hilfsfunktion
+    RaumModel.prototype.getICS = function (text) {
+        text.trim();
+        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
+        return text.split("\\r\\n");
+    };
+    RaumModel.prototype.getUhrZeit = function (text) {
+        var datum = text.split("T");
+        var tmp = datum[1];
+        return tmp;
+    };
+    RaumModel.prototype.isFree = function (uhrzeit, wochentag) {
+        this.veranstaltungen.forEach(function (veranstaltung) {
+            if (veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit) {
+                return false;
+            }
+        });
+        return true;
+    };
+    return RaumModel;
+}());
+
+//# sourceMappingURL=RaumModel.1.js.map
+
+/***/ }),
+
+/***/ 250:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
+var GebaudeModel = /** @class */ (function () {
+    function GebaudeModel(gebaudename) {
+        this.gebaudename = "";
+        this.raume = [];
+        this.gebaudename = gebaudename;
+    }
+    GebaudeModel.prototype.addRaum = function (raum) {
+        this.raume.push(raum);
+    };
+    GebaudeModel.prototype.getFreeRooms = function () {
+        var _this = this;
+        var result = [];
+        this.raume.forEach(function (raum) {
+            if (raum.isFree(_this.giveUhrzeit(), _this.giveWochentag())) {
+                result.push(raum);
+            }
+        });
+        return result;
+    };
+    GebaudeModel.prototype.giveUhrzeit = function () {
+        var jetzt = new Date();
+        var stunden = jetzt.getHours();
+        var minuten = jetzt.getMinutes();
+        switch (true) {
+            case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";
+            case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
+            case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+            case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+            case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+            case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+            default: break;
+        }
+    };
+    GebaudeModel.prototype.giveWochentag = function () {
+        var jetzt = new Date();
+        switch (jetzt.getDay()) {
+            case 1: return "Montag";
+            case 2: return "Dienstag";
+            case 3: return "Mittwoch";
+            case 4: return "Donnerstag";
+            case 5: return "Freitag";
+            case 6: return "Samstag";
+            case 0: return "Sonntag";
+            default: break;
+        }
+    };
+    return GebaudeModel;
+}());
+
+//# sourceMappingURL=GebaudeModel.js.map
+
+/***/ }),
+
+/***/ 251:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CampusModel; });
+var CampusModel = /** @class */ (function () {
+    function CampusModel(name) {
+        this.campusname = "";
+        this.gebaude = [];
+        this.campusname = name;
+    }
+    CampusModel.prototype.addGebaude = function (gebaude) {
+        this.gebaude.push(gebaude);
+    };
+    return CampusModel;
+}());
+
+//# sourceMappingURL=CampusModel.js.map
+
+/***/ }),
+
+/***/ 283:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(201);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_c_c__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_d_d__ = __webpack_require__(53);
@@ -735,6 +786,27 @@ var MyApp = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=app.component.js.map
+
+/***/ }),
+
+/***/ 288:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Veranstaltung; });
+var Veranstaltung = /** @class */ (function () {
+    function Veranstaltung(name, wochentag, uhrzeit) {
+        this.name = "";
+        this.wochentag = "";
+        this.uhrzeit = "";
+        this.name = name;
+        this.uhrzeit = uhrzeit;
+        this.wochentag = wochentag;
+    }
+    return Veranstaltung;
+}());
+
+//# sourceMappingURL=Veranstaltung.js.map
 
 /***/ }),
 
@@ -846,9 +918,12 @@ var HomePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(248);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(249);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(250);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(251);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -864,12 +939,129 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-/**
- * Generated class for the CPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
+
+
+// Die Konfigurationsvariable für die Räume und Gebäudenamen, diese wird in den späteren Funktionen verwendet
+var CampusConfig = [
+    {
+        gebaudename: "C",
+        raumnamen: [
+            "C001",
+            "C007",
+            "C035",
+            "C037",
+            "C113",
+            "C213",
+            "C237",
+            "C305",
+            "C313",
+            "C361",
+            "C375",
+            "C377",
+            "C405",
+            "C407",
+            "C413",
+        ]
+    },
+    {
+        gebaudename: "D",
+        raumnamen: [
+            "D01",
+            "D02",
+            "D12",
+            "D13",
+            "D14",
+            "D15",
+            "D17",
+            "D18",
+        ]
+    }
+];
+function parseDateToWochentag(text) {
+    var datum = text.split("T");
+    datum.pop();
+    datum = datum[0].split("-");
+    var datum2 = new Date(datum[0], datum[1] - 1, datum[2]);
+    var tag = datum2.getDay();
+    var wochentag = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+    return wochentag[tag];
+}
+function parseUhrZeit(text) {
+    var datum = text.split("T");
+    var tmp = datum[1];
+    return tmp;
+}
+function parseGebaude(raumnamen, name) {
+    var gebaude = new __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__["a" /* GebaudeModel */](name);
+    console.log("parseGebaude");
+    console.log(name);
+    raumnamen.forEach(function (raumname) {
+        var raum = parseToRaum(raumname);
+        console.log(raumname);
+        gebaude.addRaum(raum);
+    });
+    return gebaude;
+}
+function parseToRaum(raumname) {
+    var raum = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__["a" /* RaumModel */](raumname);
+    console.log("parseToRaum");
+    console.log(raumname);
+    var ics = raum.getICS(window.localStorage.getItem(raumname));
+    ics.pop();
+    var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
+    var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    var vevent = vcalendar.getAllSubcomponents('vevent');
+    for (var i = 0; i < vevent.length; i++) {
+        var start = vevent[i].getFirstPropertyValue('dtstart');
+        var startZeit = parseUhrZeit(start.toString());
+        var name = vevent[i].getFirstPropertyValue('description');
+        var wochentag = parseDateToWochentag(start.toString());
+        console.log("start:" + startZeit, "name" + name, "Wochentag " + wochentag);
+        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit);
+        raum.addVeranstaltung(veranstaltung);
+    }
+    return raum;
+}
+function parseToCampus() {
+    var campus = new __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__["a" /* CampusModel */]("HSRM");
+    console.log(CampusConfig);
+    for (var _i = 0, CampusConfig_1 = CampusConfig; _i < CampusConfig_1.length; _i++) {
+        var gebaudeConfig = CampusConfig_1[_i];
+        var gebaude = parseGebaude(gebaudeConfig.raumnamen, gebaudeConfig.gebaudename);
+        campus.addGebaude(gebaude);
+        console.log(CampusConfig);
+    }
+    console.log("test" + campus.gebaude[0].getFreeRooms());
+    return campus;
+}
+function giveWochentag() {
+    var jetzt = new Date();
+    switch (jetzt.getDay()) {
+        case 1: return "Montag";
+        case 2: return "Dienstag";
+        case 3: return "Mittwoch";
+        case 4: return "Donnerstag";
+        case 5: return "Freitag";
+        case 6: return "Samstag";
+        case 0: return "Sonntag";
+        default: break;
+    }
+}
+function giveUhrzeit() {
+    var jetzt = new Date();
+    var stunden = jetzt.getHours();
+    var minuten = jetzt.getMinutes();
+    switch (true) {
+        case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";
+        case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
+        case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+        case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+        case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+        case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+        default: break;
+    }
+}
 var Cgebaude = /** @class */ (function () {
     function Cgebaude(navCtrl, navParams) {
         this.navCtrl = navCtrl;
@@ -877,306 +1069,337 @@ var Cgebaude = /** @class */ (function () {
     }
     Cgebaude.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad CPage');
+        console.log(parseToCampus());
+        /*
         //Raum C001:
-        var C001 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C001");
+        let C001 = new RaumModel("C001");
         var ics = C001.getICS(window.localStorage.getItem("C001"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C001.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C001.getwochenTag(start.toString()));
-            C001.wochentag[i] = C001.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C001.getUhrZeit(start.toString()));
-            C001.uhrzeit[i] = C001.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C001.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C001.getwochenTag(start.toString()));
+                C001.wochentag[i] = C001.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C001.getUhrZeit(start.toString()));
+          C001.uhrzeit[i] = C001.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C001);
         //Raum C007:
-        var C007 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C007");
+        let C007 = new RaumModel("C007");
         var ics = C007.getICS(window.localStorage.getItem("C007"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C007.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C007.getwochenTag(start.toString()));
-            C007.wochentag[i] = C007.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C007.getUhrZeit(start.toString()));
-            C007.uhrzeit[i] = C007.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C007.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C007.getwochenTag(start.toString()));
+          C007.wochentag[i] = C007.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C007.getUhrZeit(start.toString()));
+          C007.uhrzeit[i] = C007.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C007);
+    
         //Raum C035:
-        var C035 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C035");
+        let C035 = new RaumModel("C035");
         var ics = C035.getICS(window.localStorage.getItem("C035"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C035.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C035.getwochenTag(start.toString()));
-            C035.wochentag[i] = C035.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C035.getUhrZeit(start.toString()));
-            C035.uhrzeit[i] = C035.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C035.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C035.getwochenTag(start.toString()));
+          C035.wochentag[i] = C035.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C035.getUhrZeit(start.toString()));
+          C035.uhrzeit[i] = C035.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C035);
+    
         //Raum C037:
-        var C037 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C037");
+        let C037 = new RaumModel("C037");
         var ics = C037.getICS(window.localStorage.getItem("C037"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C037.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C037.getwochenTag(start.toString()));
-            C037.wochentag[i] = C037.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C037.getUhrZeit(start.toString()));
-            C037.uhrzeit[i] = C037.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C037.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C037.getwochenTag(start.toString()));
+          C037.wochentag[i] = C037.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C037.getUhrZeit(start.toString()));
+          C037.uhrzeit[i] = C037.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C037);
+    
         //Raum C113:
-        var C113 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C113");
+        let C113 = new RaumModel("C113");
         var ics = C113.getICS(window.localStorage.getItem("C113"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C113.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C113.getwochenTag(start.toString()));
-            C113.wochentag[i] = C113.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C113.getUhrZeit(start.toString()));
-            C113.uhrzeit[i] = C113.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C113.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C113.getwochenTag(start.toString()));
+          C113.wochentag[i] = C113.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C113.getUhrZeit(start.toString()));
+          C113.uhrzeit[i] = C113.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C113);
+    
         //Raum C213:
-        var C213 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C213");
+        let C213 = new RaumModel("C213");
         var ics = C213.getICS(window.localStorage.getItem("C213"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C213.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C213.getwochenTag(start.toString()));
-            C213.wochentag[i] = C213.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C213.getUhrZeit(start.toString()));
-            C213.uhrzeit[i] = C213.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C213.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C213.getwochenTag(start.toString()));
+          C213.wochentag[i] = C213.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C213.getUhrZeit(start.toString()));
+          C213.uhrzeit[i] = C213.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C213);
+    
         //Raum C237:
-        var C237 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C237");
+        let C237 = new RaumModel("C237");
         var ics = C237.getICS(window.localStorage.getItem("C237"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C237.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C237.getwochenTag(start.toString()));
-            C237.wochentag[i] = C237.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C237.getUhrZeit(start.toString()));
-            C237.uhrzeit[i] = C237.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C237.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C237.getwochenTag(start.toString()));
+          C237.wochentag[i] = C237.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C237.getUhrZeit(start.toString()));
+          C237.uhrzeit[i] = C237.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C237);
+    
         //Raum C305:
-        var C305 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C305");
-        var ics = C305.getICS(window.localStorage.getItem("C305"));
+        let C305 = new RaumModel("C305");
+        var ics =  C305.getICS(window.localStorage.getItem("C305"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C305.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C305.getwochenTag(start.toString()));
-            C305.wochentag[i] = C305.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C305.getUhrZeit(start.toString()));
-            C305.uhrzeit[i] = C305.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C305.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C305.getwochenTag(start.toString()));
+          C305.wochentag[i] = C305.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C305.getUhrZeit(start.toString()));
+          C305.uhrzeit[i] = C305.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C305);
+    
         //Raum C313:
-        var C313 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C313");
+        let C313 = new RaumModel("C313");
         var ics = C313.getICS(window.localStorage.getItem("C313"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C313.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C313.getwochenTag(start.toString()));
-            C313.wochentag[i] = C313.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C313.getUhrZeit(start.toString()));
-            C313.uhrzeit[i] = C313.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C313.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C313.getwochenTag(start.toString()));
+          C313.wochentag[i] = C313.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C313.getUhrZeit(start.toString()));
+          C313.uhrzeit[i] = C313.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C313);
+    
         //Raum C361:
-        var C361 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C361");
+        let C361 = new RaumModel("C361");
         var ics = C361.getICS(window.localStorage.getItem("C361"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C361.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C361.getwochenTag(start.toString()));
-            C361.wochentag[i] = C361.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C361.getUhrZeit(start.toString()));
-            C361.uhrzeit[i] = C361.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C361.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C361.getwochenTag(start.toString()));
+          C361.wochentag[i] = C361.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C361.getUhrZeit(start.toString()));
+          C361.uhrzeit[i] = C361.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C361);
+    
         //Raum C375:
-        var C375 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C375");
+        let C375 = new RaumModel("C375");
         var ics = C375.getICS(window.localStorage.getItem("C375"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C375.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C375.getwochenTag(start.toString()));
-            C375.wochentag[i] = C375.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C375.getUhrZeit(start.toString()));
-            C375.uhrzeit[i] = C375.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C375.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C375.getwochenTag(start.toString()));
+          C375.wochentag[i] = C375.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C375.getUhrZeit(start.toString()));
+          C375.uhrzeit[i] = C375.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C375);
+    
         //Raum C377:
-        var C377 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C377");
+        let C377 = new RaumModel("C377");
         var ics = C377.getICS(window.localStorage.getItem("C377"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C377.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C377.getwochenTag(start.toString()));
-            C377.wochentag[i] = C377.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C377.getUhrZeit(start.toString()));
-            C377.uhrzeit[i] = C377.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C377.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C377.getwochenTag(start.toString()));
+          C377.wochentag[i] = C377.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C377.getUhrZeit(start.toString()));
+          C377.uhrzeit[i] = C377.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C377);
+    
         //Raum C405:
-        var C405 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C405");
+        let C405 = new RaumModel("C405");
         var ics = C405.getICS(window.localStorage.getItem("C405"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C405.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C405.getwochenTag(start.toString()));
-            C405.wochentag[i] = C405.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C405.getUhrZeit(start.toString()));
-            C405.uhrzeit[i] = C405.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C405.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C405.getwochenTag(start.toString()));
+          C405.wochentag[i] = C405.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C405.getUhrZeit(start.toString()));
+          C405.uhrzeit[i] = C405.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C405);
+    
         //Raum C407:
-        var C407 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C407");
+        let C407 = new RaumModel("C407");
         var ics = C407.getICS(window.localStorage.getItem("C407"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C407.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C407.getwochenTag(start.toString()));
-            C407.wochentag[i] = C407.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C407.getUhrZeit(start.toString()));
-            C407.uhrzeit[i] = C407.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C407.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C407.getwochenTag(start.toString()));
+          C407.wochentag[i] = C407.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C407.getUhrZeit(start.toString()));
+          C407.uhrzeit[i] = C407.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C407);
+    
         //Raum C413:
-        var C413 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("C413");
+        let C413 = new RaumModel("C413");
         var ics = C413.getICS(window.localStorage.getItem("C413"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            C413.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + C413.getwochenTag(start.toString()));
-            C413.wochentag[i] = C413.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + C413.getUhrZeit(start.toString()));
-            C413.uhrzeit[i] = C413.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          C413.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ C413.getwochenTag(start.toString()));
+          C413.wochentag[i] = C413.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ C413.getUhrZeit(start.toString()));
+          C413.uhrzeit[i] = C413.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(C413);
+        */
     };
     Cgebaude.prototype.BackToCampus = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
@@ -1186,11 +1409,12 @@ var Cgebaude = /** @class */ (function () {
     };
     Cgebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-c',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">C-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im C-Gebäude frei:</b><br><br>\n  <ion-list>\n    <h3>08:15 - 09:45</h3>\n    <ion-item>\n      C001\n    </ion-item>\n    <ion-item>\n      C035\n    </ion-item>\n    <ion-item>\n      C037\n    </ion-item>\n    <ion-item>\n      C007\n    </ion-item>\n    <ion-item>\n      C313\n    </ion-item>\n    <ion-item>\n      C377\n    </ion-item><br>\n    <h3>10:00 - 11:30</h3>\n    <ion-item>\n      C035\n    </ion-item>\n    <ion-item>\n      C037\n    </ion-item>\n    <ion-item>\n      C213\n    </ion-item>\n    <ion-item>\n      C313\n    </ion-item>\n    <ion-item>\n      C377\n    </ion-item>\n    <ion-item>\n      C405\n    </ion-item>\n  </ion-list><br><br>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
+            selector: 'page-c',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">C-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im C-Gebäude frei:</b><br><br>\n  <ion-list>\n    <h3>08:15 - 09:45</h3>\n    <ion-item>\n      \n    </ion-item>\n    <ion-item>\n      C035\n    </ion-item>\n    <ion-item>\n      C037\n    </ion-item>\n    <ion-item>\n      C007\n    </ion-item>\n    <ion-item>\n      C313\n    </ion-item>\n    <ion-item>\n      C377\n    </ion-item><br>\n    <h3>10:00 - 11:30</h3>\n    <ion-item>\n      C035\n    </ion-item>\n    <ion-item>\n      C037\n    </ion-item>\n    <ion-item>\n      C213\n    </ion-item>\n    <ion-item>\n      C313\n    </ion-item>\n    <ion-item>\n      C377\n    </ion-item>\n    <ion-item>\n      C405\n    </ion-item>\n  </ion-list><br><br>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object])
     ], Cgebaude);
     return Cgebaude;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=c.js.map
@@ -1206,9 +1430,6 @@ var Cgebaude = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(159);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1222,14 +1443,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
-/**
- * Generated class for the DPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+function giveWochentag() {
+    var jetzt = new Date();
+    switch (jetzt.getDay()) {
+        case 1: return "Montag";
+        case 2: return "Dienstag";
+        case 3: return "Mittwoch";
+        case 4: return "Donnerstag";
+        case 5: return "Freitag";
+        case 6: return "Samstag";
+        case 0: return "Sonntag";
+        default: break;
+    }
+}
+function giveUhrzeit() {
+    var jetzt = new Date();
+    var stunden = jetzt.getHours();
+    var minuten = jetzt.getMinutes();
+    switch (true) {
+        case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";
+        case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
+        case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+        case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+        case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+        case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+        default: break;
+    }
+}
 var Dgebaude = /** @class */ (function () {
     function Dgebaude(navCtrl, navParams) {
         this.navCtrl = navCtrl;
@@ -1237,186 +1477,211 @@ var Dgebaude = /** @class */ (function () {
     }
     Dgebaude.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad DPage');
+        /*
         //Raum D01:
-        var D01 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D01");
+        let D01 = new RaumModel("D01");
         var ics = D01.getICS(window.localStorage.getItem("D01"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D01.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D01.getwochenTag(start.toString()));
-            D01.wochentag[i] = D01.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D01.getUhrZeit(start.toString()));
-            D01.uhrzeit[i] = D01.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D01.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D01.getwochenTag(start.toString()));
+          D01.wochentag[i] = D01.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D01.getUhrZeit(start.toString()));
+          D01.uhrzeit[i] = D01.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D01);
+    
         //Raum D02:
-        var D02 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D02");
+        let D02 = new RaumModel("D02");
         var ics = D02.getICS(window.localStorage.getItem("D02"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D02.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D02.getwochenTag(start.toString()));
-            D02.wochentag[i] = D02.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D02.getUhrZeit(start.toString()));
-            D02.uhrzeit[i] = D02.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D02.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D02.getwochenTag(start.toString()));
+          D02.wochentag[i] = D02.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D02.getUhrZeit(start.toString()));
+          D02.uhrzeit[i] = D02.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D02);
+    
         //Raum D11:
-        var D11 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D11");
+        let D11 = new RaumModel("D11");
         var ics = D11.getICS(window.localStorage.getItem("D11"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D11.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D11.getwochenTag(start.toString()));
-            D11.wochentag[i] = D11.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D11.getUhrZeit(start.toString()));
-            D11.uhrzeit[i] = D11.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D11.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D11.getwochenTag(start.toString()));
+          D11.wochentag[i] = D11.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D11.getUhrZeit(start.toString()));
+          D11.uhrzeit[i] = D11.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D11);
+    
         //Raum D12:
-        var D12 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D12");
+        let D12 = new RaumModel("D12");
         var ics = D12.getICS(window.localStorage.getItem("D12"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D12.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D12.getwochenTag(start.toString()));
-            D12.wochentag[i] = D12.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D12.getUhrZeit(start.toString()));
-            D12.uhrzeit[i] = D12.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D12.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D12.getwochenTag(start.toString()));
+          D12.wochentag[i] = D12.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D12.getUhrZeit(start.toString()));
+          D12.uhrzeit[i] = D12.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D12);
+    
         //Raum D01:
-        var D13 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D13");
+        let D13 = new RaumModel("D13");
         var ics = D13.getICS(window.localStorage.getItem("D13"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D13.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D13.getwochenTag(start.toString()));
-            D13.wochentag[i] = D13.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D13.getUhrZeit(start.toString()));
-            D13.uhrzeit[i] = D13.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D13.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D13.getwochenTag(start.toString()));
+          D13.wochentag[i] = D13.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D13.getUhrZeit(start.toString()));
+          D13.uhrzeit[i] = D13.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D13);
+    
         //Raum D14:
-        var D14 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D14");
+        let D14 = new RaumModel("D14");
         var ics = D14.getICS(window.localStorage.getItem("D14"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D14.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D14.getwochenTag(start.toString()));
-            D14.wochentag[i] = D14.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D14.getUhrZeit(start.toString()));
-            D14.uhrzeit[i] = D14.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D14.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D14.getwochenTag(start.toString()));
+          D14.wochentag[i] = D14.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D14.getUhrZeit(start.toString()));
+          D14.uhrzeit[i] = D14.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D14);
+    
         //Raum D15:
-        var D15 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D15");
+        let D15 = new RaumModel("D15");
         var ics = D15.getICS(window.localStorage.getItem("D15"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D15.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D15.getwochenTag(start.toString()));
-            D15.wochentag[i] = D15.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D15.getUhrZeit(start.toString()));
-            D15.uhrzeit[i] = D15.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D15.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D15.getwochenTag(start.toString()));
+          D15.wochentag[i] = D15.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D15.getUhrZeit(start.toString()));
+          D15.uhrzeit[i] = D15.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D15);
+    
         //Raum D17:
-        var D17 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D17");
+        let D17 = new RaumModel("D17");
         var ics = D17.getICS(window.localStorage.getItem("D17"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D17.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D17.getwochenTag(start.toString()));
-            D17.wochentag[i] = D17.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D17.getUhrZeit(start.toString()));
-            D17.uhrzeit[i] = D17.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D17.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D17.getwochenTag(start.toString()));
+          D17.wochentag[i] = D17.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D17.getUhrZeit(start.toString()));
+          D17.uhrzeit[i] = D17.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D17);
+    
         //Raum D18:
-        var D18 = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel__["a" /* RaumModel */]("D18");
+        let D18 = new RaumModel("D18");
         var ics = D18.getICS(window.localStorage.getItem("D18"));
         ics.pop();
-        var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
-        var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    
+        var jcalData = ICAL.parse(ics.join("\r\n"));
+        var vcalendar = new ICAL.Component(jcalData);
         var vevent = vcalendar.getAllSubcomponents('vevent');
-        for (var i = 0; i < vevent.length; i++) {
-            var description = vevent[i].getFirstPropertyValue('description');
-            console.log('description: ' + description);
-            D18.veranstaltung[i] = description;
-            var start = vevent[i].getFirstPropertyValue('dtstart');
-            console.log('Wochentag: ' + D18.getwochenTag(start.toString()));
-            D18.wochentag[i] = D18.getwochenTag(start.toString());
-            console.log('start Uhrzeit: ' + D18.getUhrZeit(start.toString()));
-            D18.uhrzeit[i] = D18.getUhrZeit(start.toString());
-            //var ende = vevent[i].getFirstPropertyValue('dtend');
-            //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
+        for(var i:number = 0; i < vevent.length; i++){
+          var description = vevent[i].getFirstPropertyValue('description');
+          console.log('description: ' + description);
+          D18.veranstaltung[i] = description;
+          var start = vevent[i].getFirstPropertyValue('dtstart');
+          console.log('Wochentag: '+ D18.getwochenTag(start.toString()));
+          D18.wochentag[i] = D18.getwochenTag(start.toString());
+          console.log('start Uhrzeit: '+ D18.getUhrZeit(start.toString()));
+          D18.uhrzeit[i] = D18.getUhrZeit(start.toString());
+          //var ende = vevent[i].getFirstPropertyValue('dtend');
+          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
         }
         console.log(D18);
+        console.log(giveUhrzeit(),giveWochentag());
+    
+        var GebaudeD : RaumModel[]  = [];
+    
+        GebaudeD[0] = D01;
+        GebaudeD[1] = D02;
+        console.log(GebaudeD);*/
     };
     Dgebaude.prototype.BackToCampus = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
@@ -1428,15 +1693,14 @@ var Dgebaude = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-d',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">D-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n  <ion-list>\n    <h3>08:15 - 09:45</h3>\n    <ion-item>\n      D01\n    </ion-item>\n    <ion-item>\n      D11\n    </ion-item>\n    <ion-item>\n      D12\n    </ion-item>\n    <ion-item>\n      D13\n    </ion-item>\n    <ion-item>\n      D15\n    </ion-item>\n    <ion-item>\n      D17\n    </ion-item><br>\n    <h3>10:00 - 11:30</h3>\n    <ion-item>\n      D02\n    </ion-item>\n    <ion-item>\n      D12\n    </ion-item>\n    <ion-item>\n      D13\n    </ion-item>\n    <ion-item>\n      D14\n    </ion-item>\n    <ion-item>\n      D15\n    </ion-item>\n    <ion-item>\n      D17\n    </ion-item>\n  </ion-list><br><br>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Dgebaude);
     return Dgebaude;
-    var _a, _b;
 }());
 
 //# sourceMappingURL=d.js.map
 
 /***/ })
 
-},[204]);
+},[202]);
 //# sourceMappingURL=main.js.map

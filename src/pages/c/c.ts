@@ -2,19 +2,147 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Search } from '../search/search';
-import { RaumModel } from '../../model/RaumModel';
+import { RaumModel } from '../../model/RaumModel.1';
 import ICAL from "ical.js";
+import { Veranstaltung } from '../../model/Veranstaltung';
+import { GebaudeModel } from '../../model/GebaudeModel';
+import { CampusModel } from '../../model/CampusModel';
 
+// Die Konfigurationsvariable für die Räume und Gebäudenamen, diese wird in den späteren Funktionen verwendet
+var CampusConfig = [
 
+  {
+    gebaudename: "C",
+    raumnamen: [
+      "C001",
+      "C007",
+      "C035",
+      "C037",
+      "C113",
+      "C213",
+      "C237",
+      "C305",
+      "C313",
+      "C361",
+      "C375",
+      "C377",
+      "C405",
+      "C407",
+      "C413",
+    ]
 
+  },
 
+  {
+    gebaudename: "D",
+    raumnamen: [
+      "D01",
+      "D02",
+      "D12",
+      "D13",
+      "D14",
+      "D15",
+      "D17",
+      "D18",
+    ]
 
-/**
- * Generated class for the CPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+  }
+
+];
+
+function parseDateToWochentag(text:string) {
+  var datum:any = text.split("T");
+  datum.pop();
+  datum = datum[0].split("-");
+  var datum2:any = new Date(datum[0],datum[1]-1,datum[2]);
+  var tag:any = datum2.getDay();
+  var wochentag:any = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  return wochentag[tag];
+}
+
+function parseUhrZeit(text:string) {
+  var datum:any = text.split("T");
+  var tmp:any = datum[1];
+  return tmp;
+}
+
+function parseGebaude(raumnamen:string[], name:string){
+  var gebaude = new GebaudeModel(name);
+  console.log("parseGebaude");
+  console.log(name);
+  raumnamen.forEach(raumname=> {
+    var raum = parseToRaum(raumname);
+    console.log(raumname);
+    gebaude.addRaum(raum);
+    
+  });
+  return gebaude;
+}
+
+function parseToRaum(raumname: string){
+  var raum = new RaumModel(raumname);
+  console.log("parseToRaum");
+  console.log(raumname);
+  var ics = raum.getICS(window.localStorage.getItem(raumname));
+
+  ics.pop();
+
+  var jcalData = ICAL.parse(ics.join("\r\n"));
+  var vcalendar = new ICAL.Component(jcalData);
+  var vevent = vcalendar.getAllSubcomponents('vevent');
+
+  for(var i:number = 0; i < vevent.length; i++){
+    var start = vevent[i].getFirstPropertyValue('dtstart');
+    var startZeit = parseUhrZeit(start.toString());
+    var name = vevent[i].getFirstPropertyValue('description');
+    var wochentag = parseDateToWochentag(start.toString());
+    console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag);
+    var veranstaltung = new Veranstaltung(name, wochentag, startZeit);
+    raum.addVeranstaltung(veranstaltung);
+  }
+  return raum;
+}
+
+function parseToCampus(){
+  var campus = new CampusModel("HSRM");
+  console.log(CampusConfig)
+  for(let gebaudeConfig of CampusConfig){
+    var gebaude = parseGebaude(gebaudeConfig.raumnamen, gebaudeConfig.gebaudename)
+    campus.addGebaude(gebaude);
+    console.log(CampusConfig);
+  }
+  console.log("test"+campus.gebaude[0].getFreeRooms());
+  return campus;
+}
+  
+function giveWochentag(){
+  var jetzt = new Date();
+  switch(jetzt.getDay()){
+    case 1: return "Montag";
+    case 2: return "Dienstag";
+    case 3: return "Mittwoch";
+    case 4: return "Donnerstag";
+    case 5: return "Freitag";
+    case 6: return "Samstag";
+    case 0: return "Sonntag";
+    default: break;
+    }
+  }
+
+function giveUhrzeit(){
+    var jetzt = new Date();
+    var stunden = jetzt.getHours();
+    var minuten = jetzt.getMinutes();
+    switch(true){
+      case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";  
+      case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11  && minuten <= 30): return "10:00:00";
+      case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+      case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+      case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+      case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+      default: break;
+    }
+}
 
 @IonicPage()
 @Component({
@@ -28,7 +156,8 @@ export class Cgebaude {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CPage');
-
+    console.log(parseToCampus());
+    /*
     //Raum C001:
     let C001 = new RaumModel("C001");
     var ics = C001.getICS(window.localStorage.getItem("C001"));
@@ -50,7 +179,6 @@ export class Cgebaude {
       //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
     }
     console.log(C001);
-
     //Raum C007:
     let C007 = new RaumModel("C007");
     var ics = C007.getICS(window.localStorage.getItem("C007"));
@@ -358,7 +486,13 @@ export class Cgebaude {
       //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
     }
     console.log(C413);
+    */
+
+    
   }
+
+
+  
 
   BackToCampus(){
     this.navCtrl.setRoot(HomePage);

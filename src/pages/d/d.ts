@@ -6,12 +6,34 @@ import { RaumModel } from '../../model/RaumModel';
 import ICAL from "ical.js";
 
 
-/**
- * Generated class for the DPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+function giveWochentag(){
+  var jetzt = new Date();
+  switch(jetzt.getDay()){
+    case 1: return "Montag";
+    case 2: return "Dienstag";
+    case 3: return "Mittwoch";
+    case 4: return "Donnerstag";
+    case 5: return "Freitag";
+    case 6: return "Samstag";
+    case 0: return "Sonntag";
+    default: break;
+    }
+  }
+
+function giveUhrzeit(){
+    var jetzt = new Date();
+    var stunden = jetzt.getHours();
+    var minuten = jetzt.getMinutes();
+    switch(true){
+      case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";  
+      case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11  && minuten <= 30): return "10:00:00";
+      case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+      case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+      case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+      case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+      default: break;
+    }
+}
 
 @IonicPage()
 @Component({
@@ -25,7 +47,7 @@ export class Dgebaude {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DPage');
-
+    /*
     //Raum D01:
     let D01 = new RaumModel("D01");
     var ics = D01.getICS(window.localStorage.getItem("D01"));
@@ -223,6 +245,13 @@ export class Dgebaude {
       //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
     }
     console.log(D18);
+    console.log(giveUhrzeit(),giveWochentag());
+
+    var GebaudeD : RaumModel[]  = []; 
+
+    GebaudeD[0] = D01;
+    GebaudeD[1] = D02;
+    console.log(GebaudeD);*/
   }
 
   BackToCampus(){
