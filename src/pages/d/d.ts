@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
-import { Search } from '../search/search'
-import { RaumModel } from '../../model/RaumModel';
-import ICAL from "ical.js";
+import { Search } from '../search/search';
 
 
 
@@ -219,7 +217,7 @@ export class Dgebaude {
     console.log(D18);
     console.log(giveUhrzeit(),giveWochentag());
 
-    var GebaudeD : RaumModel[]  = []; 
+    var GebaudeD : RaumModel[]  = [];
 
     GebaudeD[0] = D01;
     GebaudeD[1] = D02;

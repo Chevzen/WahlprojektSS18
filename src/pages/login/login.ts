@@ -4,17 +4,14 @@ import { HomePage } from '../home/home';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
 function get_Token(text:string) {
-	//console.log("text.indexOf(authenticity_token, 600): "+text.indexOf("authenticity_token", 600));
 	return text.substring(text.indexOf("authenticity_token", 600)+29, text.indexOf("authenticity_token", 600)+117);
 }
 
 function get_Semester(text:string) {
-	//console.log("text.indexOf(option selected): "+text.indexOf("option selected"));
 	return text.substring(text.indexOf("option selected")+37, text.indexOf("option selected")+46);
 }
 
 function get_Header(text:string) {
-	//console.log("text.indexOf(Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten): "+text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten"));
 	return text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten");
 }
 
@@ -40,7 +37,7 @@ function loginFunction(element:any) {
 	};
 
 	var zahl: number = 0;
-	for(var i:number = 0; i < 40; i++){
+	for(var i:number = 0; i < 20; i++){
 	element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(
 		result => {
 			console.log('login API success');
@@ -363,7 +360,7 @@ function loginFunction(element:any) {
 					console.log("Fehler "+zahl);
 					zahl++;
 					//Überprüfen ob alle Versuche gescheitert sind:
-					if(zahl >= 40){
+					if(zahl >= 19){
 						var fehlerFeld: HTMLElement = document.getElementById('Fehler');
 						fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
 						fehlerFeld.style.display = "block";
@@ -422,7 +419,7 @@ export class LoginPage {
 			header.style.display = "none";
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
-			loginFunction(this);
+			//loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
 			this.navCtrl.setRoot(HomePage);
 
