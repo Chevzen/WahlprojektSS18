@@ -4,17 +4,14 @@ import { HomePage } from '../home/home';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
 function get_Token(text:string) {
-	//console.log("text.indexOf(authenticity_token, 600): "+text.indexOf("authenticity_token", 600));
 	return text.substring(text.indexOf("authenticity_token", 600)+29, text.indexOf("authenticity_token", 600)+117);
 }
 
 function get_Semester(text:string) {
-	//console.log("text.indexOf(option selected): "+text.indexOf("option selected"));
 	return text.substring(text.indexOf("option selected")+37, text.indexOf("option selected")+46);
 }
 
 function get_Header(text:string) {
-	//console.log("text.indexOf(Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten): "+text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten"));
 	return text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten");
 }
 
