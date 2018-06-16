@@ -6,12 +6,6 @@ import { RaumModel } from '../../model/RaumModel';
 import ICAL from "ical.js";
 
 
-/**
- * Generated class for the DPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -25,7 +19,7 @@ export class Dgebaude {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DPage');
-
+    /*
     //Raum D01:
     let D01 = new RaumModel("D01");
     var ics = D01.getICS(window.localStorage.getItem("D01"));
@@ -223,6 +217,13 @@ export class Dgebaude {
       //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
     }
     console.log(D18);
+    console.log(giveUhrzeit(),giveWochentag());
+
+    var GebaudeD : RaumModel[]  = []; 
+
+    GebaudeD[0] = D01;
+    GebaudeD[1] = D02;
+    console.log(GebaudeD);*/
   }
 
   BackToCampus(){
