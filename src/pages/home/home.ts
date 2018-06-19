@@ -15,7 +15,8 @@ export class HomePage {
   }
 
   nextC() {
-	  this.navCtrl.setRoot( Cgebaude);
+    this.navCtrl.setRoot( Cgebaude);
+    
   }
 
   nextD() {

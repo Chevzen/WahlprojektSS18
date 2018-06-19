@@ -10,47 +10,12 @@
 
 <ion-content padding>
 
-	<b>Folgende Räume sind zur Zeit im C-Gebäude frei:</b><br><br>
-  <ion-list>
-    <h3>08:15 - 09:45</h3>
-    <ion-item>
-      
-    </ion-item>
-    <ion-item>
-      C035
-    </ion-item>
-    <ion-item>
-      C037
-    </ion-item>
-    <ion-item>
-      C007
-    </ion-item>
-    <ion-item>
-      C313
-    </ion-item>
-    <ion-item>
-      C377
-    </ion-item><br>
-    <h3>10:00 - 11:30</h3>
-    <ion-item>
-      C035
-    </ion-item>
-    <ion-item>
-      C037
-    </ion-item>
-    <ion-item>
-      C213
-    </ion-item>
-    <ion-item>
-      C313
-    </ion-item>
-    <ion-item>
-      C377
-    </ion-item>
-    <ion-item>
-      C405
-    </ion-item>
-  </ion-list><br><br>
+  <b>Folgende Räume sind zur Zeit im Gebäude frei:</b><br><br>
+    <ion-list>
+      <ion-item *ngFor="let item of freeRooms">
+        {{ item }}
+      </ion-item>
+    </ion-list>>
 
   <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>
 

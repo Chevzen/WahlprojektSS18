@@ -19,7 +19,7 @@ export class GebaudeModel{
         var result: RaumModel[] = [];
         this.raume.forEach(raum => {
             if(raum.isFree(this.giveUhrzeit(), this.giveWochentag())){
-                result.push(raum);   
+                result.push(raum);  
             }
         });
         return result;
