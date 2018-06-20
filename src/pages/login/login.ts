@@ -421,7 +421,7 @@ export class LoginPage {
 			login.style.display = "block";
 			//loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-			this.navCtrl.setRoot(HomePage);
+			//this.navCtrl.setRoot(HomePage);
 
 		}
   }

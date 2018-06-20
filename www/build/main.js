@@ -49,7 +49,7 @@ function loginFunction(element) {
         withCredentials: true
     };
     var zahl = 0;
-    for (var i = 0; i < 40; i++) {
+    for (var i = 0; i < 20; i++) {
         element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
             console.log('login API success');
             element.x = JSON.stringify(result, null, 2);
@@ -338,7 +338,7 @@ function loginFunction(element) {
                 console.log("Fehler " + zahl);
                 zahl++;
                 //Überprüfen ob alle Versuche gescheitert sind:
-                if (zahl >= 40) {
+                if (zahl >= 19) {
                     var fehlerFeld = document.getElementById('Fehler');
                     fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
                     fehlerFeld.style.display = "block";

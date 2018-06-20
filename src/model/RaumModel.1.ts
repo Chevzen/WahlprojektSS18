@@ -1,7 +1,7 @@
 import { Veranstaltung } from "./Veranstaltung";
 
 export class RaumModel{
-  
+
 
 
   raumname:string = "";
@@ -32,16 +32,17 @@ export class RaumModel{
   }
 
   isFree(uhrzeit:string, wochentag:string){
+    var result:any = true;
     this.veranstaltungen.forEach(veranstaltung => {
-        if(veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit  ) {
-          return false;
+        if(veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit){
+          result = false;
         }
-      
     });
-    return true;
+
+    return result;
   }
 
 
-  
+
 
 }
