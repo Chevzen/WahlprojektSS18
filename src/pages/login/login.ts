@@ -37,7 +37,7 @@ function loginFunction(element:any) {
 	};
 
 	var zahl: number = 0;
-	for(var i:number = 0; i < 40; i++){
+	for(var i:number = 0; i < 1; i++){
 	element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(
 		result => {
 			console.log('login API success');
@@ -360,7 +360,7 @@ function loginFunction(element:any) {
 					console.log("Fehler "+zahl);
 					zahl++;
 					//Überprüfen ob alle Versuche gescheitert sind:
-					if(zahl >= 40){
+					if(zahl >= 1){
 						var fehlerFeld: HTMLElement = document.getElementById('Fehler');
 						fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
 						fehlerFeld.style.display = "block";
@@ -421,7 +421,7 @@ export class LoginPage {
 			login.style.display = "block";
 			//loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-			//this.navCtrl.setRoot(HomePage);
+			this.navCtrl.setRoot(HomePage);
 
 		}
   }

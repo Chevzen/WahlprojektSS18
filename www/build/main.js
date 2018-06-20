@@ -8,7 +8,7 @@ webpackJsonp([4],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(163);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -49,7 +49,7 @@ function loginFunction(element) {
         withCredentials: true
     };
     var zahl = 0;
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 1; i++) {
         element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
             console.log('login API success');
             element.x = JSON.stringify(result, null, 2);
@@ -338,7 +338,7 @@ function loginFunction(element) {
                 console.log("Fehler " + zahl);
                 zahl++;
                 //Überprüfen ob alle Versuche gescheitert sind:
-                if (zahl >= 19) {
+                if (zahl >= 1) {
                     var fehlerFeld = document.getElementById('Fehler');
                     fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
                     fehlerFeld.style.display = "block";
@@ -496,13 +496,177 @@ module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 202:
+/***/ 158:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RaumModel; });
+var RaumModel = /** @class */ (function () {
+    function RaumModel(raumname) {
+        this.raumname = "";
+        this.veranstaltungen = [];
+        this.raumname = raumname;
+    }
+    RaumModel.prototype.addVeranstaltung = function (veranstaltung) {
+        this.veranstaltungen.push(veranstaltung);
+    };
+    //Hilfsfunktion
+    RaumModel.prototype.getICS = function (text) {
+        text.trim();
+        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
+        return text.split("\\r\\n");
+    };
+    RaumModel.prototype.getUhrZeit = function (text) {
+        var datum = text.split("T");
+        var tmp = datum[1];
+        return tmp;
+    };
+    RaumModel.prototype.isFree = function (uhrzeit, wochentag) {
+        var result = true;
+        this.veranstaltungen.forEach(function (veranstaltung) {
+            if (veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit) {
+                result = false;
+            }
+        });
+        return result;
+    };
+    return RaumModel;
+}());
+
+//# sourceMappingURL=RaumModel.1.js.map
+
+/***/ }),
+
+/***/ 160:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Veranstaltung; });
+var Veranstaltung = /** @class */ (function () {
+    function Veranstaltung(name, wochentag, uhrzeit, enduhrzeit) {
+        this.name = "";
+        this.wochentag = "";
+        this.uhrzeit = "";
+        this.enduhrzeit = "";
+        this.name = name;
+        this.uhrzeit = uhrzeit;
+        this.wochentag = wochentag;
+        this.enduhrzeit = enduhrzeit;
+    }
+    return Veranstaltung;
+}());
+
+//# sourceMappingURL=Veranstaltung.js.map
+
+/***/ }),
+
+/***/ 161:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
+var GebaudeModel = /** @class */ (function () {
+    function GebaudeModel(gebaudename) {
+        this.gebaudename = "";
+        this.raume = [];
+        this.gebaudename = gebaudename;
+    }
+    GebaudeModel.prototype.addRaum = function (raum) {
+        this.raume.push(raum);
+    };
+    GebaudeModel.prototype.getFreeRooms = function () {
+        var _this = this;
+        var result = []; // RaumModel[] = [];
+        var slots = this.giveSlots();
+        for (var i = 0; i < slots.length; i++) {
+            result.push(slots[i]);
+            this.raume.forEach(function (raum) {
+                if (raum.isFree(slots[i], _this.giveWochentag())) {
+                    result.push(raum.raumname);
+                }
+            });
+        }
+        return result;
+    };
+    GebaudeModel.prototype.giveSlots = function () {
+        var jetzt = new Date();
+        var stunden = jetzt.getHours();
+        var minuten = jetzt.getMinutes();
+        switch (true) {
+            case this.giveUhrzeit() == "8:15:00": return ["8:15:00", "10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "10:00:00": return ["10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "11:45:00": return ["11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "14:15:00": return ["14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "16:00:00": return ["16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "17:45:00": return ["17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "19:30:00": return ["19:30:00"];
+            default: break;
+        }
+    };
+    GebaudeModel.prototype.giveUhrzeit = function () {
+        var jetzt = new Date();
+        var stunden = jetzt.getHours();
+        var minuten = jetzt.getMinutes();
+        switch (true) {
+            case ((stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45)): return "8:15:00";
+            case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
+            case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+            case (stunden == 13 && minuten >= 15 || stunden == 14 && minuten <= 15): return "13:15:00";
+            case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+            case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+            case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+            case (stunden == 19 && minuten >= 30 || stunden == 20 || stunden == 21): return "19:30:00";
+            default: break;
+        }
+    };
+    GebaudeModel.prototype.giveWochentag = function () {
+        var jetzt = new Date();
+        switch (jetzt.getDay()) {
+            case 1: return "Montag";
+            case 2: return "Dienstag";
+            case 3: return "Mittwoch";
+            case 4: return "Donnerstag";
+            case 5: return "Freitag";
+            case 6: return "Samstag";
+            case 0: return "Sonntag";
+            default: break;
+        }
+    };
+    return GebaudeModel;
+}());
+
+//# sourceMappingURL=GebaudeModel.js.map
+
+/***/ }),
+
+/***/ 162:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CampusModel; });
+var CampusModel = /** @class */ (function () {
+    function CampusModel(name) {
+        this.campusname = "";
+        this.gebaude = [];
+        this.campusname = name;
+    }
+    CampusModel.prototype.addGebaude = function (gebaude) {
+        this.gebaude.push(gebaude);
+    };
+    return CampusModel;
+}());
+
+//# sourceMappingURL=CampusModel.js.map
+
+/***/ }),
+
+/***/ 207:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(203);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(208);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(228);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -510,7 +674,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 223:
+/***/ 228:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -519,9 +683,9 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__(270);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(284);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_c_c__ = __webpack_require__(52);
@@ -597,148 +761,6 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 248:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RaumModel; });
-var RaumModel = /** @class */ (function () {
-    function RaumModel(raumname) {
-        this.raumname = "";
-        this.veranstaltungen = [];
-        this.raumname = raumname;
-    }
-    RaumModel.prototype.addVeranstaltung = function (veranstaltung) {
-        this.veranstaltungen.push(veranstaltung);
-    };
-    //Hilfsfunktion
-    RaumModel.prototype.getICS = function (text) {
-        text.trim();
-        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
-        return text.split("\\r\\n");
-    };
-    RaumModel.prototype.getUhrZeit = function (text) {
-        var datum = text.split("T");
-        var tmp = datum[1];
-        return tmp;
-    };
-    RaumModel.prototype.isFree = function (uhrzeit, wochentag) {
-        this.veranstaltungen.forEach(function (veranstaltung) {
-            if (veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit) {
-                return false;
-            }
-        });
-        return true;
-    };
-    return RaumModel;
-}());
-
-//# sourceMappingURL=RaumModel.1.js.map
-
-/***/ }),
-
-/***/ 250:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Veranstaltung; });
-var Veranstaltung = /** @class */ (function () {
-    function Veranstaltung(name, wochentag, uhrzeit, enduhrzeit) {
-        this.name = "";
-        this.wochentag = "";
-        this.uhrzeit = "";
-        this.enduhrzeit = "";
-        this.name = name;
-        this.uhrzeit = uhrzeit;
-        this.wochentag = wochentag;
-        this.enduhrzeit = enduhrzeit;
-    }
-    return Veranstaltung;
-}());
-
-//# sourceMappingURL=Veranstaltung.js.map
-
-/***/ }),
-
-/***/ 251:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
-var GebaudeModel = /** @class */ (function () {
-    function GebaudeModel(gebaudename) {
-        this.gebaudename = "";
-        this.raume = [];
-        this.gebaudename = gebaudename;
-    }
-    GebaudeModel.prototype.addRaum = function (raum) {
-        this.raume.push(raum);
-    };
-    GebaudeModel.prototype.getFreeRooms = function () {
-        var _this = this;
-        var result = [];
-        this.raume.forEach(function (raum) {
-            if (raum.isFree(_this.giveUhrzeit(), _this.giveWochentag())) {
-                result.push(raum);
-            }
-        });
-        return result;
-    };
-    GebaudeModel.prototype.giveUhrzeit = function () {
-        var jetzt = new Date();
-        var stunden = jetzt.getHours();
-        var minuten = jetzt.getMinutes();
-        switch (true) {
-            case ((stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45)): return "8:15:00";
-            case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
-            case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
-            case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
-            case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
-            case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
-            default: break;
-        }
-    };
-    GebaudeModel.prototype.giveWochentag = function () {
-        var jetzt = new Date();
-        switch (jetzt.getDay()) {
-            case 1: return "Montag";
-            case 2: return "Dienstag";
-            case 3: return "Mittwoch";
-            case 4: return "Donnerstag";
-            case 5: return "Freitag";
-            case 6: return "Samstag";
-            case 0: return "Sonntag";
-            default: break;
-        }
-    };
-    return GebaudeModel;
-}());
-
-//# sourceMappingURL=GebaudeModel.js.map
-
-/***/ }),
-
-/***/ 252:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CampusModel; });
-var CampusModel = /** @class */ (function () {
-    function CampusModel(name) {
-        this.campusname = "";
-        this.gebaude = [];
-        this.campusname = name;
-    }
-    CampusModel.prototype.addGebaude = function (gebaude) {
-        this.gebaude.push(gebaude);
-    };
-    return CampusModel;
-}());
-
-//# sourceMappingURL=CampusModel.js.map
-
-/***/ }),
-
 /***/ 284:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -746,8 +768,8 @@ var CampusModel = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_c_c__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_d_d__ = __webpack_require__(53);
@@ -919,12 +941,12 @@ var HomePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(248);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(249);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(159);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(251);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(252);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(162);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1049,6 +1071,13 @@ function parseToRaum(raumname) {
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
                     raum.addVeranstaltung(veranstaltung);
                 }
+                else if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.45-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
                 else if (endZeit == "15:45:00") {
                     console.log("hallo case 10 -15.45");
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
@@ -1057,8 +1086,32 @@ function parseToRaum(raumname) {
                     raum.addVeranstaltung(veranstaltung);
                 }
                 break;
+            case "11:30:00":
+                if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.30-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 11.45-15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "17:30:00") {
+                    console.log("hallo case 11.45-17.35");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
             case "11:45:00":
-                if (endZeit == "15:45:00") {
+                if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.45-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
                     console.log("hallo case 11.45-15.45");
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
                     raum.addVeranstaltung(veranstaltung);
@@ -1119,9 +1172,9 @@ function parseToCampus() {
         console.log(CampusConfig);
     }
     for (var i = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++) {
-        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i].raumname);
+        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
     }
-    console.log("test" + campus.gebaude[0].getFreeRooms()[0].raumname);
+    console.log("test" + campus.gebaude[0].getFreeRooms()[0]);
     return campus;
 }
 var Cgebaude = /** @class */ (function () {
@@ -1164,12 +1217,12 @@ var Cgebaude = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(248);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(249);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(159);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(251);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(252);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(162);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1188,6 +1241,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+// Die Konfigurationsvariable für die Räume und Gebäudenamen, diese wird in den späteren Funktionen verwendet
 var CampusConfig = [
     {
         gebaudename: "C",
@@ -1223,7 +1277,7 @@ var CampusConfig = [
         ]
     }
 ];
-var GebaudeAuswahl = 1;
+var GebaudeAuswahl = 0;
 var freeRooms = [];
 function setGebaude(wahl) {
     GebaudeAuswahl = wahl;
@@ -1264,12 +1318,123 @@ function parseToRaum(raumname) {
     var vevent = vcalendar.getAllSubcomponents('vevent');
     for (var i = 0; i < vevent.length; i++) {
         var start = vevent[i].getFirstPropertyValue('dtstart');
+        var end = vevent[i].getFirstPropertyValue('dtend');
         var startZeit = parseUhrZeit(start.toString());
+        var endZeit = parseUhrZeit(end.toString());
         var name = vevent[i].getFirstPropertyValue('description');
         var wochentag = parseDateToWochentag(start.toString());
-        console.log("start:" + startZeit, "name" + name, "Wochentag " + wochentag);
-        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit);
+        console.log("start:" + startZeit, "name" + name, "Wochentag " + wochentag, "end:" + endZeit);
+        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit, endZeit);
         raum.addVeranstaltung(veranstaltung);
+        switch (startZeit) {
+            case "08:15:00":
+                if (endZeit == "11:30:00") {
+                    console.log("hallo case 8 -11.30");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "13:15:00") {
+                    console.log("hallo case 8 -13");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "10:00:00":
+                if (endZeit == "13:15:00") {
+                    console.log("hallo case 10 -13.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.45-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 10 -15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "11:30:00":
+                if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.30-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 11.45-15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "17:30:00") {
+                    console.log("hallo case 11.45-17.35");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "11:45:00":
+                if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.45-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 11.45-15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "17:30:00") {
+                    console.log("hallo case 11.45-17.35");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "14:15:00":
+                if (endZeit == "17:30:00") {
+                    console.log("hallo case 14.15-17.30");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "19:15:00") {
+                    console.log("hallo case 14.15-19.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "16:00:00":
+                if (endZeit == "19:15:00") {
+                    console.log("hallo case 16.00-19.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "21:00:00") {
+                    console.log("hallo case 16.00-21.00");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "17:45:00":
+                if (endZeit == "21:00:00") {
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+            default:
+        }
     }
     return raum;
 }
@@ -1283,9 +1448,9 @@ function parseToCampus() {
         console.log(CampusConfig);
     }
     for (var i = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++) {
-        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i].raumname);
+        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
     }
-    console.log("test" + campus.gebaude[0].getFreeRooms()[0].raumname);
+    console.log("test" + campus.gebaude[0].getFreeRooms()[0]);
     return campus;
 }
 var Dgebaude = /** @class */ (function () {
@@ -1321,5 +1486,5 @@ var Dgebaude = /** @class */ (function () {
 
 /***/ })
 
-},[202]);
+},[207]);
 //# sourceMappingURL=main.js.map

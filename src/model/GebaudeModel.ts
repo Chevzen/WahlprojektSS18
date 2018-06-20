@@ -56,6 +56,7 @@ export class GebaudeModel{
           case ((stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45)): return "8:15:00";
           case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11  && minuten <= 30): return "10:00:00";
           case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+          case (stunden == 13 && minuten >= 15 || stunden == 14  && minuten <= 15): return "13:15:00";
           case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
           case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
           case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
