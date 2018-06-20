@@ -1,4 +1,5 @@
 import { RaumModel } from "./RaumModel.1";
+import { Veranstaltung } from "./Veranstaltung";
 
 export class GebaudeModel{
 
@@ -27,10 +28,12 @@ export class GebaudeModel{
     
     private giveUhrzeit(){
         var jetzt = new Date();
+        
         var stunden = jetzt.getHours();
         var minuten = jetzt.getMinutes();
+        
         switch(true){
-          case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";  
+          case ((stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45)): return "8:15:00";  
           case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11  && minuten <= 30): return "10:00:00";
           case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
           case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";

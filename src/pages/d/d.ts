@@ -2,6 +2,129 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Search } from '../search/search';
+import { RaumModel } from '../../model/RaumModel.1';
+import ICAL from "ical.js";
+import { Veranstaltung } from '../../model/Veranstaltung';
+import { GebaudeModel } from '../../model/GebaudeModel';
+import { CampusModel } from '../../model/CampusModel';
+
+var CampusConfig = [
+
+  {
+    gebaudename: "C",
+    raumnamen: [
+      "C001",
+      "C007",
+      "C035",
+      "C037",
+      "C113",
+      "C213",
+      "C237",
+      "C305",
+      "C313",
+      "C361",
+      "C375",
+      "C377",
+      "C405",
+      "C407",
+      "C413",
+    ]
+
+  },
+
+  {
+    gebaudename: "D",
+    raumnamen: [
+      "D01",
+      "D02",
+      "D12",
+      "D13",
+      "D14",
+      "D15",
+      "D17",
+      "D18",
+    ]
+
+  }
+
+];
+
+
+var GebaudeAuswahl:number = 1;
+var freeRooms:string[] = [];
+
+function setGebaude(wahl:number){
+  GebaudeAuswahl = wahl;
+}
+
+function parseDateToWochentag(text:string) {
+  var datum:any = text.split("T");
+  datum.pop();
+  datum = datum[0].split("-");
+  var datum2:any = new Date(datum[0],datum[1]-1,datum[2]);
+  var tag:any = datum2.getDay();
+  var wochentag:any = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  return wochentag[tag];
+}
+
+function parseUhrZeit(text:string) {
+  var datum:any = text.split("T");
+  var tmp:any = datum[1];
+  return tmp;
+}
+
+function parseGebaude(raumnamen:string[], name:string){
+  var gebaude = new GebaudeModel(name);
+  console.log("parseGebaude");
+  console.log(name);
+  raumnamen.forEach(raumname=> {
+    var raum = parseToRaum(raumname);
+    console.log(raumname);
+    gebaude.addRaum(raum);
+    
+  });
+  return gebaude;
+}
+
+function parseToRaum(raumname: string){
+  var raum = new RaumModel(raumname);
+  console.log("parseToRaum");
+  console.log(raumname);
+  var ics = raum.getICS(window.localStorage.getItem(raumname));
+
+  ics.pop();
+
+  var jcalData = ICAL.parse(ics.join("\r\n"));
+  var vcalendar = new ICAL.Component(jcalData);
+  var vevent = vcalendar.getAllSubcomponents('vevent');
+
+  for(var i:number = 0; i < vevent.length; i++){
+    var start = vevent[i].getFirstPropertyValue('dtstart');
+    var startZeit = parseUhrZeit(start.toString());
+    var name = vevent[i].getFirstPropertyValue('description');
+    var wochentag = parseDateToWochentag(start.toString());
+    console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag);
+    var veranstaltung = new Veranstaltung(name, wochentag, startZeit);
+    raum.addVeranstaltung(veranstaltung);
+  }
+  return raum;
+}
+
+function parseToCampus(){
+  var campus = new CampusModel("HSRM");
+  console.log(CampusConfig)
+  for(let gebaudeConfig of CampusConfig){
+    var gebaude = parseGebaude(gebaudeConfig.raumnamen, gebaudeConfig.gebaudename)
+    campus.addGebaude(gebaude);
+    console.log(CampusConfig);
+  }
+  for(var i: number = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++){
+    freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i].raumname);
+  }
+  console.log("test"+campus.gebaude[0].getFreeRooms()[0].raumname);
+  return campus;
+}
+
 
 
 
@@ -12,216 +135,19 @@ import { Search } from '../search/search';
 })
 export class Dgebaude {
 
+  private freeRooms:string[] = freeRooms; 
+  
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DPage');
-    /*
-    //Raum D01:
-    let D01 = new RaumModel("D01");
-    var ics = D01.getICS(window.localStorage.getItem("D01"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D01.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D01.getwochenTag(start.toString()));
-      D01.wochentag[i] = D01.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D01.getUhrZeit(start.toString()));
-      D01.uhrzeit[i] = D01.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D01);
-
-    //Raum D02:
-    let D02 = new RaumModel("D02");
-    var ics = D02.getICS(window.localStorage.getItem("D02"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D02.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D02.getwochenTag(start.toString()));
-      D02.wochentag[i] = D02.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D02.getUhrZeit(start.toString()));
-      D02.uhrzeit[i] = D02.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D02);
-
-    //Raum D11:
-    let D11 = new RaumModel("D11");
-    var ics = D11.getICS(window.localStorage.getItem("D11"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D11.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D11.getwochenTag(start.toString()));
-      D11.wochentag[i] = D11.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D11.getUhrZeit(start.toString()));
-      D11.uhrzeit[i] = D11.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D11);
-
-    //Raum D12:
-    let D12 = new RaumModel("D12");
-    var ics = D12.getICS(window.localStorage.getItem("D12"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D12.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D12.getwochenTag(start.toString()));
-      D12.wochentag[i] = D12.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D12.getUhrZeit(start.toString()));
-      D12.uhrzeit[i] = D12.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D12);
-
-    //Raum D01:
-    let D13 = new RaumModel("D13");
-    var ics = D13.getICS(window.localStorage.getItem("D13"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D13.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D13.getwochenTag(start.toString()));
-      D13.wochentag[i] = D13.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D13.getUhrZeit(start.toString()));
-      D13.uhrzeit[i] = D13.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D13);
-
-    //Raum D14:
-    let D14 = new RaumModel("D14");
-    var ics = D14.getICS(window.localStorage.getItem("D14"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D14.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D14.getwochenTag(start.toString()));
-      D14.wochentag[i] = D14.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D14.getUhrZeit(start.toString()));
-      D14.uhrzeit[i] = D14.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D14);
-
-    //Raum D15:
-    let D15 = new RaumModel("D15");
-    var ics = D15.getICS(window.localStorage.getItem("D15"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D15.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D15.getwochenTag(start.toString()));
-      D15.wochentag[i] = D15.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D15.getUhrZeit(start.toString()));
-      D15.uhrzeit[i] = D15.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D15);
-
-    //Raum D17:
-    let D17 = new RaumModel("D17");
-    var ics = D17.getICS(window.localStorage.getItem("D17"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D17.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D17.getwochenTag(start.toString()));
-      D17.wochentag[i] = D17.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D17.getUhrZeit(start.toString()));
-      D17.uhrzeit[i] = D17.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D17);
-
-    //Raum D18:
-    let D18 = new RaumModel("D18");
-    var ics = D18.getICS(window.localStorage.getItem("D18"));
-    ics.pop();
-
-    var jcalData = ICAL.parse(ics.join("\r\n"));
-    var vcalendar = new ICAL.Component(jcalData);
-    var vevent = vcalendar.getAllSubcomponents('vevent');
-    for(var i:number = 0; i < vevent.length; i++){
-      var description = vevent[i].getFirstPropertyValue('description');
-      console.log('description: ' + description);
-      D18.veranstaltung[i] = description;
-      var start = vevent[i].getFirstPropertyValue('dtstart');
-      console.log('Wochentag: '+ D18.getwochenTag(start.toString()));
-      D18.wochentag[i] = D18.getwochenTag(start.toString());
-      console.log('start Uhrzeit: '+ D18.getUhrZeit(start.toString()));
-      D18.uhrzeit[i] = D18.getUhrZeit(start.toString());
-      //var ende = vevent[i].getFirstPropertyValue('dtend');
-      //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-    }
-    console.log(D18);
-    console.log(giveUhrzeit(),giveWochentag());
-
-    var GebaudeD : RaumModel[]  = [];
-
-    GebaudeD[0] = D01;
-    GebaudeD[1] = D02;
-    console.log(GebaudeD);*/
+    console.log('ionViewDidLoad CPage');
+    setGebaude(1);
+    console.log(parseToCampus());   
+    console.log(freeRooms);
+    
   }
 
   BackToCampus(){

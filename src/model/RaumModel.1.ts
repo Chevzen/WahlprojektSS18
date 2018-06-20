@@ -33,12 +33,15 @@ export class RaumModel{
 
   isFree(uhrzeit:string, wochentag:string){
     this.veranstaltungen.forEach(veranstaltung => {
-        if(veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit){
+        if(veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit  ) {
           return false;
         }
       
     });
     return true;
   }
+
+
+  
 
 }

@@ -419,9 +419,9 @@ export class LoginPage {
 			header.style.display = "none";
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
-			loginFunction(this);
+			//loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-			//this.navCtrl.setRoot(HomePage);
+			this.navCtrl.setRoot(HomePage);
 
 		}
   }

@@ -391,9 +391,9 @@ var LoginPage = /** @class */ (function () {
             header.style.display = "none";
             var login = document.getElementById('login');
             login.style.display = "block";
-            loginFunction(this);
+            //loginFunction(this);
             //Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-            //this.navCtrl.setRoot(HomePage);
+            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
         }
     };
     LoginPage.prototype.clicked = function () {
@@ -429,11 +429,12 @@ var LoginPage = /** @class */ (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <div id="laden" style="display:none; margin: -15px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      Login wird durchgeführt.\n    </div>\n  </div>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span><br>\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <div id="laden" style="display:none; margin: -15px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      Login wird durchgeführt.\n    </div>\n  </div>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span><br>\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]) === "function" && _e || Object])
     ], LoginPage);
     return LoginPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 ;
@@ -471,11 +472,11 @@ var map = {
 		2
 	],
 	"../pages/login/login.module": [
-		287,
+		288,
 		1
 	],
 	"../pages/search/search.module": [
-		288,
+		287,
 		0
 	]
 };
@@ -565,8 +566,8 @@ var AppModule = /** @class */ (function () {
                     links: [
                         { loadChildren: '../pages/c/c.module#CPageModule', name: 'Cgebaude', segment: 'c', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/d/d.module#DPageModule', name: 'Dgebaude', segment: 'd', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClientModule */],
@@ -642,13 +643,15 @@ var RaumModel = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Veranstaltung; });
 var Veranstaltung = /** @class */ (function () {
-    function Veranstaltung(name, wochentag, uhrzeit) {
+    function Veranstaltung(name, wochentag, uhrzeit, enduhrzeit) {
         this.name = "";
         this.wochentag = "";
         this.uhrzeit = "";
+        this.enduhrzeit = "";
         this.name = name;
         this.uhrzeit = uhrzeit;
         this.wochentag = wochentag;
+        this.enduhrzeit = enduhrzeit;
     }
     return Veranstaltung;
 }());
@@ -686,7 +689,7 @@ var GebaudeModel = /** @class */ (function () {
         var stunden = jetzt.getHours();
         var minuten = jetzt.getMinutes();
         switch (true) {
-            case (stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45): return "8:15:00";
+            case ((stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45)): return "8:15:00";
             case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
             case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
             case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
@@ -796,7 +799,7 @@ var MyApp = /** @class */ (function () {
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
@@ -841,7 +844,7 @@ var Search = /** @class */ (function () {
     };
     Search = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-search',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
+            selector: 'page-search',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Search);
@@ -895,7 +898,7 @@ var HomePage = /** @class */ (function () {
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<b>Herzlich Willkommen!<br></b>Bitte wähle dein Gebäude:\n\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="deleteDaten()">Benutzerdaten löschen</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<b>Herzlich Willkommen!<br></b>Bitte wähle dein Gebäude:\n\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="deleteDaten()">Benutzerdaten löschen</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object])
     ], HomePage);
@@ -1017,12 +1020,92 @@ function parseToRaum(raumname) {
     var vevent = vcalendar.getAllSubcomponents('vevent');
     for (var i = 0; i < vevent.length; i++) {
         var start = vevent[i].getFirstPropertyValue('dtstart');
+        var end = vevent[i].getFirstPropertyValue('dtend');
         var startZeit = parseUhrZeit(start.toString());
+        var endZeit = parseUhrZeit(end.toString());
         var name = vevent[i].getFirstPropertyValue('description');
         var wochentag = parseDateToWochentag(start.toString());
-        console.log("start:" + startZeit, "name" + name, "Wochentag " + wochentag);
-        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit);
+        console.log("start:" + startZeit, "name" + name, "Wochentag " + wochentag, "end:" + endZeit);
+        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit, endZeit);
         raum.addVeranstaltung(veranstaltung);
+        switch (startZeit) {
+            case "08:15:00":
+                if (endZeit == "11:30:00") {
+                    console.log("hallo case 8 -11.30");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "13:15:00") {
+                    console.log("hallo case 8 -13");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "10:00:00":
+                if (endZeit == "13:15:00") {
+                    console.log("hallo case 10 -13.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 10 -15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "11:45:00":
+                if (endZeit == "15:45:00") {
+                    console.log("hallo case 11.45-15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "17:30:00") {
+                    console.log("hallo case 11.45-17.35");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "14:15:00":
+                if (endZeit == "17:30:00") {
+                    console.log("hallo case 14.15-17.30");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "19:15:00") {
+                    console.log("hallo case 14.15-19.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "16:00:00":
+                if (endZeit == "19:15:00") {
+                    console.log("hallo case 16.00-19.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "21:00:00") {
+                    console.log("hallo case 16.00-21.00");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "17:45:00":
+                if (endZeit == "21:00:00") {
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+            default:
+        }
     }
     return raum;
 }
@@ -1050,6 +1133,7 @@ var Cgebaude = /** @class */ (function () {
     Cgebaude.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad CPage');
         console.log(parseToCampus());
+        console.log(freeRooms);
     };
     Cgebaude.prototype.BackToCampus = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
@@ -1059,7 +1143,7 @@ var Cgebaude = /** @class */ (function () {
     };
     Cgebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-c',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">C-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n  <b>Folgende Räume sind zur Zeit im Gebäude frei:</b><br><br>\n    <ion-list>\n      <ion-item *ngFor="let item of freeRooms">\n        {{ item }}\n      </ion-item>\n    </ion-list>>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
+            selector: 'page-c',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">C-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n  <b>Folgende Räume sind zur Zeit im Gebäude frei:</b><br><br>\n    <ion-list>\n      <ion-item *ngFor="let item of freeRooms">\n        {{ item }}\n      </ion-item>\n    </ion-list>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object])
     ], Cgebaude);
@@ -1080,6 +1164,12 @@ var Cgebaude = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(248);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(249);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(250);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(251);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(252);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1093,218 +1183,123 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
+
+
+var CampusConfig = [
+    {
+        gebaudename: "C",
+        raumnamen: [
+            "C001",
+            "C007",
+            "C035",
+            "C037",
+            "C113",
+            "C213",
+            "C237",
+            "C305",
+            "C313",
+            "C361",
+            "C375",
+            "C377",
+            "C405",
+            "C407",
+            "C413",
+        ]
+    },
+    {
+        gebaudename: "D",
+        raumnamen: [
+            "D01",
+            "D02",
+            "D12",
+            "D13",
+            "D14",
+            "D15",
+            "D17",
+            "D18",
+        ]
+    }
+];
+var GebaudeAuswahl = 1;
+var freeRooms = [];
+function setGebaude(wahl) {
+    GebaudeAuswahl = wahl;
+}
+function parseDateToWochentag(text) {
+    var datum = text.split("T");
+    datum.pop();
+    datum = datum[0].split("-");
+    var datum2 = new Date(datum[0], datum[1] - 1, datum[2]);
+    var tag = datum2.getDay();
+    var wochentag = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+    return wochentag[tag];
+}
+function parseUhrZeit(text) {
+    var datum = text.split("T");
+    var tmp = datum[1];
+    return tmp;
+}
+function parseGebaude(raumnamen, name) {
+    var gebaude = new __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__["a" /* GebaudeModel */](name);
+    console.log("parseGebaude");
+    console.log(name);
+    raumnamen.forEach(function (raumname) {
+        var raum = parseToRaum(raumname);
+        console.log(raumname);
+        gebaude.addRaum(raum);
+    });
+    return gebaude;
+}
+function parseToRaum(raumname) {
+    var raum = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__["a" /* RaumModel */](raumname);
+    console.log("parseToRaum");
+    console.log(raumname);
+    var ics = raum.getICS(window.localStorage.getItem(raumname));
+    ics.pop();
+    var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
+    var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
+    var vevent = vcalendar.getAllSubcomponents('vevent');
+    for (var i = 0; i < vevent.length; i++) {
+        var start = vevent[i].getFirstPropertyValue('dtstart');
+        var startZeit = parseUhrZeit(start.toString());
+        var name = vevent[i].getFirstPropertyValue('description');
+        var wochentag = parseDateToWochentag(start.toString());
+        console.log("start:" + startZeit, "name" + name, "Wochentag " + wochentag);
+        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit);
+        raum.addVeranstaltung(veranstaltung);
+    }
+    return raum;
+}
+function parseToCampus() {
+    var campus = new __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__["a" /* CampusModel */]("HSRM");
+    console.log(CampusConfig);
+    for (var _i = 0, CampusConfig_1 = CampusConfig; _i < CampusConfig_1.length; _i++) {
+        var gebaudeConfig = CampusConfig_1[_i];
+        var gebaude = parseGebaude(gebaudeConfig.raumnamen, gebaudeConfig.gebaudename);
+        campus.addGebaude(gebaude);
+        console.log(CampusConfig);
+    }
+    for (var i = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++) {
+        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i].raumname);
+    }
+    console.log("test" + campus.gebaude[0].getFreeRooms()[0].raumname);
+    return campus;
+}
 var Dgebaude = /** @class */ (function () {
     function Dgebaude(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.freeRooms = freeRooms;
     }
     Dgebaude.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad DPage');
-        /*
-        //Raum D01:
-        let D01 = new RaumModel("D01");
-        var ics = D01.getICS(window.localStorage.getItem("D01"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D01.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D01.getwochenTag(start.toString()));
-          D01.wochentag[i] = D01.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D01.getUhrZeit(start.toString()));
-          D01.uhrzeit[i] = D01.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D01);
-    
-        //Raum D02:
-        let D02 = new RaumModel("D02");
-        var ics = D02.getICS(window.localStorage.getItem("D02"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D02.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D02.getwochenTag(start.toString()));
-          D02.wochentag[i] = D02.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D02.getUhrZeit(start.toString()));
-          D02.uhrzeit[i] = D02.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D02);
-    
-        //Raum D11:
-        let D11 = new RaumModel("D11");
-        var ics = D11.getICS(window.localStorage.getItem("D11"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D11.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D11.getwochenTag(start.toString()));
-          D11.wochentag[i] = D11.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D11.getUhrZeit(start.toString()));
-          D11.uhrzeit[i] = D11.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D11);
-    
-        //Raum D12:
-        let D12 = new RaumModel("D12");
-        var ics = D12.getICS(window.localStorage.getItem("D12"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D12.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D12.getwochenTag(start.toString()));
-          D12.wochentag[i] = D12.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D12.getUhrZeit(start.toString()));
-          D12.uhrzeit[i] = D12.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D12);
-    
-        //Raum D01:
-        let D13 = new RaumModel("D13");
-        var ics = D13.getICS(window.localStorage.getItem("D13"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D13.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D13.getwochenTag(start.toString()));
-          D13.wochentag[i] = D13.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D13.getUhrZeit(start.toString()));
-          D13.uhrzeit[i] = D13.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D13);
-    
-        //Raum D14:
-        let D14 = new RaumModel("D14");
-        var ics = D14.getICS(window.localStorage.getItem("D14"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D14.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D14.getwochenTag(start.toString()));
-          D14.wochentag[i] = D14.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D14.getUhrZeit(start.toString()));
-          D14.uhrzeit[i] = D14.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D14);
-    
-        //Raum D15:
-        let D15 = new RaumModel("D15");
-        var ics = D15.getICS(window.localStorage.getItem("D15"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D15.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D15.getwochenTag(start.toString()));
-          D15.wochentag[i] = D15.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D15.getUhrZeit(start.toString()));
-          D15.uhrzeit[i] = D15.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D15);
-    
-        //Raum D17:
-        let D17 = new RaumModel("D17");
-        var ics = D17.getICS(window.localStorage.getItem("D17"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D17.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D17.getwochenTag(start.toString()));
-          D17.wochentag[i] = D17.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D17.getUhrZeit(start.toString()));
-          D17.uhrzeit[i] = D17.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D17);
-    
-        //Raum D18:
-        let D18 = new RaumModel("D18");
-        var ics = D18.getICS(window.localStorage.getItem("D18"));
-        ics.pop();
-    
-        var jcalData = ICAL.parse(ics.join("\r\n"));
-        var vcalendar = new ICAL.Component(jcalData);
-        var vevent = vcalendar.getAllSubcomponents('vevent');
-        for(var i:number = 0; i < vevent.length; i++){
-          var description = vevent[i].getFirstPropertyValue('description');
-          console.log('description: ' + description);
-          D18.veranstaltung[i] = description;
-          var start = vevent[i].getFirstPropertyValue('dtstart');
-          console.log('Wochentag: '+ D18.getwochenTag(start.toString()));
-          D18.wochentag[i] = D18.getwochenTag(start.toString());
-          console.log('start Uhrzeit: '+ D18.getUhrZeit(start.toString()));
-          D18.uhrzeit[i] = D18.getUhrZeit(start.toString());
-          //var ende = vevent[i].getFirstPropertyValue('dtend');
-          //console.log('ende Uhrzeit: '+ uhrZeit(ende.toString()));
-        }
-        console.log(D18);
-        console.log(giveUhrzeit(),giveWochentag());
-    
-        var GebaudeD : RaumModel[]  = [];
-    
-        GebaudeD[0] = D01;
-        GebaudeD[1] = D02;
-        console.log(GebaudeD);*/
+        console.log('ionViewDidLoad CPage');
+        setGebaude(1);
+        console.log(parseToCampus());
+        console.log(freeRooms);
     };
     Dgebaude.prototype.BackToCampus = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
@@ -1314,11 +1309,12 @@ var Dgebaude = /** @class */ (function () {
     };
     Dgebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-d',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">D-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n  <ion-list>\n    <h3>08:15 - 09:45</h3>\n    <ion-item>\n      D01\n    </ion-item>\n    <ion-item>\n      D11\n    </ion-item>\n    <ion-item>\n      D12\n    </ion-item>\n    <ion-item>\n      D13\n    </ion-item>\n    <ion-item>\n      D15\n    </ion-item>\n    <ion-item>\n      D17\n    </ion-item><br>\n    <h3>10:00 - 11:30</h3>\n    <ion-item>\n      D02\n    </ion-item>\n    <ion-item>\n      D12\n    </ion-item>\n    <ion-item>\n      D13\n    </ion-item>\n    <ion-item>\n      D14\n    </ion-item>\n    <ion-item>\n      D15\n    </ion-item>\n    <ion-item>\n      D17\n    </ion-item>\n  </ion-list><br><br>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
+            selector: 'page-d',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">D-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n  <ion-list>\n    <ion-item *ngFor="let item of freeRooms">\n      {{ item }}\n    </ion-item>\n  </ion-list>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object])
     ], Dgebaude);
     return Dgebaude;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=d.js.map

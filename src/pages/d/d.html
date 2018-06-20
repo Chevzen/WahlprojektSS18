@@ -12,45 +12,10 @@
 
 	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>
   <ion-list>
-    <h3>08:15 - 09:45</h3>
-    <ion-item>
-      D01
+    <ion-item *ngFor="let item of freeRooms">
+      {{ item }}
     </ion-item>
-    <ion-item>
-      D11
-    </ion-item>
-    <ion-item>
-      D12
-    </ion-item>
-    <ion-item>
-      D13
-    </ion-item>
-    <ion-item>
-      D15
-    </ion-item>
-    <ion-item>
-      D17
-    </ion-item><br>
-    <h3>10:00 - 11:30</h3>
-    <ion-item>
-      D02
-    </ion-item>
-    <ion-item>
-      D12
-    </ion-item>
-    <ion-item>
-      D13
-    </ion-item>
-    <ion-item>
-      D14
-    </ion-item>
-    <ion-item>
-      D15
-    </ion-item>
-    <ion-item>
-      D17
-    </ion-item>
-  </ion-list><br><br>
+  </ion-list>
 
   <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>
 

@@ -100,12 +100,95 @@ function parseToRaum(raumname: string){
 
   for(var i:number = 0; i < vevent.length; i++){
     var start = vevent[i].getFirstPropertyValue('dtstart');
+    var end = vevent[i].getFirstPropertyValue('dtend');
     var startZeit = parseUhrZeit(start.toString());
+    var endZeit = parseUhrZeit(end.toString());
     var name = vevent[i].getFirstPropertyValue('description');
     var wochentag = parseDateToWochentag(start.toString());
-    console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag);
-    var veranstaltung = new Veranstaltung(name, wochentag, startZeit);
+    console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag, "end:"+ endZeit);
+    var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
     raum.addVeranstaltung(veranstaltung);
+    
+    switch(startZeit){
+      
+      case "08:15:00": 
+      
+       if (endZeit == "11:30:00")  {
+        console.log("hallo case 8 -11.30");
+        var veranstaltung = new Veranstaltung(name, wochentag, "10:00:00", endZeit);
+        raum.addVeranstaltung(veranstaltung); }
+        else if (endZeit == "13:15:00"){
+          console.log("hallo case 8 -13");
+          var veranstaltung = new Veranstaltung(name, wochentag, "10:00:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          var veranstaltung = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          }
+        break;  
+      case "10:00:00": 
+      
+      if (endZeit == "13:15:00")  {
+        console.log("hallo case 10 -13.15");
+        var veranstaltung = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
+        raum.addVeranstaltung(veranstaltung); }
+        else if (endZeit == "15:45:00"){
+          console.log("hallo case 10 -15.45");
+          var veranstaltung = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          }
+        break; 
+      case "11:45:00": 
+      
+      if (endZeit == "15:45:00")  {
+        console.log("hallo case 11.45-15.45");
+        var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
+        raum.addVeranstaltung(veranstaltung); }
+        else if (endZeit == "17:30:00"){
+          console.log("hallo case 11.45-17.35");
+          var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          var veranstaltung = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          }
+        break; 
+      case "14:15:00": 
+      if (endZeit == "17:30:00")  {
+        console.log("hallo case 14.15-17.30");
+        var veranstaltung = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
+        raum.addVeranstaltung(veranstaltung); }
+        else if (endZeit == "19:15:00"){
+          console.log("hallo case 14.15-19.15");
+          var veranstaltung = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          var veranstaltung = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          }
+        break; 
+      case "16:00:00":  
+      if (endZeit == "19:15:00")  {
+        console.log("hallo case 16.00-19.15");
+        var veranstaltung = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
+        raum.addVeranstaltung(veranstaltung); }
+        else if (endZeit == "21:00:00"){
+          console.log("hallo case 16.00-21.00");
+          var veranstaltung = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          var veranstaltung = new Veranstaltung(name, wochentag, "19:30:00", endZeit);
+          raum.addVeranstaltung(veranstaltung);
+          }
+        break; 
+
+      case "17:45:00":   
+      if (endZeit == "21:00:00")  {
+        var veranstaltung = new Veranstaltung(name, wochentag, "19:30:00", endZeit);
+        raum.addVeranstaltung(veranstaltung); }
+      default: 
+     
+    }
+    
+    
   }
   return raum;
 }
@@ -124,6 +207,8 @@ function parseToCampus(){
   console.log("test"+campus.gebaude[0].getFreeRooms()[0].raumname);
   return campus;
 }
+
+
 
 
   
@@ -145,6 +230,7 @@ export class Cgebaude {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CPage');
     console.log(parseToCampus());   
+    console.log(freeRooms);   
   }
 
 
