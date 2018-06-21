@@ -4,6 +4,8 @@ import { Cgebaude } from '../c/c'
 import { Dgebaude } from '../d/d'
 import { Search } from '../search/search'
 
+
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -15,7 +17,8 @@ export class HomePage {
   }
 
   nextC() {
-	  this.navCtrl.setRoot( Cgebaude);
+    this.navCtrl.setRoot( Cgebaude);
+
   }
 
   nextD() {
@@ -27,7 +30,7 @@ export class HomePage {
   }
 
   deleteDaten() {
-    window.localStorage.removeItem("benutzer");
-    window.localStorage.removeItem("passwort");
+    localStorage.removeItem("benutzer");
+    localStorage.removeItem("passwort");
   }
 }

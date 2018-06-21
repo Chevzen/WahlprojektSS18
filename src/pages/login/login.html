@@ -26,6 +26,12 @@
 </ion-content>-->
 
 <ion-content id="content" padding>
+  <div id="laden" style="display:none; margin: -15px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">
+    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">
+      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>
+      Login wird durchgeführt.
+    </div>
+  </div>
   <ion-grid style="height: 50%">
     <ion-row style="height: 100%">
       <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>
@@ -37,22 +43,25 @@
         </ion-item>
 
         <ion-item>
-          <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>
         </ion-item>
       </div>
       <span style="width: 100%; text-align: center;">
         <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>
-        <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>
       </span>
     </ion-row>
   </ion-grid>
 </ion-content>
 
-<ion-content id="login" padding style="display:none;">
+<ion-content id="login" padding style="display:none;white-space:pre-line;">
   <ion-grid style="height: 60%">
-    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">
-      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/><br><br>
-      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span><br>
+    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">
+      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>
+    </ion-row>
+    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">
+      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>
+    </ion-row>
+    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">
       <h1>Finde deinen freien Raum!</h1>
     </ion-row>
   </ion-grid>
