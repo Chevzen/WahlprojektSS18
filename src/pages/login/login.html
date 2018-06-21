@@ -43,7 +43,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>
         </ion-item>
       </div>
       <span style="width: 100%; text-align: center;">
@@ -53,11 +53,15 @@
   </ion-grid>
 </ion-content>
 
-<ion-content id="login" padding style="display:none;">
+<ion-content id="login" padding style="display:none;white-space:pre-line;">
   <ion-grid style="height: 60%">
-    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">
+    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">
       <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>
-      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span><br>
+    </ion-row>
+    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">
+      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>
+    </ion-row>
+    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">
       <h1>Finde deinen freien Raum!</h1>
     </ion-row>
   </ion-grid>

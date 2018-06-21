@@ -8,7 +8,7 @@ webpackJsonp([4],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(163);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -49,7 +49,7 @@ function loginFunction(element) {
         withCredentials: true
     };
     var zahl = 0;
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 40; i++) {
         element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
             console.log('login API success');
             element.x = JSON.stringify(result, null, 2);
@@ -79,8 +79,8 @@ function loginFunction(element) {
                         console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D01", element.x);
-                        //console.log("D01: "+window.localStorage.getItem("D01"));
+                        localStorage.setItem("D01", element.x);
+                        //console.log("D01: "+localStorage.getItem("D01"));
                     }, function (error) {
                         //console.log("Error: "+ JSON.stringify(error, null, 2));
                     });
@@ -89,8 +89,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D02", element.x);
-                        //console.log("D02: "+window.localStorage.getItem("D02"));
+                        localStorage.setItem("D02", element.x);
+                        //console.log("D02: "+localStorage.getItem("D02"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -99,8 +99,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D11", element.x);
-                        //console.log("D11: "+window.localStorage.getItem("D11"));
+                        localStorage.setItem("D11", element.x);
+                        //console.log("D11: "+localStorage.getItem("D11"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -109,8 +109,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D12", element.x);
-                        //console.log("D12: "+window.localStorage.getItem("D12"));
+                        localStorage.setItem("D12", element.x);
+                        //console.log("D12: "+localStorage.getItem("D12"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -119,8 +119,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D13", element.x);
-                        //console.log("D13: "+window.localStorage.getItem("D13"));
+                        localStorage.setItem("D13", element.x);
+                        //console.log("D13: "+localStorage.getItem("D13"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -129,8 +129,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D14", element.x);
-                        //console.log("D14: "+window.localStorage.getItem("D14"));
+                        localStorage.setItem("D14", element.x);
+                        //console.log("D14: "+localStorage.getItem("D14"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -139,8 +139,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D15", element.x);
-                        //console.log("D15: "+window.localStorage.getItem("D15"));
+                        localStorage.setItem("D15", element.x);
+                        //console.log("D15: "+localStorage.getItem("D15"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -149,8 +149,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D17", element.x);
-                        //console.log("D17: "+window.localStorage.getItem("D17"));
+                        localStorage.setItem("D17", element.x);
+                        //console.log("D17: "+localStorage.getItem("D17"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -159,8 +159,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("D18", element.x);
-                        //console.log("D18: "+window.localStorage.getItem("D18"));
+                        localStorage.setItem("D18", element.x);
+                        //console.log("D18: "+localStorage.getItem("D18"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -169,8 +169,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C001", element.x);
-                        //console.log("C001: "+window.localStorage.getItem("C001"));
+                        localStorage.setItem("C001", element.x);
+                        //console.log("C001: "+localStorage.getItem("C001"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -179,8 +179,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C007", element.x);
-                        //console.log("C007: "+window.localStorage.getItem("C007"));
+                        localStorage.setItem("C007", element.x);
+                        //console.log("C007: "+localStorage.getItem("C007"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -189,8 +189,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C035", element.x);
-                        //console.log("C035: "+window.localStorage.getItem("C035"));
+                        localStorage.setItem("C035", element.x);
+                        //console.log("C035: "+localStorage.getItem("C035"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -199,8 +199,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C037", element.x);
-                        //console.log("C037: "+window.localStorage.getItem("C037"));
+                        localStorage.setItem("C037", element.x);
+                        //console.log("C037: "+localStorage.getItem("C037"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -209,8 +209,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C113", element.x);
-                        //console.log("C113: "+window.localStorage.getItem("C113"));
+                        localStorage.setItem("C113", element.x);
+                        //console.log("C113: "+localStorage.getItem("C113"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -219,8 +219,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C213", element.x);
-                        //console.log("C213: "+window.localStorage.getItem("C213"));
+                        localStorage.setItem("C213", element.x);
+                        //console.log("C213: "+localStorage.getItem("C213"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -229,8 +229,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C237", element.x);
-                        //console.log("C237: "+window.localStorage.getItem("C237"));
+                        localStorage.setItem("C237", element.x);
+                        //console.log("C237: "+localStorage.getItem("C237"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -239,8 +239,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C305", element.x);
-                        //console.log("C305: "+window.localStorage.getItem("C305"));
+                        localStorage.setItem("C305", element.x);
+                        //console.log("C305: "+localStorage.getItem("C305"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -249,8 +249,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C313", element.x);
-                        //console.log("C313: "+window.localStorage.getItem("C313"));
+                        localStorage.setItem("C313", element.x);
+                        //console.log("C313: "+localStorage.getItem("C313"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -259,8 +259,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C361", element.x);
-                        //console.log("C361: "+window.localStorage.getItem("C361"));
+                        localStorage.setItem("C361", element.x);
+                        //console.log("C361: "+localStorage.getItem("C361"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -269,8 +269,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C375", element.x);
-                        //console.log("C375: "+window.localStorage.getItem("C375"));
+                        localStorage.setItem("C375", element.x);
+                        //console.log("C375: "+localStorage.getItem("C375"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -279,8 +279,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C377", element.x);
-                        //console.log("C377: "+window.localStorage.getItem("C377"));
+                        localStorage.setItem("C377", element.x);
+                        //console.log("C377: "+localStorage.getItem("C377"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -289,8 +289,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C405", element.x);
-                        //console.log("C405: "+window.localStorage.getItem("C405"));
+                        localStorage.setItem("C405", element.x);
+                        //console.log("C405: "+localStorage.getItem("C405"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -299,8 +299,8 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C407", element.x);
-                        //console.log("C407: "+window.localStorage.getItem("C407"));
+                        localStorage.setItem("C407", element.x);
+                        //console.log("C407: "+localStorage.getItem("C407"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
@@ -309,17 +309,17 @@ function loginFunction(element) {
                         //console.log('login API success');
                         element.x = JSON.stringify(result, null, 2);
                         element.x = get_Plan(element.x);
-                        window.localStorage.setItem("C413", element.x);
-                        //console.log("C413: "+window.localStorage.getItem("C413"));
+                        localStorage.setItem("C413", element.x);
+                        //console.log("C413: "+localStorage.getItem("C413"));
                     }, function (error) {
                         console.log("Error: " + JSON.stringify(error, null, 2));
                     });
-                    timeout(4);
+                    //timeout(4);
                     loader.dismiss();
-                    window.localStorage.setItem("benutzer", element.benutzername);
-                    window.localStorage.setItem("passwort", element.password);
+                    localStorage.setItem("benutzer", element.benutzername);
+                    localStorage.setItem("passwort", element.password);
                     console.log("Benutzername und Passwort gespeichert.");
-                    console.log(window.localStorage.getItem("benutzer"));
+                    console.log(localStorage.getItem("benutzer"));
                     element.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
                 }
                 else {
@@ -334,11 +334,11 @@ function loginFunction(element) {
                     return;
                 }
             }, function (error) {
-                console.log("Error: POST: " + JSON.stringify(error, null, 2));
+                //console.log("Error: POST: "+ JSON.stringify(error, null, 2));
                 console.log("Fehler " + zahl);
                 zahl++;
                 //Überprüfen ob alle Versuche gescheitert sind:
-                if (zahl >= 19) {
+                if (zahl >= 40) {
                     var fehlerFeld = document.getElementById('Fehler');
                     fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
                     fehlerFeld.style.display = "block";
@@ -381,9 +381,9 @@ var LoginPage = /** @class */ (function () {
         var ladeicon = document.getElementById('laden');
         ladeicon.style.display = "none";
         //Nachfolgenden Abschnitt einkommentieren um automatisch angemeldet zu werden:
-        if (window.localStorage.getItem("benutzer") != null && window.localStorage.getItem("passwort") != null) {
-            this.benutzername = window.localStorage.getItem("benutzer");
-            this.password = window.localStorage.getItem("passwort");
+        if (localStorage.getItem("benutzer") != null && localStorage.getItem("passwort") != null) {
+            this.benutzername = localStorage.getItem("benutzer");
+            this.password = localStorage.getItem("passwort");
             timeout(3);
             var formular = document.getElementById('content');
             formular.style.display = "none";
@@ -429,7 +429,7 @@ var LoginPage = /** @class */ (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <div id="laden" style="display:none; margin: -15px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      Login wird durchgeführt.\n    </div>\n  </div>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 100%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span><br>\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <div id="laden" style="display:none; margin: -15px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      Login wird durchgeführt.\n    </div>\n  </div>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;white-space:pre-line;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n    </ion-row>\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>\n    </ion-row>\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]) === "function" && _e || Object])
     ], LoginPage);
@@ -472,11 +472,11 @@ var map = {
 		2
 	],
 	"../pages/login/login.module": [
-		288,
+		287,
 		1
 	],
 	"../pages/search/search.module": [
-		287,
+		288,
 		0
 	]
 };
@@ -496,13 +496,311 @@ module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 202:
+/***/ 158:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RaumModel; });
+var RaumModel = /** @class */ (function () {
+    function RaumModel(raumname) {
+        this.raumname = "";
+        this.veranstaltungen = [];
+        this.raumname = raumname;
+    }
+    RaumModel.prototype.addVeranstaltung = function (veranstaltung) {
+        this.veranstaltungen.push(veranstaltung);
+    };
+    //Hilfsfunktion
+    RaumModel.prototype.getICS = function (text) {
+        text.trim();
+        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
+        return text.split("\\r\\n");
+    };
+    RaumModel.prototype.getUhrZeit = function (text) {
+        var datum = text.split("T");
+        var tmp = datum[1];
+        return tmp;
+    };
+    RaumModel.prototype.isFree = function (uhrzeit, wochentag) {
+        var result = true;
+        this.veranstaltungen.forEach(function (veranstaltung) {
+            if (veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit) {
+                result = false;
+            }
+        });
+        return result;
+    };
+    return RaumModel;
+}());
+
+//# sourceMappingURL=RaumModel.1.js.map
+
+/***/ }),
+
+/***/ 160:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Veranstaltung; });
+var Veranstaltung = /** @class */ (function () {
+    function Veranstaltung(name, wochentag, uhrzeit, enduhrzeit) {
+        this.name = "";
+        this.wochentag = "";
+        this.uhrzeit = "";
+        this.enduhrzeit = "";
+        this.name = name;
+        this.uhrzeit = uhrzeit;
+        this.wochentag = wochentag;
+        this.enduhrzeit = enduhrzeit;
+    }
+    return Veranstaltung;
+}());
+
+//# sourceMappingURL=Veranstaltung.js.map
+
+/***/ }),
+
+/***/ 161:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
+var GebaudeModel = /** @class */ (function () {
+    function GebaudeModel(gebaudename) {
+        this.gebaudename = "";
+        this.raume = [];
+        this.gebaudename = gebaudename;
+    }
+    GebaudeModel.prototype.addRaum = function (raum) {
+        this.raume.push(raum);
+    };
+    GebaudeModel.prototype.getFreeRooms = function () {
+        var _this = this;
+        var result = []; // RaumModel[] = [];
+        var slots = this.giveSlots();
+        for (var i = 0; i < slots.length; i++) {
+            switch (slots[i]) {
+                case "08:15:00":
+                    result.push("08:15 bis 09:45:");
+                    break;
+                case "10:00:00":
+                    result.push("10:00 bis 11:30:");
+                    break;
+                case "11:45:00":
+                    result.push("11:45 bis 13:15:");
+                    break;
+                case "14:15:00":
+                    result.push("14:15 bis 15:45:");
+                    break;
+                case "16:00:00":
+                    result.push("16:00 bis 17:30:");
+                    break;
+                case "17:45:00":
+                    result.push("17:45 bis 19:15:");
+                    break;
+                case "19:30:00":
+                    result.push("19:30 bis 21:00:");
+                    break;
+                case "21:00:00":
+                    result.push("ab 21:00:");
+                    break;
+            }
+            this.raume.forEach(function (raum) {
+                if (raum.isFree(slots[i], _this.giveWochentag())) {
+                    result.push(raum.raumname);
+                }
+            });
+        }
+        return result;
+    };
+    GebaudeModel.prototype.giveSlots = function () {
+        var jetzt = new Date();
+        var stunden = jetzt.getHours();
+        var minuten = jetzt.getMinutes();
+        switch (true) {
+            case this.giveUhrzeit() == "08:15:00": return ["08:15:00", "10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "10:00:00": return ["10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "11:45:00": return ["11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "14:15:00": return ["14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "16:00:00": return ["16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "17:45:00": return ["17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "19:30:00": return ["19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "21:00:00": return ["21:00:00"];
+            default: break;
+        }
+    };
+    GebaudeModel.prototype.giveUhrzeit = function () {
+        var jetzt = new Date();
+        var stunden = jetzt.getHours();
+        var minuten = jetzt.getMinutes();
+        switch (true) {
+            //0:00 - 0:59
+            case (stunden == 0) && (minuten >= 0 && minuten <= 59):
+                console.log("1");
+                return "08:15:00";
+            //1:00 - 1:59
+            case (stunden == 1) && (minuten >= 0 && minuten <= 59):
+                console.log("2");
+                return "08:15:00";
+            //2:00 - 2:59
+            case (stunden == 2) && (minuten >= 0 && minuten <= 59):
+                console.log("3");
+                return "08:15:00";
+            //3:00 - 3:59
+            case (stunden == 3) && (minuten >= 0 && minuten <= 59):
+                console.log("4");
+                return "08:15:00";
+            //4:00 - 4:59
+            case (stunden == 4) && (minuten >= 0 && minuten <= 59):
+                console.log("5");
+                return "08:15:00";
+            //5:00 - 5:59
+            case (stunden == 5) && (minuten >= 0 && minuten <= 59):
+                console.log("6");
+                return "08:15:00";
+            //6:00 - 6:59
+            case (stunden == 6) && (minuten >= 0 && minuten <= 59):
+                console.log("7");
+                return "08:15:00";
+            //7:00 - 7:59
+            case (stunden == 7) && (minuten >= 0 && minuten <= 59):
+                console.log("8");
+                return "08:15:00";
+            //8:00 - 8:59
+            case (stunden == 8) && (minuten >= 0 && minuten <= 59):
+                console.log("9");
+                return "08:15:00";
+            //9:00 - 9:44
+            case (stunden == 9) && (minuten >= 0 && minuten <= 44):
+                console.log("10");
+                return "08:15:00";
+            //9:45 - 9:59
+            case (stunden == 9) && (minuten >= 45 && minuten <= 59):
+                console.log("11");
+                return "10:00:00";
+            //10:00 - 10:59
+            case (stunden == 10) && (minuten >= 0 && minuten <= 59):
+                console.log("12");
+                return "10:00:00";
+            //11:00 - 11:44
+            case (stunden == 11) && (minuten >= 0 && minuten <= 44):
+                console.log("13");
+                return "10:00:00";
+            //11:45 - 11:59
+            case (stunden == 11) && (minuten >= 45 && minuten <= 59):
+                console.log("14");
+                return "11:45:00";
+            //12:00 - 12:59
+            case (stunden == 12) && (minuten >= 0 && minuten <= 59):
+                console.log("15");
+                return "11:45:00";
+            //13:00 - 13:59
+            case (stunden == 13) && (minuten >= 0 && minuten <= 59):
+                console.log("16");
+                return "11:45:00";
+            //14:00 - 14:14
+            case (stunden == 14) && (minuten >= 0 && minuten <= 14):
+                console.log("17");
+                return "11:45:00";
+            //14:15 - 14:59
+            case (stunden == 14) && (minuten >= 15 && minuten <= 59):
+                console.log("18");
+                return "14:15:00";
+            //15:00 - 15:59
+            case (stunden == 15) && (minuten >= 0 && minuten <= 59):
+                console.log("19");
+                return "14:15:00";
+            //16:00 - 16:59
+            case (stunden == 16) && (minuten >= 0 && minuten <= 59):
+                console.log("20");
+                return "16:00:00";
+            //17:00 - 17:44
+            case (stunden == 17) && (minuten >= 0 && minuten <= 44):
+                console.log("21");
+                return "16:00:00";
+            //17:45 - 17:59
+            case (stunden == 17) && (minuten >= 45 && minuten <= 59):
+                console.log("22");
+                return "17:45:00";
+            //18:00 - 18:59
+            case (stunden == 18) && (minuten >= 0 && minuten <= 59):
+                console.log("23");
+                return "17:45:00";
+            //19:00 - 19:29
+            case (stunden == 19) && (minuten >= 0 && minuten <= 29):
+                console.log("24");
+                return "17:45:00";
+            //19:30 - 19:59
+            case (stunden == 19) && (minuten >= 30 && minuten <= 59):
+                console.log("25");
+                return "19:30:00";
+            //20:00 - 20:59
+            case (stunden == 20) && (minuten >= 0 && minuten <= 59):
+                console.log("26");
+                return "19:30:00";
+            //21:00 - 21:59
+            case (stunden == 21) && (minuten >= 0 && minuten <= 59):
+                console.log("27");
+                return "21:00:00";
+            //22:00 - 22:59
+            case (stunden == 22) && (minuten >= 0 && minuten <= 59):
+                console.log("28");
+                return "21:00:00";
+            //23:00 - 23:59
+            case (stunden == 23) && (minuten >= 0 && minuten <= 59):
+                console.log("29");
+                return "21:00:00";
+            default: break;
+        }
+    };
+    GebaudeModel.prototype.giveWochentag = function () {
+        var jetzt = new Date();
+        switch (jetzt.getDay()) {
+            case 1: return "Montag";
+            case 2: return "Dienstag";
+            case 3: return "Mittwoch";
+            case 4: return "Donnerstag";
+            case 5: return "Freitag";
+            case 6: return "Samstag";
+            case 0: return "Sonntag";
+            default: break;
+        }
+    };
+    return GebaudeModel;
+}());
+
+//# sourceMappingURL=GebaudeModel.js.map
+
+/***/ }),
+
+/***/ 162:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CampusModel; });
+var CampusModel = /** @class */ (function () {
+    function CampusModel(name) {
+        this.campusname = "";
+        this.gebaude = [];
+        this.campusname = name;
+    }
+    CampusModel.prototype.addGebaude = function (gebaude) {
+        this.gebaude.push(gebaude);
+    };
+    return CampusModel;
+}());
+
+//# sourceMappingURL=CampusModel.js.map
+
+/***/ }),
+
+/***/ 207:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(203);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(208);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(228);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -510,7 +808,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 223:
+/***/ 228:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -519,9 +817,9 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__(270);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(284);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_c_c__ = __webpack_require__(52);
@@ -566,8 +864,8 @@ var AppModule = /** @class */ (function () {
                     links: [
                         { loadChildren: '../pages/c/c.module#CPageModule', name: 'Cgebaude', segment: 'c', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/d/d.module#DPageModule', name: 'Dgebaude', segment: 'd', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClientModule */],
@@ -597,148 +895,6 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 248:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RaumModel; });
-var RaumModel = /** @class */ (function () {
-    function RaumModel(raumname) {
-        this.raumname = "";
-        this.veranstaltungen = [];
-        this.raumname = raumname;
-    }
-    RaumModel.prototype.addVeranstaltung = function (veranstaltung) {
-        this.veranstaltungen.push(veranstaltung);
-    };
-    //Hilfsfunktion
-    RaumModel.prototype.getICS = function (text) {
-        text.trim();
-        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
-        return text.split("\\r\\n");
-    };
-    RaumModel.prototype.getUhrZeit = function (text) {
-        var datum = text.split("T");
-        var tmp = datum[1];
-        return tmp;
-    };
-    RaumModel.prototype.isFree = function (uhrzeit, wochentag) {
-        this.veranstaltungen.forEach(function (veranstaltung) {
-            if (veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit) {
-                return false;
-            }
-        });
-        return true;
-    };
-    return RaumModel;
-}());
-
-//# sourceMappingURL=RaumModel.1.js.map
-
-/***/ }),
-
-/***/ 250:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Veranstaltung; });
-var Veranstaltung = /** @class */ (function () {
-    function Veranstaltung(name, wochentag, uhrzeit, enduhrzeit) {
-        this.name = "";
-        this.wochentag = "";
-        this.uhrzeit = "";
-        this.enduhrzeit = "";
-        this.name = name;
-        this.uhrzeit = uhrzeit;
-        this.wochentag = wochentag;
-        this.enduhrzeit = enduhrzeit;
-    }
-    return Veranstaltung;
-}());
-
-//# sourceMappingURL=Veranstaltung.js.map
-
-/***/ }),
-
-/***/ 251:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
-var GebaudeModel = /** @class */ (function () {
-    function GebaudeModel(gebaudename) {
-        this.gebaudename = "";
-        this.raume = [];
-        this.gebaudename = gebaudename;
-    }
-    GebaudeModel.prototype.addRaum = function (raum) {
-        this.raume.push(raum);
-    };
-    GebaudeModel.prototype.getFreeRooms = function () {
-        var _this = this;
-        var result = [];
-        this.raume.forEach(function (raum) {
-            if (raum.isFree(_this.giveUhrzeit(), _this.giveWochentag())) {
-                result.push(raum);
-            }
-        });
-        return result;
-    };
-    GebaudeModel.prototype.giveUhrzeit = function () {
-        var jetzt = new Date();
-        var stunden = jetzt.getHours();
-        var minuten = jetzt.getMinutes();
-        switch (true) {
-            case ((stunden == 8 && minuten >= 5 || stunden == 9 && minuten <= 45)): return "8:15:00";
-            case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
-            case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
-            case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
-            case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
-            case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
-            default: break;
-        }
-    };
-    GebaudeModel.prototype.giveWochentag = function () {
-        var jetzt = new Date();
-        switch (jetzt.getDay()) {
-            case 1: return "Montag";
-            case 2: return "Dienstag";
-            case 3: return "Mittwoch";
-            case 4: return "Donnerstag";
-            case 5: return "Freitag";
-            case 6: return "Samstag";
-            case 0: return "Sonntag";
-            default: break;
-        }
-    };
-    return GebaudeModel;
-}());
-
-//# sourceMappingURL=GebaudeModel.js.map
-
-/***/ }),
-
-/***/ 252:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CampusModel; });
-var CampusModel = /** @class */ (function () {
-    function CampusModel(name) {
-        this.campusname = "";
-        this.gebaude = [];
-        this.campusname = name;
-    }
-    CampusModel.prototype.addGebaude = function (gebaude) {
-        this.gebaude.push(gebaude);
-    };
-    return CampusModel;
-}());
-
-//# sourceMappingURL=CampusModel.js.map
-
-/***/ }),
-
 /***/ 284:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -746,8 +902,8 @@ var CampusModel = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_c_c__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_d_d__ = __webpack_require__(53);
@@ -781,6 +937,9 @@ var MyApp = /** @class */ (function () {
         this.platform.ready().then(function () {
             _this.statusBar.styleDefault();
             _this.splashScreen.hide();
+            platform.registerBackButtonAction(function () {
+                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */]);
+            });
         });
         this.pages = [
             { title: 'Campusplan', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */] },
@@ -796,14 +955,15 @@ var MyApp = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]) === "function" && _a || Object)
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]) === "function" && _d || Object])
     ], MyApp);
     return MyApp;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=app.component.js.map
@@ -844,7 +1004,7 @@ var Search = /** @class */ (function () {
     };
     Search = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-search',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
+            selector: 'page-search',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Search);
@@ -893,17 +1053,16 @@ var HomePage = /** @class */ (function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__search_search__["a" /* Search */]);
     };
     HomePage.prototype.deleteDaten = function () {
-        window.localStorage.removeItem("benutzer");
-        window.localStorage.removeItem("passwort");
+        localStorage.removeItem("benutzer");
+        localStorage.removeItem("passwort");
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<b>Herzlich Willkommen!<br></b>Bitte wähle dein Gebäude:\n\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/><br>\n	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="deleteDaten()">Benutzerdaten löschen</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row>\n      <b>Herzlich Willkommen!</b>\n    </ion-row>\n    <ion-row>\n      Bitte wähle dein Gebäude:\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n    	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n    	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n    	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n    	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <button ion-button block style="margin-top: 20px; margin-bottom: 20px;" (click)="deleteDaten()">Benutzerdaten löschen</button>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]])
     ], HomePage);
     return HomePage;
-    var _a;
 }());
 
 //# sourceMappingURL=home.js.map
@@ -919,12 +1078,12 @@ var HomePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(248);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(249);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(159);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(251);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(252);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(162);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1013,7 +1172,8 @@ function parseToRaum(raumname) {
     var raum = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__["a" /* RaumModel */](raumname);
     console.log("parseToRaum");
     console.log(raumname);
-    var ics = raum.getICS(window.localStorage.getItem(raumname));
+    console.log(localStorage.getItem(raumname));
+    var ics = raum.getICS(localStorage.getItem(raumname));
     ics.pop();
     var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
     var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
@@ -1119,9 +1279,9 @@ function parseToCampus() {
         console.log(CampusConfig);
     }
     for (var i = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++) {
-        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i].raumname);
+        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
     }
-    console.log("test" + campus.gebaude[0].getFreeRooms()[0].raumname);
+    console.log("test" + campus.gebaude[0].getFreeRooms()[0]);
     return campus;
 }
 var Cgebaude = /** @class */ (function () {
@@ -1143,7 +1303,7 @@ var Cgebaude = /** @class */ (function () {
     };
     Cgebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-c',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">C-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n  <b>Folgende Räume sind zur Zeit im Gebäude frei:</b><br><br>\n    <ion-list>\n      <ion-item *ngFor="let item of freeRooms">\n        {{ item }}\n      </ion-item>\n    </ion-list>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
+            selector: 'page-c',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">C-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n  <b>Folgende Räume sind zur Zeit im C-Gebäude frei:</b><br><br>\n    <ion-list>\n      <ng-container *ngFor="let item of freeRooms">\n        <h3 style="margin-top: 20px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <ion-item>\n            {{ item }}\n          </ion-item>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object])
     ], Cgebaude);
@@ -1164,12 +1324,12 @@ var Cgebaude = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(248);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(249);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(159);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(251);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(252);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(162);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1188,6 +1348,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+// Die Konfigurationsvariable für die Räume und Gebäudenamen, diese wird in den späteren Funktionen verwendet
 var CampusConfig = [
     {
         gebaudename: "C",
@@ -1223,7 +1384,7 @@ var CampusConfig = [
         ]
     }
 ];
-var GebaudeAuswahl = 1;
+var GebaudeAuswahl = 0;
 var freeRooms = [];
 function setGebaude(wahl) {
     GebaudeAuswahl = wahl;
@@ -1257,19 +1418,100 @@ function parseToRaum(raumname) {
     var raum = new __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__["a" /* RaumModel */](raumname);
     console.log("parseToRaum");
     console.log(raumname);
-    var ics = raum.getICS(window.localStorage.getItem(raumname));
+    console.log(localStorage.getItem(raumname));
+    var ics = raum.getICS(localStorage.getItem(raumname));
     ics.pop();
     var jcalData = __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.parse(ics.join("\r\n"));
     var vcalendar = new __WEBPACK_IMPORTED_MODULE_5_ical_js___default.a.Component(jcalData);
     var vevent = vcalendar.getAllSubcomponents('vevent');
     for (var i = 0; i < vevent.length; i++) {
         var start = vevent[i].getFirstPropertyValue('dtstart');
+        var end = vevent[i].getFirstPropertyValue('dtend');
         var startZeit = parseUhrZeit(start.toString());
+        var endZeit = parseUhrZeit(end.toString());
         var name = vevent[i].getFirstPropertyValue('description');
         var wochentag = parseDateToWochentag(start.toString());
-        console.log("start:" + startZeit, "name" + name, "Wochentag " + wochentag);
-        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit);
+        console.log("start:" + startZeit, "name" + name, "Wochentag " + wochentag, "end:" + endZeit);
+        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit, endZeit);
         raum.addVeranstaltung(veranstaltung);
+        switch (startZeit) {
+            case "08:15:00":
+                if (endZeit == "11:30:00") {
+                    console.log("hallo case 8 -11.30");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "13:15:00") {
+                    console.log("hallo case 8 -13");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "10:00:00":
+                if (endZeit == "13:15:00") {
+                    console.log("hallo case 10 -13.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 10 -15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "11:45:00":
+                if (endZeit == "15:45:00") {
+                    console.log("hallo case 11.45-15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "17:30:00") {
+                    console.log("hallo case 11.45-17.35");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "14:15:00":
+                if (endZeit == "17:30:00") {
+                    console.log("hallo case 14.15-17.30");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "19:15:00") {
+                    console.log("hallo case 14.15-19.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "16:00:00":
+                if (endZeit == "19:15:00") {
+                    console.log("hallo case 16.00-19.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "21:00:00") {
+                    console.log("hallo case 16.00-21.00");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "17:45:00":
+                if (endZeit == "21:00:00") {
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+            default:
+        }
     }
     return raum;
 }
@@ -1283,9 +1525,9 @@ function parseToCampus() {
         console.log(CampusConfig);
     }
     for (var i = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++) {
-        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i].raumname);
+        freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
     }
-    console.log("test" + campus.gebaude[0].getFreeRooms()[0].raumname);
+    console.log("test" + campus.gebaude[0].getFreeRooms()[0]);
     return campus;
 }
 var Dgebaude = /** @class */ (function () {
@@ -1309,7 +1551,7 @@ var Dgebaude = /** @class */ (function () {
     };
     Dgebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-d',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">D-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n  <ion-list>\n    <ion-item *ngFor="let item of freeRooms">\n      {{ item }}\n    </ion-item>\n  </ion-list>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
+            selector: 'page-d',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">D-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n\n	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n  <ion-list>\n    <ng-container *ngFor="let item of freeRooms">\n      <h3 style="margin-top: 20px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n      <h3 style="margin-top: 20px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n      <h3 style="margin-top: 20px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n      <h3 style="margin-top: 20px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n      <h3 style="margin-top: 20px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n      <h3 style="margin-top: 20px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n      <h3 style="margin-top: 20px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n      <h3 style="margin-top: 20px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n      <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n        <ion-item>\n          {{ item }}\n        </ion-item>\n      </ng-container>\n    </ng-container>\n  </ion-list>\n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object])
     ], Dgebaude);
@@ -1321,5 +1563,5 @@ var Dgebaude = /** @class */ (function () {
 
 /***/ })
 
-},[202]);
+},[207]);
 //# sourceMappingURL=main.js.map

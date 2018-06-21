@@ -81,7 +81,7 @@ function parseGebaude(raumnamen:string[], name:string){
     var raum = parseToRaum(raumname);
     console.log(raumname);
     gebaude.addRaum(raum);
-    
+
   });
   return gebaude;
 }
@@ -90,8 +90,8 @@ function parseToRaum(raumname: string){
   var raum = new RaumModel(raumname);
   console.log("parseToRaum");
   console.log(raumname);
-  var ics = raum.getICS(window.localStorage.getItem(raumname));
-
+  console.log(localStorage.getItem(raumname));
+  var ics = raum.getICS(localStorage.getItem(raumname));
   ics.pop();
 
   var jcalData = ICAL.parse(ics.join("\r\n"));
@@ -108,11 +108,11 @@ function parseToRaum(raumname: string){
     console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag, "end:"+ endZeit);
     var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
     raum.addVeranstaltung(veranstaltung);
-    
+
     switch(startZeit){
-      
-      case "08:15:00": 
-      
+
+      case "08:15:00":
+
        if (endZeit == "11:30:00")  {
         console.log("hallo case 8 -11.30");
         var veranstaltung = new Veranstaltung(name, wochentag, "10:00:00", endZeit);
@@ -124,9 +124,9 @@ function parseToRaum(raumname: string){
           var veranstaltung = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
           raum.addVeranstaltung(veranstaltung);
           }
-        break;  
-      case "10:00:00": 
-      
+        break;
+      case "10:00:00":
+
       if (endZeit == "13:15:00")  {
         console.log("hallo case 10 -13.15");
         var veranstaltung = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
@@ -138,9 +138,9 @@ function parseToRaum(raumname: string){
           var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
           raum.addVeranstaltung(veranstaltung);
           }
-        break; 
-      case "11:45:00": 
-      
+        break;
+      case "11:45:00":
+
       if (endZeit == "15:45:00")  {
         console.log("hallo case 11.45-15.45");
         var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
@@ -152,8 +152,8 @@ function parseToRaum(raumname: string){
           var veranstaltung = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
           raum.addVeranstaltung(veranstaltung);
           }
-        break; 
-      case "14:15:00": 
+        break;
+      case "14:15:00":
       if (endZeit == "17:30:00")  {
         console.log("hallo case 14.15-17.30");
         var veranstaltung = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
@@ -165,8 +165,8 @@ function parseToRaum(raumname: string){
           var veranstaltung = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
           raum.addVeranstaltung(veranstaltung);
           }
-        break; 
-      case "16:00:00":  
+        break;
+      case "16:00:00":
       if (endZeit == "19:15:00")  {
         console.log("hallo case 16.00-19.15");
         var veranstaltung = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
@@ -178,17 +178,17 @@ function parseToRaum(raumname: string){
           var veranstaltung = new Veranstaltung(name, wochentag, "19:30:00", endZeit);
           raum.addVeranstaltung(veranstaltung);
           }
-        break; 
+        break;
 
-      case "17:45:00":   
+      case "17:45:00":
       if (endZeit == "21:00:00")  {
         var veranstaltung = new Veranstaltung(name, wochentag, "19:30:00", endZeit);
         raum.addVeranstaltung(veranstaltung); }
-      default: 
-     
+      default:
+
     }
-    
-    
+
+
   }
   return raum;
 }
@@ -202,16 +202,16 @@ function parseToCampus(){
     console.log(CampusConfig);
   }
   for(var i: number = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++){
-    freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i].raumname);
+    freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
   }
-  console.log("test"+campus.gebaude[0].getFreeRooms()[0].raumname);
+  console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
   return campus;
 }
 
 
 
 
-  
+
 
 @IonicPage()
 @Component({
@@ -220,21 +220,21 @@ function parseToCampus(){
 })
 export class Cgebaude {
 
- 
-  private freeRooms:string[] = freeRooms; 
- 
+
+  private freeRooms:string[] = freeRooms;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CPage');
-    console.log(parseToCampus());   
-    console.log(freeRooms);   
+    console.log(parseToCampus());
+    console.log(freeRooms);
   }
 
 
-  
+
 
   BackToCampus(){
     this.navCtrl.setRoot(HomePage);

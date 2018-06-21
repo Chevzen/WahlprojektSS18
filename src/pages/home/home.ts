@@ -18,7 +18,7 @@ export class HomePage {
 
   nextC() {
     this.navCtrl.setRoot( Cgebaude);
-    
+
   }
 
   nextD() {
@@ -30,7 +30,7 @@ export class HomePage {
   }
 
   deleteDaten() {
-    window.localStorage.removeItem("benutzer");
-    window.localStorage.removeItem("passwort");
+    localStorage.removeItem("benutzer");
+    localStorage.removeItem("passwort");
   }
 }

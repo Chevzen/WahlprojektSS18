@@ -90,8 +90,8 @@ function parseToRaum(raumname: string){
   var raum = new RaumModel(raumname);
   console.log("parseToRaum");
   console.log(raumname);
-  var ics = raum.getICS(window.localStorage.getItem(raumname));
-
+  console.log(localStorage.getItem(raumname));
+  var ics = raum.getICS(localStorage.getItem(raumname));
   ics.pop();
 
   var jcalData = ICAL.parse(ics.join("\r\n"));
@@ -202,9 +202,9 @@ function parseToCampus(){
     console.log(CampusConfig);
   }
   for(var i: number = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++){
-    freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i].raumname);
+    freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
   }
-  console.log("test"+campus.gebaude[0].getFreeRooms()[0].raumname);
+  console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
   return campus;
 }
 

@@ -9,19 +9,35 @@
 </ion-header>
 
 <ion-content padding>
-	<b>Herzlich Willkommen!<br></b>Bitte wähle dein Gebäude:
-
-	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/><br>
-	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>
-	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>
-	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/><br>
-	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/><br>
-	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>
-	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>
-	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/><br>
-	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>
-
-  <button ion-button block style="margin-bottom: 20px;" (click)="deleteDaten()">Benutzerdaten löschen</button>
-
+  <ion-grid>
+    <ion-row>
+      <b>Herzlich Willkommen!</b>
+    </ion-row>
+    <ion-row>
+      Bitte wähle dein Gebäude:
+    </ion-row>
+    <ion-row style="text-align:center">
+      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/>
+    </ion-row>
+    <ion-row style="text-align:center">
+      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>
+    	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>
+    	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/>
+    </ion-row>
+    <ion-row style="text-align:center">
+      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/>
+    </ion-row>
+    <ion-row style="text-align:center">
+      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>
+    	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>
+    	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/>
+    </ion-row>
+    <ion-row style="text-align:center">
+      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>
+    </ion-row>
+    <ion-row style="text-align:center">
+      <button ion-button block style="margin-top: 20px; margin-bottom: 20px;" (click)="deleteDaten()">Benutzerdaten löschen</button>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>

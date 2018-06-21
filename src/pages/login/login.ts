@@ -76,11 +76,11 @@ function loginFunction(element:any) {
 								console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D01", element.x);
+								localStorage.setItem("D01", element.x);
 
 
 
-								//console.log("D01: "+window.localStorage.getItem("D01"));
+								//console.log("D01: "+localStorage.getItem("D01"));
 							}, error => {
 								//console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -90,8 +90,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D02", element.x);
-								//console.log("D02: "+window.localStorage.getItem("D02"));
+								localStorage.setItem("D02", element.x);
+								//console.log("D02: "+localStorage.getItem("D02"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -101,8 +101,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D11", element.x);
-								//console.log("D11: "+window.localStorage.getItem("D11"));
+								localStorage.setItem("D11", element.x);
+								//console.log("D11: "+localStorage.getItem("D11"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -112,8 +112,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D12", element.x);
-								//console.log("D12: "+window.localStorage.getItem("D12"));
+								localStorage.setItem("D12", element.x);
+								//console.log("D12: "+localStorage.getItem("D12"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -123,8 +123,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D13", element.x);
-								//console.log("D13: "+window.localStorage.getItem("D13"));
+								localStorage.setItem("D13", element.x);
+								//console.log("D13: "+localStorage.getItem("D13"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -134,8 +134,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D14", element.x);
-								//console.log("D14: "+window.localStorage.getItem("D14"));
+								localStorage.setItem("D14", element.x);
+								//console.log("D14: "+localStorage.getItem("D14"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -145,8 +145,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D15", element.x);
-								//console.log("D15: "+window.localStorage.getItem("D15"));
+								localStorage.setItem("D15", element.x);
+								//console.log("D15: "+localStorage.getItem("D15"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -156,8 +156,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D17", element.x);
-								//console.log("D17: "+window.localStorage.getItem("D17"));
+								localStorage.setItem("D17", element.x);
+								//console.log("D17: "+localStorage.getItem("D17"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -167,8 +167,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("D18", element.x);
-								//console.log("D18: "+window.localStorage.getItem("D18"));
+								localStorage.setItem("D18", element.x);
+								//console.log("D18: "+localStorage.getItem("D18"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -178,8 +178,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C001", element.x);
-								//console.log("C001: "+window.localStorage.getItem("C001"));
+								localStorage.setItem("C001", element.x);
+								//console.log("C001: "+localStorage.getItem("C001"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -189,8 +189,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C007", element.x);
-								//console.log("C007: "+window.localStorage.getItem("C007"));
+								localStorage.setItem("C007", element.x);
+								//console.log("C007: "+localStorage.getItem("C007"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -200,8 +200,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C035", element.x);
-								//console.log("C035: "+window.localStorage.getItem("C035"));
+								localStorage.setItem("C035", element.x);
+								//console.log("C035: "+localStorage.getItem("C035"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -211,8 +211,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C037", element.x);
-								//console.log("C037: "+window.localStorage.getItem("C037"));
+								localStorage.setItem("C037", element.x);
+								//console.log("C037: "+localStorage.getItem("C037"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -222,8 +222,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C113", element.x);
-								//console.log("C113: "+window.localStorage.getItem("C113"));
+								localStorage.setItem("C113", element.x);
+								//console.log("C113: "+localStorage.getItem("C113"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -233,8 +233,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C213", element.x);
-								//console.log("C213: "+window.localStorage.getItem("C213"));
+								localStorage.setItem("C213", element.x);
+								//console.log("C213: "+localStorage.getItem("C213"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -244,8 +244,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C237", element.x);
-								//console.log("C237: "+window.localStorage.getItem("C237"));
+								localStorage.setItem("C237", element.x);
+								//console.log("C237: "+localStorage.getItem("C237"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -255,8 +255,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C305", element.x);
-								//console.log("C305: "+window.localStorage.getItem("C305"));
+								localStorage.setItem("C305", element.x);
+								//console.log("C305: "+localStorage.getItem("C305"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -266,8 +266,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C313", element.x);
-								//console.log("C313: "+window.localStorage.getItem("C313"));
+								localStorage.setItem("C313", element.x);
+								//console.log("C313: "+localStorage.getItem("C313"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -277,8 +277,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C361", element.x);
-								//console.log("C361: "+window.localStorage.getItem("C361"));
+								localStorage.setItem("C361", element.x);
+								//console.log("C361: "+localStorage.getItem("C361"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -288,8 +288,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C375", element.x);
-								//console.log("C375: "+window.localStorage.getItem("C375"));
+								localStorage.setItem("C375", element.x);
+								//console.log("C375: "+localStorage.getItem("C375"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -299,8 +299,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C377", element.x);
-								//console.log("C377: "+window.localStorage.getItem("C377"));
+								localStorage.setItem("C377", element.x);
+								//console.log("C377: "+localStorage.getItem("C377"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -310,8 +310,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C405", element.x);
-								//console.log("C405: "+window.localStorage.getItem("C405"));
+								localStorage.setItem("C405", element.x);
+								//console.log("C405: "+localStorage.getItem("C405"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -321,8 +321,8 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C407", element.x);
-								//console.log("C407: "+window.localStorage.getItem("C407"));
+								localStorage.setItem("C407", element.x);
+								//console.log("C407: "+localStorage.getItem("C407"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -332,17 +332,17 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
-								window.localStorage.setItem("C413", element.x);
-								//console.log("C413: "+window.localStorage.getItem("C413"));
+								localStorage.setItem("C413", element.x);
+								//console.log("C413: "+localStorage.getItem("C413"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
-						timeout(4);
+						//timeout(4);
 						loader.dismiss();
-						window.localStorage.setItem("benutzer", element.benutzername);
-						window.localStorage.setItem("passwort", element.password);
+						localStorage.setItem("benutzer", element.benutzername);
+						localStorage.setItem("passwort", element.password);
 						console.log("Benutzername und Passwort gespeichert.");
-						console.log(window.localStorage.getItem("benutzer"));
+						console.log(localStorage.getItem("benutzer"));
 						element.navCtrl.setRoot(HomePage);
 					} else{
 						var fehlerFeld: HTMLElement = document.getElementById('Fehler');
@@ -356,7 +356,7 @@ function loginFunction(element:any) {
 						return;
 					}
 				}, error => {
-					console.log("Error: POST: "+ JSON.stringify(error, null, 2));
+					//console.log("Error: POST: "+ JSON.stringify(error, null, 2));
 					console.log("Fehler "+zahl);
 					zahl++;
 					//Überprüfen ob alle Versuche gescheitert sind:
@@ -409,9 +409,9 @@ export class LoginPage {
 		ladeicon.style.display ="none";
 
 		//Nachfolgenden Abschnitt einkommentieren um automatisch angemeldet zu werden:
-		if(window.localStorage.getItem("benutzer") != null && window.localStorage.getItem("passwort") != null){
-			this.benutzername = window.localStorage.getItem("benutzer");
-			this.password = window.localStorage.getItem("passwort");
+		if(localStorage.getItem("benutzer") != null && localStorage.getItem("passwort") != null){
+			this.benutzername = localStorage.getItem("benutzer");
+			this.password = localStorage.getItem("passwort");
 			timeout(3);
 			var formular: HTMLElement = document.getElementById('content');
 			formular.style.display = "none";
@@ -421,7 +421,7 @@ export class LoginPage {
 			login.style.display = "block";
 			//loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-			//this.navCtrl.setRoot(HomePage);
+			this.navCtrl.setRoot(HomePage);
 
 		}
   }

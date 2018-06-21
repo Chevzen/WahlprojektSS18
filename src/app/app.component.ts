@@ -24,6 +24,10 @@ export class MyApp {
   this.platform.ready().then(() => {
     this.statusBar.styleDefault();
     this.splashScreen.hide();
+
+    platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(HomePage);
+    });
   });
 
     this.pages = [

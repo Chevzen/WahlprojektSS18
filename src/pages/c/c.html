@@ -10,11 +10,23 @@
 
 <ion-content padding>
 
-  <b>Folgende Räume sind zur Zeit im Gebäude frei:</b><br><br>
+  <b>Folgende Räume sind zur Zeit im C-Gebäude frei:</b><br><br>
     <ion-list>
-      <ion-item *ngFor="let item of freeRooms">
-        {{ item }}
-      </ion-item>
+      <ng-container *ngFor="let item of freeRooms">
+        <h3 style="margin-top: 20px;" *ngIf="item == '08:15 bis 09:45:'">08:15 bis 09:45:</h3>
+        <h3 style="margin-top: 20px;" *ngIf="item == '10:00 bis 11:30:'">10:00 bis 11:30:</h3>
+        <h3 style="margin-top: 20px;" *ngIf="item == '11:45 bis 13:15:'">11:45 bis 13:15:</h3>
+        <h3 style="margin-top: 20px;" *ngIf="item == '14:15 bis 15:45:'">14:15 bis 15:45:</h3>
+        <h3 style="margin-top: 20px;" *ngIf="item == '16:00 bis 17:30:'">16:00 bis 17:30:</h3>
+        <h3 style="margin-top: 20px;" *ngIf="item == '17:45 bis 19:15:'">17:45 bis 19:15:</h3>
+        <h3 style="margin-top: 20px;" *ngIf="item == '19:30 bis 21:00:'">19:30 bis 21:00:</h3>
+        <h3 style="margin-top: 20px;" *ngIf="item == 'ab 21:00:'">ab 21:00:</h3>
+        <ng-container *ngIf="item != '08:15 bis 09:45:' && item != '10:00 bis 11:30:' && item != '11:45 bis 13:15:' && item != '14:15 bis 15:45:' && item != '16:00 bis 17:30:' && item != '17:45 bis 19:15:' && item != '19:30 bis 21:00:' && item != 'ab 21:00:'">
+          <ion-item>
+            {{ item }}
+          </ion-item>
+        </ng-container>
+      </ng-container>
     </ion-list>
 
   <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>
