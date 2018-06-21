@@ -20,14 +20,13 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, platform:Platform) {
   this.platform.ready().then(() => {
     this.statusBar.styleDefault();
-    this.splashScreen.hide();
-
-    platform.registerBackButtonAction(() => {
-        this.navCtrl.setRoot(HomePage);
-    });
+    this.splashScreen.hide
+    this.platform.registerBackButtonAction(() => {
+      console.log("backPressed 1");
+    },1);
   });
 
     this.pages = [

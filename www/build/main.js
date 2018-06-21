@@ -6,7 +6,7 @@ webpackJsonp([4],{
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(163);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -431,10 +431,9 @@ var LoginPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <div id="laden" style="display:none; margin: -15px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      Login wird durchgeführt.\n    </div>\n  </div>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;white-space:pre-line;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n    </ion-row>\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>\n    </ion-row>\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]])
     ], LoginPage);
     return LoginPage;
-    var _a, _b, _c, _d, _e;
 }());
 
 ;
@@ -815,7 +814,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__(270);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(163);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(203);
@@ -901,7 +900,7 @@ var AppModule = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(203);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(42);
@@ -937,9 +936,6 @@ var MyApp = /** @class */ (function () {
         this.platform.ready().then(function () {
             _this.statusBar.styleDefault();
             _this.splashScreen.hide();
-            platform.registerBackButtonAction(function () {
-                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */]);
-            });
         });
         this.pages = [
             { title: 'Campusplan', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */] },
@@ -955,15 +951,14 @@ var MyApp = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]) === "function" && _a || Object)
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
     return MyApp;
-    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=app.component.js.map
@@ -976,7 +971,7 @@ var MyApp = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Search; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1021,7 +1016,7 @@ var Search = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__c_c__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__d_d__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__search_search__ = __webpack_require__(33);
@@ -1060,9 +1055,10 @@ var HomePage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-home',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row>\n      <b>Herzlich Willkommen!</b>\n    </ion-row>\n    <ion-row>\n      Bitte wähle dein Gebäude:\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n    	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n    	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n    	<img style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n    	<img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <button ion-button block style="margin-top: 20px; margin-bottom: 20px;" (click)="deleteDaten()">Benutzerdaten löschen</button>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object])
     ], HomePage);
     return HomePage;
+    var _a;
 }());
 
 //# sourceMappingURL=home.js.map
@@ -1075,7 +1071,7 @@ var HomePage = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Cgebaude; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(158);
@@ -1192,77 +1188,77 @@ function parseToRaum(raumname) {
             case "08:15:00":
                 if (endZeit == "11:30:00") {
                     console.log("hallo case 8 -11.30");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung1 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung1);
                 }
                 else if (endZeit == "13:15:00") {
                     console.log("hallo case 8 -13");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung2 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung2);
+                    var veranstaltung3 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung3);
                 }
                 break;
             case "10:00:00":
                 if (endZeit == "13:15:00") {
                     console.log("hallo case 10 -13.15");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung4 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung4);
                 }
                 else if (endZeit == "15:45:00") {
                     console.log("hallo case 10 -15.45");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung5 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung5);
+                    var veranstaltung6 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung6);
                 }
                 break;
             case "11:45:00":
                 if (endZeit == "15:45:00") {
                     console.log("hallo case 11.45-15.45");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung7 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung7);
                 }
                 else if (endZeit == "17:30:00") {
                     console.log("hallo case 11.45-17.35");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung8 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung8);
+                    var veranstaltung9 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung9);
                 }
                 break;
             case "14:15:00":
                 if (endZeit == "17:30:00") {
                     console.log("hallo case 14.15-17.30");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung10 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung10);
                 }
                 else if (endZeit == "19:15:00") {
                     console.log("hallo case 14.15-19.15");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung11 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung11);
+                    var veranstaltung12 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung12);
                 }
                 break;
             case "16:00:00":
                 if (endZeit == "19:15:00") {
                     console.log("hallo case 16.00-19.15");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung13 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung13);
                 }
                 else if (endZeit == "21:00:00") {
                     console.log("hallo case 16.00-21.00");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung14 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung14);
+                    var veranstaltung15 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung15);
                 }
                 break;
             case "17:45:00":
                 if (endZeit == "21:00:00") {
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung16 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung16);
                 }
             default:
         }
@@ -1321,7 +1317,7 @@ var Cgebaude = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Dgebaude; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(158);
@@ -1438,77 +1434,77 @@ function parseToRaum(raumname) {
             case "08:15:00":
                 if (endZeit == "11:30:00") {
                     console.log("hallo case 8 -11.30");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung1 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung1);
                 }
                 else if (endZeit == "13:15:00") {
                     console.log("hallo case 8 -13");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung2 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung2);
+                    var veranstaltung3 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung3);
                 }
                 break;
             case "10:00:00":
                 if (endZeit == "13:15:00") {
                     console.log("hallo case 10 -13.15");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung4 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung4);
                 }
                 else if (endZeit == "15:45:00") {
                     console.log("hallo case 10 -15.45");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung5 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung5);
+                    var veranstaltung6 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung6);
                 }
                 break;
             case "11:45:00":
                 if (endZeit == "15:45:00") {
                     console.log("hallo case 11.45-15.45");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung7 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung7);
                 }
                 else if (endZeit == "17:30:00") {
                     console.log("hallo case 11.45-17.35");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung8 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung8);
+                    var veranstaltung9 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung9);
                 }
                 break;
             case "14:15:00":
                 if (endZeit == "17:30:00") {
                     console.log("hallo case 14.15-17.30");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung10 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung10);
                 }
                 else if (endZeit == "19:15:00") {
                     console.log("hallo case 14.15-19.15");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung11 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung11);
+                    var veranstaltung12 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung12);
                 }
                 break;
             case "16:00:00":
                 if (endZeit == "19:15:00") {
                     console.log("hallo case 16.00-19.15");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung13 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung13);
                 }
                 else if (endZeit == "21:00:00") {
                     console.log("hallo case 16.00-21.00");
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung14 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung14);
+                    var veranstaltung15 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung15);
                 }
                 break;
             case "17:45:00":
                 if (endZeit == "21:00:00") {
-                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
-                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung16 = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung16);
                 }
             default:
         }
