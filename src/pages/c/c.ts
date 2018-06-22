@@ -228,7 +228,7 @@ function getLehrveranstaltungen(raumname:string){
   show.style.display = "block";
   var show2: HTMLElement = document.getElementById('CLehrinnen');
  
-  show2.innerText = ""+LehrveranstaltungoffreeRooms.join("");
+  show2.innerText = ""+raumname+":\n\n"+LehrveranstaltungoffreeRooms.join("");
   return LehrveranstaltungoffreeRooms;
   
 

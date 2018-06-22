@@ -1293,7 +1293,7 @@ function getLehrveranstaltungen(raumname) {
     var show = document.getElementById('CLehraussen');
     show.style.display = "block";
     var show2 = document.getElementById('CLehrinnen');
-    show2.innerText = "" + LehrveranstaltungoffreeRooms.join("");
+    show2.innerText = "" + raumname + ":\n\n" + LehrveranstaltungoffreeRooms.join("");
     return LehrveranstaltungoffreeRooms;
 }
 function isBackClicked() {
