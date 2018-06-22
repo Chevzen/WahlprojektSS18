@@ -132,13 +132,6 @@ function parseToRaum(raumname: string){
         console.log("hallo case 10 -13.15");
         var veranstaltung = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
         raum.addVeranstaltung(veranstaltung); }
-
-        else if (endZeit == "14:15:00")  {
-        console.log("hallo case 11.45-14.15");
-        var veranstaltung = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
-        raum.addVeranstaltung(veranstaltung);
-        var veranstaltung = new Veranstaltung(name, wochentag, "13:15:00", endZeit);
-        raum.addVeranstaltung(veranstaltung); }
         else if (endZeit == "15:45:00"){
           console.log("hallo case 10 -15.45");
           var veranstaltung = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
@@ -146,39 +139,10 @@ function parseToRaum(raumname: string){
           var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
           raum.addVeranstaltung(veranstaltung);
           }
-<<<<<<< HEAD
         break;
       case "11:45:00":
 
       if (endZeit == "15:45:00")  {
-=======
-        break; 
-        case "11:30:00":
-        if (endZeit == "14:15:00")  {
-          console.log("hallo case 11.30-14.15");
-          var veranstaltung = new Veranstaltung(name, wochentag, "13:15:00", endZeit);
-          raum.addVeranstaltung(veranstaltung); }
-  
-       else if (endZeit == "15:45:00")  {
-          console.log("hallo case 11.45-15.45");
-          var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
-          raum.addVeranstaltung(veranstaltung); }
-          else if (endZeit == "17:30:00"){
-            console.log("hallo case 11.45-17.35");
-            var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
-            raum.addVeranstaltung(veranstaltung);
-            var veranstaltung = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
-            raum.addVeranstaltung(veranstaltung);
-            }
-          break; 
-      case "11:45:00": 
-      if (endZeit == "14:15:00")  {
-        console.log("hallo case 11.45-14.15");
-        var veranstaltung = new Veranstaltung(name, wochentag, "13:15:00", endZeit);
-        raum.addVeranstaltung(veranstaltung); }
-      
-        else if (endZeit == "15:45:00")  {
->>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
         console.log("hallo case 11.45-15.45");
         var veranstaltung = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
         raum.addVeranstaltung(veranstaltung); }
@@ -241,13 +205,10 @@ function parseToCampus(){
   for(var i: number = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++){
     freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
   }
-<<<<<<< HEAD
   //console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
-=======
-  console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
->>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
   return campus;
 }
+
 
 function getLehrveranstaltungen(raumname:string){
   var LehrveranstaltungoffreeRooms:string[] = [];
@@ -292,7 +253,7 @@ export class Cgebaude {
     console.log('ionViewDidLoad CPage');
     console.log(parseToCampus());
     var show: HTMLElement = document.getElementById('CLehraussen');
-  show.style.display = "none";
+    show.style.display = "none";
   
   }
 
