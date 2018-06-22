@@ -3,6 +3,7 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { NavController } from 'ionic-angular';
 
 
 import { HomePage } from '../pages/home/home';
@@ -17,15 +18,16 @@ import { LoginPage } from '../pages/login/login';
 export class MyApp {
   @ViewChild(Nav) nav:Nav;
   rootPage:any = LoginPage;
-
+  navCtrl:any;
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
   this.platform.ready().then(() => {
     this.statusBar.styleDefault();
     this.splashScreen.hide
-    this.platform.registerBackButtonAction(() => {
+    platform.registerBackButtonAction(() => {
       console.log("backPressed 1");
+      this.navCtrl.setRoot(HomePage);
     },1);
   });
 

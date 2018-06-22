@@ -5,6 +5,7 @@ export class GebaudeModel{
 
     gebaudename: string = "";
     raume: RaumModel[] = [];
+    zugangsberechtigung:string[] = ["C001","C007"];
 
 
     constructor(gebaudename:string){

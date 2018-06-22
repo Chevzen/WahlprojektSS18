@@ -52,6 +52,7 @@ var CampusConfig = [
 
 var GebaudeAuswahl:number = 0;
 var freeRooms:string[] = [];
+var zugang:string[] = [];
 
 function setGebaude(wahl:number){
   GebaudeAuswahl = wahl;
@@ -204,6 +205,9 @@ function parseToCampus(){
   for(var i: number = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++){
     freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
   }
+  for(var i:number = 0;i<campus.gebaude[GebaudeAuswahl].zugangsberechtigung.length;i++){//zugang1.length;i++){
+    zugang.push(campus.gebaude[GebaudeAuswahl].zugangsberechtigung[i]);
+  }
   console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
   return campus;
 }
@@ -222,6 +226,7 @@ export class Cgebaude {
 
 
   private freeRooms:string[] = freeRooms;
+  private zugang:string[] = zugang;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -230,10 +235,21 @@ export class Cgebaude {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CPage');
     console.log(parseToCampus());
-    console.log(freeRooms);
+    console.log(this.freeRooms);
+    console.log(this.zugang);
+    if(zugang.length > 0){
+      zugang = [];
+    }
+    if(freeRooms.length > 0){
+      freeRooms = [];
+    }
   }
 
-
+  ionViewDidLeave(){
+    if(zugang.length > 0){
+      zugang = [];
+    }
+  }
 
 
   BackToCampus(){
