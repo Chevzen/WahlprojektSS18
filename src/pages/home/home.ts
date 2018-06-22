@@ -27,6 +27,7 @@ export class HomePage {
 
   search() {
     this.navCtrl.setRoot( Search);
+    
   }
 
   deleteDaten() {

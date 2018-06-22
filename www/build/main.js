@@ -49,7 +49,11 @@ function loginFunction(element) {
         withCredentials: true
     };
     var zahl = 0;
+<<<<<<< HEAD
     for (var i = 0; i < 40; i++) {
+=======
+    for (var i = 0; i < 1; i++) {
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
         element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
             console.log('login API success');
             element.x = JSON.stringify(result, null, 2);
@@ -338,7 +342,11 @@ function loginFunction(element) {
                 console.log("Fehler " + zahl);
                 zahl++;
                 //Überprüfen ob alle Versuche gescheitert sind:
+<<<<<<< HEAD
                 if (zahl >= 40) {
+=======
+                if (zahl >= 1) {
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
                     var fehlerFeld = document.getElementById('Fehler');
                     fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
                     fehlerFeld.style.display = "block";
@@ -391,9 +399,9 @@ var LoginPage = /** @class */ (function () {
             header.style.display = "none";
             var login = document.getElementById('login');
             login.style.display = "block";
-            //loginFunction(this);
+            loginFunction(this);
             //Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+            //this.navCtrl.setRoot(HomePage);
         }
     };
     LoginPage.prototype.clicked = function () {
@@ -463,11 +471,11 @@ webpackEmptyAsyncContext.id = 115;
 
 var map = {
 	"../pages/c/c.module": [
-		285,
+		286,
 		3
 	],
 	"../pages/d/d.module": [
-		286,
+		287,
 		2
 	],
 	"../pages/login/login.module": [
@@ -475,7 +483,7 @@ var map = {
 		1
 	],
 	"../pages/search/search.module": [
-		287,
+		285,
 		0
 	]
 };
@@ -578,6 +586,7 @@ var GebaudeModel = /** @class */ (function () {
         var result = []; // RaumModel[] = [];
         var slots = this.giveSlots();
         for (var i = 0; i < slots.length; i++) {
+<<<<<<< HEAD
             switch (slots[i]) {
                 case "08:15:00":
                     result.push("08:15 bis 09:45:");
@@ -604,6 +613,9 @@ var GebaudeModel = /** @class */ (function () {
                     result.push("ab 21:00:");
                     break;
             }
+=======
+            result.push(slots[i]);
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
             this.raume.forEach(function (raum) {
                 if (raum.isFree(slots[i], _this.giveWochentag())) {
                     result.push(raum.raumname);
@@ -617,6 +629,7 @@ var GebaudeModel = /** @class */ (function () {
         var stunden = jetzt.getHours();
         var minuten = jetzt.getMinutes();
         switch (true) {
+<<<<<<< HEAD
             case this.giveUhrzeit() == "08:15:00": return ["08:15:00", "10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
             case this.giveUhrzeit() == "10:00:00": return ["10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
             case this.giveUhrzeit() == "11:45:00": return ["11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
@@ -625,6 +638,15 @@ var GebaudeModel = /** @class */ (function () {
             case this.giveUhrzeit() == "17:45:00": return ["17:45:00", "19:30:00", "21:00:00"];
             case this.giveUhrzeit() == "19:30:00": return ["19:30:00", "21:00:00"];
             case this.giveUhrzeit() == "21:00:00": return ["21:00:00"];
+=======
+            case this.giveUhrzeit() == "8:15:00": return ["8:15:00", "10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "10:00:00": return ["10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "11:45:00": return ["11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "14:15:00": return ["14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "16:00:00": return ["16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "17:45:00": return ["17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "19:30:00": return ["19:30:00"];
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
             default: break;
         }
     };
@@ -633,6 +655,7 @@ var GebaudeModel = /** @class */ (function () {
         var stunden = jetzt.getHours();
         var minuten = jetzt.getMinutes();
         switch (true) {
+<<<<<<< HEAD
             //0:00 - 0:59
             case (stunden == 0) && (minuten >= 0 && minuten <= 59):
                 console.log("1");
@@ -749,6 +772,16 @@ var GebaudeModel = /** @class */ (function () {
             case (stunden == 23) && (minuten >= 0 && minuten <= 59):
                 console.log("29");
                 return "21:00:00";
+=======
+            case ((stunden == 8 && minuten >= 15 || stunden == 9 && minuten <= 45)): return "8:15:00";
+            case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11 && minuten <= 30): return "10:00:00";
+            case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+            case (stunden == 13 && minuten >= 15 || stunden == 14 && minuten <= 15): return "13:15:00";
+            case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+            case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+            case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+            case (stunden == 19 && minuten >= 30 || stunden == 20 || stunden == 21): return "19:30:00";
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
             default: break;
         }
     };
@@ -861,9 +894,15 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */], {}, {
                     links: [
+<<<<<<< HEAD
                         { loadChildren: '../pages/c/c.module#CPageModule', name: 'Cgebaude', segment: 'c', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/d/d.module#DPageModule', name: 'Dgebaude', segment: 'd', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] },
+=======
+                        { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'Search', segment: 'search', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/c/c.module#CPageModule', name: 'Cgebaude', segment: 'c', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/d/d.module#DPageModule', name: 'Dgebaude', segment: 'd', priority: 'low', defaultHistory: [] },
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
                         { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] }
                     ]
                 }),
@@ -1207,6 +1246,13 @@ function parseToRaum(raumname) {
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
                     raum.addVeranstaltung(veranstaltung);
                 }
+                else if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.45-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
                 else if (endZeit == "15:45:00") {
                     console.log("hallo case 10 -15.45");
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
@@ -1215,8 +1261,32 @@ function parseToRaum(raumname) {
                     raum.addVeranstaltung(veranstaltung);
                 }
                 break;
+            case "11:30:00":
+                if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.30-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 11.45-15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "17:30:00") {
+                    console.log("hallo case 11.45-17.35");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
             case "11:45:00":
-                if (endZeit == "15:45:00") {
+                if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.45-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
                     console.log("hallo case 11.45-15.45");
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
                     raum.addVeranstaltung(veranstaltung);
@@ -1279,7 +1349,11 @@ function parseToCampus() {
     for (var i = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++) {
         freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
     }
+<<<<<<< HEAD
     //console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
+=======
+    console.log("test" + campus.gebaude[0].getFreeRooms()[0]);
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
     return campus;
 }
 function getLehrveranstaltungen(raumname) {
@@ -1318,10 +1392,9 @@ var Cgebaude = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-c',template:/*ion-inline-start:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">C-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n    <div id="CLehraussen" style="display:none; margin: -15px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n        <div id="CLehrinnen" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:center;">\n     \n        \n        </div>\n      </div>\n\n  <b>Folgende Räume sind zur Zeit im C-Gebäude frei:</b><br><br>\n    <ion-list>\n      <ng-container *ngFor="let item of freeRooms">\n        <h3 style="margin-top: 20px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <ion-item (click)="getL(item)">\n            {{ item}}\n          </ion-item>\n          \n        </ng-container>\n      </ng-container>\n    </ion-list>\n    \n\n  <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/semih/Schreibtisch/WahlprojektSS18/src/pages/c/c.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Cgebaude);
     return Cgebaude;
-    var _a, _b;
 }());
 
 //# sourceMappingURL=c.js.map
@@ -1468,6 +1541,16 @@ function parseToRaum(raumname) {
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
                     raum.addVeranstaltung(veranstaltung);
                 }
+<<<<<<< HEAD
+=======
+                else if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.45-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
                 else if (endZeit == "15:45:00") {
                     console.log("hallo case 10 -15.45");
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
@@ -1476,8 +1559,37 @@ function parseToRaum(raumname) {
                     raum.addVeranstaltung(veranstaltung);
                 }
                 break;
+<<<<<<< HEAD
             case "11:45:00":
                 if (endZeit == "15:45:00") {
+=======
+            case "11:30:00":
+                if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.30-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 11.45-15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "17:30:00") {
+                    console.log("hallo case 11.45-17.35");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "11:45:00":
+                if (endZeit == "14:15:00") {
+                    console.log("hallo case 11.45-14.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "13:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
                     console.log("hallo case 11.45-15.45");
                     var veranstaltung = new __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
                     raum.addVeranstaltung(veranstaltung);

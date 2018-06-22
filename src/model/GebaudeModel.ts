@@ -44,6 +44,7 @@ export class GebaudeModel{
           var stunden = jetzt.getHours();
           var minuten = jetzt.getMinutes();
           switch(true){
+<<<<<<< HEAD
             case this.giveUhrzeit() == "08:15:00": return ["08:15:00", "10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
             case this.giveUhrzeit() == "10:00:00": return ["10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
             case this.giveUhrzeit() == "11:45:00": return ["11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
@@ -52,6 +53,15 @@ export class GebaudeModel{
             case this.giveUhrzeit() == "17:45:00": return ["17:45:00", "19:30:00", "21:00:00"];
             case this.giveUhrzeit() == "19:30:00": return ["19:30:00", "21:00:00"];
             case this.giveUhrzeit() == "21:00:00": return ["21:00:00"]
+=======
+            case this.giveUhrzeit() == "8:15:00": return ["8:15:00", "10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "10:00:00": return ["10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "11:45:00": return ["11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "14:15:00": return ["14:15:00", "16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "16:00:00": return ["16:00:00", "17:45:00", "19:30:00"];
+            case this.giveUhrzeit() == "17:45:00": return ["17:45:00", "19:30:00"]; 
+            case this.giveUhrzeit() == "19:30:00": return ["19:30:00"];
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
             default: break;
           }
       }
@@ -59,6 +69,7 @@ export class GebaudeModel{
       private giveUhrzeit(){
           var jetzt = new Date();
 
+<<<<<<< HEAD
           var stunden = jetzt.getHours();
           var minuten = jetzt.getMinutes();
 
@@ -132,6 +143,23 @@ export class GebaudeModel{
             default: break;
           }
       }
+=======
+        var stunden = jetzt.getHours();
+        var minuten = jetzt.getMinutes();
+
+        switch(true){
+          case ((stunden == 8 && minuten >= 15 || stunden == 9 && minuten <= 45)): return "8:15:00";
+          case (stunden == 9 && minuten >= 45 || stunden == 10 || stunden == 11  && minuten <= 30): return "10:00:00";
+          case (stunden == 11 && minuten >= 30 || stunden == 12 || stunden == 13 && minuten <= 15): return "11:45:00";
+          case (stunden == 13 && minuten >= 15 || stunden == 14  && minuten <= 15): return "13:15:00";
+          case (stunden == 14 && minuten >= 15 || stunden == 15 && minuten <= 45): return "14:15:00";
+          case (stunden == 16 || stunden == 17 && minuten <= 30): return "16:00:00";
+          case (stunden == 17 && minuten >= 45 || stunden == 18 || stunden == 19 && minuten <= 15): return "17:45:00";
+          case (stunden == 19 && minuten >= 30 || stunden == 20 || stunden == 21): return "19:30:00";
+          default: break;
+        }
+    }
+>>>>>>> d09bb91d61dd09928280878276378e07d1bf18ae
     private giveWochentag(){
         var jetzt = new Date();
         switch(jetzt.getDay()){
