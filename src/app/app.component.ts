@@ -20,7 +20,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, platform:Platform) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
   this.platform.ready().then(() => {
     this.statusBar.styleDefault();
     this.splashScreen.hide
