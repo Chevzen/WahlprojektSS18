@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Search } from '../search/search';
 import { RaumModel } from '../../model/RaumModel.1';
@@ -89,9 +89,9 @@ function parseGebaude(raumnamen:string[], name:string){
 
 function parseToRaum(raumname: string){
   var raum = new RaumModel(raumname);
-  console.log("parseToRaum");
-  console.log(raumname);
-  console.log(localStorage.getItem(raumname));
+  //console.log("parseToRaum");
+  //console.log(raumname);
+  //console.log(localStorage.getItem(raumname));
   var ics = raum.getICS(localStorage.getItem(raumname));
   ics.pop();
 
@@ -211,25 +211,38 @@ function parseToCampus(){
 
 
 function getLehrveranstaltungen(raumname:string){
+  
   var LehrveranstaltungoffreeRooms:string[] = [];
-
+  var Wochentag:string;
 
   
   for(var i:number = 0; i< parseToRaum(raumname).veranstaltungen.length; i++){
-
-    LehrveranstaltungoffreeRooms.push( "Wochentag: " +parseToRaum(raumname).veranstaltungen[i].wochentag  +" Name: " +parseToRaum(raumname).veranstaltungen[i].name +" Beginn: " +parseToRaum(raumname).veranstaltungen[i].uhrzeit +" Ende: "  +parseToRaum(raumname).veranstaltungen[i].enduhrzeit);
+    Wochentag = parseToRaum(raumname).veranstaltungen[i].wochentag;
+    
+    Wochentag == parseToRaum(raumname).veranstaltungen[i].wochentag;
+    LehrveranstaltungoffreeRooms.push( parseToRaum(raumname).veranstaltungen[i].wochentag+":\n\n" +parseToRaum(raumname).veranstaltungen[i].name +" \n" +parseToRaum(raumname).veranstaltungen[i].uhrzeit +" - "  +parseToRaum(raumname).veranstaltungen[i].enduhrzeit+"\n\n\n");
    
 
   }
   var show: HTMLElement = document.getElementById('CLehraussen');
   show.style.display = "block";
   var show2: HTMLElement = document.getElementById('CLehrinnen');
-  show2.innerText = ""+LehrveranstaltungoffreeRooms;
+ 
+  show2.innerText = ""+LehrveranstaltungoffreeRooms.join("");
   return LehrveranstaltungoffreeRooms;
   
 
 }
 
+
+function isBackClicked(){
+  console.log("backklicked")
+ 
+  var show2: HTMLElement = document.getElementById('CLehraussen');
+  show2.style.display = "none";
+
+
+}
 
 
 
@@ -257,7 +270,9 @@ export class Cgebaude {
   
   }
 
+  @ViewChild(Content) content: Content;
 
+  
 
 
   BackToCampus(){
@@ -269,11 +284,26 @@ export class Cgebaude {
     
   }
 
+  
+
   getL(raumname:string){
     
 
     getLehrveranstaltungen(raumname);
+    this.scrollTop()
+    
     
   }
 
+  backClicked(){
+    
+    isBackClicked();
+    this.scrollTop();
+    
+  }
+
+
+  private scrollTop() {
+    this.content.scrollToTop();
+  }
 }
