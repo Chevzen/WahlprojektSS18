@@ -15,6 +15,7 @@ import { LoginPage } from '../pages/login/login';
   templateUrl: 'app.html'
 })
 export class MyApp {
+  navCtrl: any;
   @ViewChild(Nav) nav:Nav;
   rootPage:any = LoginPage;
 

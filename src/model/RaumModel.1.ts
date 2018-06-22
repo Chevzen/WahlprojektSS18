@@ -16,6 +16,8 @@ export class RaumModel{
     this.veranstaltungen.push(veranstaltung);
   }
 
+  
+
 
 //Hilfsfunktion
 

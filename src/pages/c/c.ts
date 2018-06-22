@@ -53,6 +53,7 @@ var CampusConfig = [
 var GebaudeAuswahl:number = 0;
 var freeRooms:string[] = [];
 
+
 function setGebaude(wahl:number){
   GebaudeAuswahl = wahl;
 }
@@ -105,7 +106,7 @@ function parseToRaum(raumname: string){
     var endZeit = parseUhrZeit(end.toString());
     var name = vevent[i].getFirstPropertyValue('description');
     var wochentag = parseDateToWochentag(start.toString());
-    console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag, "end:"+ endZeit);
+    //console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag, "end:"+ endZeit);
     var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
     raum.addVeranstaltung(veranstaltung);
 
@@ -195,17 +196,37 @@ function parseToRaum(raumname: string){
 
 function parseToCampus(){
   var campus = new CampusModel("HSRM");
-  console.log(CampusConfig)
+  //console.log(CampusConfig)
   for(let gebaudeConfig of CampusConfig){
     var gebaude = parseGebaude(gebaudeConfig.raumnamen, gebaudeConfig.gebaudename)
     campus.addGebaude(gebaude);
-    console.log(CampusConfig);
+    //console.log(CampusConfig);
   }
   for(var i: number = 0; i < campus.gebaude[GebaudeAuswahl].getFreeRooms().length; i++){
     freeRooms.push(campus.gebaude[GebaudeAuswahl].getFreeRooms()[i]);
   }
-  console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
+  //console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
   return campus;
+}
+
+function getLehrveranstaltungen(raumname:string){
+  var LehrveranstaltungoffreeRooms:string[] = [];
+
+
+  
+  for(var i:number = 0; i< parseToRaum(raumname).veranstaltungen.length; i++){
+
+    LehrveranstaltungoffreeRooms.push( "Wochentag: " +parseToRaum(raumname).veranstaltungen[i].wochentag  +" Name: " +parseToRaum(raumname).veranstaltungen[i].name +" Beginn: " +parseToRaum(raumname).veranstaltungen[i].uhrzeit +" Ende: "  +parseToRaum(raumname).veranstaltungen[i].enduhrzeit);
+   
+
+  }
+  var show: HTMLElement = document.getElementById('CLehraussen');
+  show.style.display = "block";
+  var show2: HTMLElement = document.getElementById('CLehrinnen');
+  show2.innerText = ""+LehrveranstaltungoffreeRooms;
+  return LehrveranstaltungoffreeRooms;
+  
+
 }
 
 
@@ -222,7 +243,7 @@ export class Cgebaude {
 
 
   private freeRooms:string[] = freeRooms;
-
+ 
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -230,7 +251,9 @@ export class Cgebaude {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CPage');
     console.log(parseToCampus());
-    console.log(freeRooms);
+    var show: HTMLElement = document.getElementById('CLehraussen');
+  show.style.display = "none";
+  
   }
 
 
@@ -242,6 +265,14 @@ export class Cgebaude {
 
   search() {
     this.navCtrl.setRoot( Search);
+    
+  }
+
+  getL(raumname:string){
+    
+
+    getLehrveranstaltungen(raumname);
+    
   }
 
 }
