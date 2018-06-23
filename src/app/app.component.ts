@@ -27,7 +27,7 @@ export class MyApp {
     this.splashScreen.hide
     platform.registerBackButtonAction(() => {
       console.log("backPressed 1");
-      this.navCtrl.setRoot(HomePage);
+      //this.navCtrl.setRoot(HomePage);
     },1);
   });
 

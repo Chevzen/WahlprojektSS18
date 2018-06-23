@@ -5,7 +5,6 @@ import { Dgebaude } from '../d/d'
 import { Search } from '../search/search'
 
 
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'

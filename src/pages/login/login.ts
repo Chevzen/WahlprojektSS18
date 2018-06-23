@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, MenuController } from 'ionic-angular';
 import { HomePage } from '../home/home';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 function get_Token(text:string) {
 	return text.substring(text.indexOf("authenticity_token", 600)+29, text.indexOf("authenticity_token", 600)+117);
@@ -378,6 +378,7 @@ function loginFunction(element:any) {
 
 	}//for
 }
+
 
 @IonicPage()
 @Component({
