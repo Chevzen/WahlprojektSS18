@@ -356,6 +356,12 @@ function loginFunction(element) {
     } //for
 }
 var LoginPage = /** @class */ (function () {
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //   Wichtiger Hinweis!!!!!!                                                                                                                                        //
+    //   Diesen Parameter auf jeden Fall im Konstruktor stehen lassen, auch wenn der Compiler warnings ausgibt.                                                         //
+    //   http wird an die Funktion loginFunction mit dem Parameter "this" übergeben!                                                                                    //
+    //    |________________________________________________________________________________________________________________________________________________________     //
+    //                                                                                                                                                            |     //
     function LoginPage(navCtrl, menuCtrl, alertCtrl, loadingCtrl, http) {
         this.navCtrl = navCtrl;
         this.menuCtrl = menuCtrl;
@@ -1517,15 +1523,14 @@ var MyApp = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Nav */]),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Nav */]) === "function" && _a || Object)
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
     return MyApp;
-    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=app.component.js.map
@@ -1688,7 +1693,7 @@ var Cgebaude = /** @class */ (function () {
     Cgebaude.prototype.onTip = function (raum) {
         var toast = this.toastCtrl.create({
             message: 'Für den Raum ' + raum + ' brauchst du eine Zugangsberechtigung.',
-            duration: 4000,
+            duration: 3000,
             position: 'middle'
         });
         toast.present();
@@ -1815,7 +1820,7 @@ var Dgebaude = /** @class */ (function () {
     Dgebaude.prototype.onTip = function (raum) {
         var toast = this.toastCtrl.create({
             message: 'Für den Raum ' + raum + ' brauchst du eine Zugangsberechtigung.',
-            duration: 4000,
+            duration: 3000,
             position: 'middle'
         });
         toast.present();
@@ -1877,7 +1882,7 @@ var Dgebaude = /** @class */ (function () {
     ], Dgebaude.prototype, "content", void 0);
     Dgebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-d',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">D-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">\n    <span id="span1" style="display: none; float: right; width: 100%; text-align:right;">\n      <ion-icon id="button" name="close-circle" (click)="backClicked()" style="display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 5px; margin-right: 5px;"></ion-icon>\n    </span>\n    <span id="span2" style="display: none; float: left; width: 100%;">\n      <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">\n        {{ item }}\n      </div>\n    </span>\n  </div>\n  \n  <div id="anzeige">\n  	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n    <ion-list>\n      <ng-container *ngFor="let item of freeRooms">\n        <h3 style="margin-top: 20px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <ion-item (click)="getL(item)">\n            <span style="float: left;">{{ item }}</span> <ng-container *ngFor="let keys of zugang"><ion-icon style="float: right;" name="key" *ngIf="item == keys"></ion-icon></ng-container>\n          </ion-item>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n    <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
+            selector: 'page-d',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">D-Gebäude</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">\n    <span id="span1" style="display: none; float: right; width: 100%; text-align:right;">\n      <ion-icon id="button" name="close-circle" (click)="backClicked()" style="display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 5px; margin-right: 5px;"></ion-icon>\n    </span>\n    <span id="span2" style="display: none; float: left; width: 100%;">\n      <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">\n        {{ item }}\n      </div>\n    </span>\n  </div>\n\n  <div id="anzeige">\n  	<b>Folgende Räume sind zur Zeit im D-Gebäude frei:</b><br><br>\n    <ion-list>\n      <ng-container *ngFor="let item of freeRooms">\n        <h3 style="margin-top: 20px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n        <h3 style="margin-top: 20px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <ion-item (click)="getL(item)">\n            <span style="float: left;">{{ item }}</span> <ng-container *ngFor="let keys of zugang"><ion-icon style="float: right;" name="key" *ngIf="item == keys" (click)="onTip(item)"></ion-icon></ng-container>\n          </ion-item>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n    <button ion-button block style="margin-bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/d/d.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], Dgebaude);

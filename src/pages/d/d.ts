@@ -48,7 +48,7 @@ export class Dgebaude {
     onTip(raum:string){
       let toast = this.toastCtrl.create({
           message:  'Für den Raum '+raum+' brauchst du eine Zugangsberechtigung.',
-          duration: 4000,
+          duration: 3000,
           position: 'middle'
       });
       toast.present();
