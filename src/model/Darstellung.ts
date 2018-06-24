@@ -301,12 +301,12 @@ export class Darstellung {
   ********************************************************************************************/
   erstelleElement(text:string, tag:string){
     var element: HTMLElement = document.createElement(tag);
-    var text2:HTMLElement;
+    //var text2:HTMLElement;
     var texte:string[] = text.split(",");
 
     for(var i:number = 0;i<texte.length;i++){
       var breaks:HTMLElement = document.createElement("div");
-      text2  = document.createTextNode(texte[i]);
+      var text2  = document.createTextNode(texte[i]);
       breaks.appendChild(text2);
       element.appendChild(breaks);
     }

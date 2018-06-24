@@ -396,6 +396,12 @@ export class LoginPage {
   i:number = 0;
 	semester:string='';
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//   Wichtiger Hinweis!!!!!!                                                                                                                                        //
+	//   Diesen Parameter auf jeden Fall im Konstruktor stehen lassen, auch wenn der Compiler warnings ausgibt.                                                         //
+	//   http wird an die Funktion loginFunction mit dem Parameter "this" übergeben!                                                                                    //
+	//    |________________________________________________________________________________________________________________________________________________________     //
+	//                                                                                                                                                            |     //
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, public alertCtrl: AlertController, public loadingCtrl:LoadingController, private http: Http) {}
 
   ionViewDidLoad() {
