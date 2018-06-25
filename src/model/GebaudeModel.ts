@@ -145,4 +145,13 @@ export class GebaudeModel{
           default: break;
           }
     }
+
+    getRoom(name:string){
+        this.raume.forEach(raum => {
+            if(raum.raumname == name){
+                return raum;
+            }
+        });
+
+    }
 }
