@@ -28,7 +28,6 @@ function get_Plan(text:string) {
 	var ladeicon: HTMLElement = document.getElementById('laden');
 	ladeicon.style.display ="none";
 	return -1;
-	
 }
 
 function timeout(zahl:number) {
@@ -444,24 +443,20 @@ function loginFunction(element:any) {
 					}
 				}, error => {
 					//console.log("Error: POST: "+ JSON.stringify(error, null, 2));;
-					//Überprüfen ob alle Versuche gescheitert sind:
-					
-						var fehlerFeld: HTMLElement = document.getElementById('Fehler');
-						fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
-						fehlerFeld.style.display = "block";
-						var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
-						fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte starte die App erneut.";
-						fehlerFeldZwei.style.display = "block";
-						var ladeicon: HTMLElement = document.getElementById('laden');
-						ladeicon.style.display ="none";
-						return;
-					
+					var fehlerFeld: HTMLElement = document.getElementById('Fehler');
+					fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
+					fehlerFeld.style.display = "block";
+					var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
+					fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte starte die App erneut.";
+					fehlerFeldZwei.style.display = "block";
+					var ladeicon: HTMLElement = document.getElementById('laden');
+					ladeicon.style.display ="none";
+					return;
+
 				});//post
 		}, error => {
 			console.log("Error: "+ JSON.stringify(error, null, 2));
 		});//get
-
-	//}//for
 }
 
 
