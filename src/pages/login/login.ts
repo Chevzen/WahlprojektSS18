@@ -4,7 +4,7 @@ import { HomePage } from '../home/home';
 import { Http, Headers } from '@angular/http';
 
 function get_Token(text:string) {
-	return text.substring(text.indexOf("authenticity_token", 600)+29, text.indexOf("authenticity_token", 600)+117);
+	return text.substring(text.indexOf("csrf-token")+23, text.indexOf("csrf-token")+111);
 }
 
 function get_Semester(text:string) {
@@ -27,7 +27,7 @@ function get_Plan(text:string) {
 	fehlerFeldZwei.style.display = "block";
 	var ladeicon: HTMLElement = document.getElementById('laden');
 	ladeicon.style.display ="none";
-	return;
+	return -1;
 	
 }
 
@@ -49,7 +49,7 @@ function loginFunction(element:any) {
 	};
 
 	var zahl: number = 0;
-	for(var i:number = 0; i < 40; i++){
+	//for(var i:number = 0; i < 40; i++){
 	element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(
 		result => {
 			console.log('login API success');
@@ -60,7 +60,7 @@ function loginFunction(element:any) {
 			element.semester = get_Semester(element.x);
 			//console.log('Semester: '+ element.semester);
 			//console.log('Token: '+ element.token);
-
+			element.token = encodeURIComponent(element.token);
 			var body = 'utf8=%E2%9C%93' +
 			'&authenticity_token=' + element.token +
 			'&login[account]=' + element.benutzername +
@@ -89,6 +89,9 @@ function loginFunction(element:any) {
 								element.x = JSON.stringify(result, null, 2);
 								console.log("first "+element.x);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								console.log("second  " + element.x);
 								console.log(result);
 								localStorage.setItem("D01", element.x);
@@ -105,6 +108,9 @@ function loginFunction(element:any) {
 								console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("D02", element.x);
 								console.log("D02: "+localStorage.getItem("D02"));
 							}, error => {
@@ -116,6 +122,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("D11", element.x);
 								//console.log("D11: "+localStorage.getItem("D11"));
 							}, error => {
@@ -127,6 +136,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("D12", element.x);
 								//console.log("D12: "+localStorage.getItem("D12"));
 							}, error => {
@@ -138,6 +150,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("D13", element.x);
 								//console.log("D13: "+localStorage.getItem("D13"));
 							}, error => {
@@ -149,6 +164,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("D14", element.x);
 								//console.log("D14: "+localStorage.getItem("D14"));
 							}, error => {
@@ -160,6 +178,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("D15", element.x);
 								//console.log("D15: "+localStorage.getItem("D15"));
 							}, error => {
@@ -171,6 +192,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("D17", element.x);
 								//console.log("D17: "+localStorage.getItem("D17"));
 							}, error => {
@@ -182,6 +206,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("D18", element.x);
 								//console.log("D18: "+localStorage.getItem("D18"));
 							}, error => {
@@ -193,6 +220,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C001", element.x);
 								//console.log("C001: "+localStorage.getItem("C001"));
 							}, error => {
@@ -204,6 +234,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C007", element.x);
 								//console.log("C007: "+localStorage.getItem("C007"));
 							}, error => {
@@ -215,6 +248,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C035", element.x);
 								//console.log("C035: "+localStorage.getItem("C035"));
 							}, error => {
@@ -226,6 +262,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C037", element.x);
 								//console.log("C037: "+localStorage.getItem("C037"));
 							}, error => {
@@ -237,6 +276,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C113", element.x);
 								//console.log("C113: "+localStorage.getItem("C113"));
 							}, error => {
@@ -248,6 +290,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C213", element.x);
 								//console.log("C213: "+localStorage.getItem("C213"));
 							}, error => {
@@ -259,6 +304,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C237", element.x);
 								//console.log("C237: "+localStorage.getItem("C237"));
 							}, error => {
@@ -270,6 +318,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C305", element.x);
 								//console.log("C305: "+localStorage.getItem("C305"));
 							}, error => {
@@ -281,6 +332,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C313", element.x);
 								//console.log("C313: "+localStorage.getItem("C313"));
 							}, error => {
@@ -292,6 +346,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C361", element.x);
 								//console.log("C361: "+localStorage.getItem("C361"));
 							}, error => {
@@ -303,6 +360,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C375", element.x);
 								//console.log("C375: "+localStorage.getItem("C375"));
 							}, error => {
@@ -314,6 +374,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C377", element.x);
 								//console.log("C377: "+localStorage.getItem("C377"));
 							}, error => {
@@ -325,6 +388,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C405", element.x);
 								//console.log("C405: "+localStorage.getItem("C405"));
 							}, error => {
@@ -336,6 +402,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C407", element.x);
 								//console.log("C407: "+localStorage.getItem("C407"));
 							}, error => {
@@ -347,6 +416,9 @@ function loginFunction(element:any) {
 								//console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
+								if(-1 == element.x){
+									return;
+								}
 								localStorage.setItem("C413", element.x);
 								//console.log("C413: "+localStorage.getItem("C413"));
 							}, error => {
@@ -371,11 +443,9 @@ function loginFunction(element:any) {
 						return;
 					}
 				}, error => {
-					//console.log("Error: POST: "+ JSON.stringify(error, null, 2));
-					console.log("Fehler "+zahl);
-					zahl++;
+					//console.log("Error: POST: "+ JSON.stringify(error, null, 2));;
 					//Überprüfen ob alle Versuche gescheitert sind:
-					if(zahl >= 40){
+					
 						var fehlerFeld: HTMLElement = document.getElementById('Fehler');
 						fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
 						fehlerFeld.style.display = "block";
@@ -385,13 +455,13 @@ function loginFunction(element:any) {
 						var ladeicon: HTMLElement = document.getElementById('laden');
 						ladeicon.style.display ="none";
 						return;
-					}
+					
 				});//post
 		}, error => {
 			console.log("Error: "+ JSON.stringify(error, null, 2));
 		});//get
 
-	}//for
+	//}//for
 }
 
 

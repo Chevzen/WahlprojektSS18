@@ -23,7 +23,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 function get_Token(text) {
-    return text.substring(text.indexOf("authenticity_token", 600) + 29, text.indexOf("authenticity_token", 600) + 117);
+    return text.substring(text.indexOf("csrf-token") + 23, text.indexOf("csrf-token") + 111);
 }
 function get_Semester(text) {
     return text.substring(text.indexOf("option selected") + 37, text.indexOf("option selected") + 46);
@@ -43,7 +43,7 @@ function get_Plan(text) {
     fehlerFeldZwei.style.display = "block";
     var ladeicon = document.getElementById('laden');
     ladeicon.style.display = "none";
-    return;
+    return -1;
 }
 function timeout(zahl) {
     var start = new Date().getTime();
@@ -60,314 +60,383 @@ function loginFunction(element) {
         withCredentials: true
     };
     var zahl = 0;
-    for (var i = 0; i < 40; i++) {
-        element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
-            console.log('login API success');
-            element.x = JSON.stringify(result, null, 2);
-            //console.log('X: '+ element.x);
-            element.token = get_Token(element.x);
-            element.semester = get_Semester(element.x);
-            //console.log('Semester: '+ element.semester);
-            //console.log('Token: '+ element.token);
-            var body = 'utf8=%E2%9C%93' +
-                '&authenticity_token=' + element.token +
-                '&login[account]=' + element.benutzername +
-                '&login[password]=' + element.password +
-                '&login[term_id]=' + element.semester +
-                '&commit=Anmeldung';
-            //console.log("Body: "+ body);
-            element.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
-                //console.log("POST: "+ JSON.stringify(result, null, 2));
-                //console.log("Header: "+ get_Header(JSON.stringify(result, null, 2)));
-                if (-1 == get_Header(JSON.stringify(result, null, 2))) {
-                    var loader = element.loadingCtrl.create({
-                        content: "Daten werden geladen..."
-                    });
-                    loader.present();
-                    //Falls vorhanden auch die Reservierungspläne herunterladen
-                    //Raum D01:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/1001264429/plans.ics', options).subscribe(function (result) {
-                        console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        console.log("first " + element.x);
-                        element.x = get_Plan(element.x);
-                        console.log("second  " + element.x);
-                        console.log(result);
-                        localStorage.setItem("D01", element.x);
-                        console.log("D01: " + localStorage.getItem("D01"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum D02:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/1001264431/plans.ics', options).subscribe(function (result) {
-                        console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("D02", element.x);
-                        console.log("D02: " + localStorage.getItem("D02"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum D11:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/454131924/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("D11", element.x);
-                        //console.log("D11: "+localStorage.getItem("D11"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum D12:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/454131925/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("D12", element.x);
-                        //console.log("D12: "+localStorage.getItem("D12"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum D13:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/454131926/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("D13", element.x);
-                        //console.log("D13: "+localStorage.getItem("D13"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum D14:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/454131927/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("D14", element.x);
-                        //console.log("D14: "+localStorage.getItem("D14"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum D15:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/454131928/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("D15", element.x);
-                        //console.log("D15: "+localStorage.getItem("D15"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum D17:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/454131930/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("D17", element.x);
-                        //console.log("D17: "+localStorage.getItem("D17"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum D18:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/454131931/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("D18", element.x);
-                        //console.log("D18: "+localStorage.getItem("D18"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C001:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/967118069/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C001", element.x);
-                        //console.log("C001: "+localStorage.getItem("C001"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C007:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/967118075/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C007", element.x);
-                        //console.log("C007: "+localStorage.getItem("C007"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C035:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/967321020/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C035", element.x);
-                        //console.log("C035: "+localStorage.getItem("C035"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C037:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/967321022/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C037", element.x);
-                        //console.log("C037: "+localStorage.getItem("C037"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C113:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/975705394/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C113", element.x);
-                        //console.log("C113: "+localStorage.getItem("C113"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C213:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/984225074/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C213", element.x);
-                        //console.log("C213: "+localStorage.getItem("C213"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C237:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/984360376/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C237", element.x);
-                        //console.log("C237: "+localStorage.getItem("C237"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C305:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/992677104/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C305", element.x);
-                        //console.log("C305: "+localStorage.getItem("C305"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C313:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/992744751/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C313", element.x);
-                        //console.log("C313: "+localStorage.getItem("C313"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C361:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/1001264469/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C361", element.x);
-                        //console.log("C361: "+localStorage.getItem("C361"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C375:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/1001264470/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C375", element.x);
-                        //console.log("C375: "+localStorage.getItem("C375"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C377:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/1001264471/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C377", element.x);
-                        //console.log("C377: "+localStorage.getItem("C377"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C405:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/1001196781/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C405", element.x);
-                        //console.log("C405: "+localStorage.getItem("C405"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C407:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/1001196783/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C407", element.x);
-                        //console.log("C407: "+localStorage.getItem("C407"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //Raum C413:
-                    element.http.get('https://aor.cs.hs-rm.de/rooms/1001264428/plans.ics', options).subscribe(function (result) {
-                        //console.log('login API success');
-                        element.x = JSON.stringify(result, null, 2);
-                        element.x = get_Plan(element.x);
-                        localStorage.setItem("C413", element.x);
-                        //console.log("C413: "+localStorage.getItem("C413"));
-                    }, function (error) {
-                        console.log("Error: " + JSON.stringify(error, null, 2));
-                    });
-                    //timeout(4);
-                    loader.dismiss();
-                    localStorage.setItem("benutzer", element.benutzername);
-                    localStorage.setItem("passwort", element.password);
-                    console.log("Benutzername und Passwort gespeichert.");
-                    console.log(localStorage.getItem("benutzer"));
-                    element.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-                }
-                else {
-                    var fehlerFeld = document.getElementById('Fehler');
-                    fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
-                    fehlerFeld.style.display = "block";
-                    var fehlerFeldZwei = document.getElementById('Fehler2');
-                    fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte die App erneut starten.";
-                    fehlerFeldZwei.style.display = "block";
-                    var ladeicon = document.getElementById('laden');
-                    ladeicon.style.display = "none";
-                    return;
-                }
-            }, function (error) {
-                //console.log("Error: POST: "+ JSON.stringify(error, null, 2));
-                console.log("Fehler " + zahl);
-                zahl++;
-                //Überprüfen ob alle Versuche gescheitert sind:
-                if (zahl >= 40) {
-                    var fehlerFeld = document.getElementById('Fehler');
-                    fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
-                    fehlerFeld.style.display = "block";
-                    var fehlerFeldZwei = document.getElementById('Fehler2');
-                    fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte starte die App erneut.";
-                    fehlerFeldZwei.style.display = "block";
-                    var ladeicon = document.getElementById('laden');
-                    ladeicon.style.display = "none";
-                    return;
-                }
-            }); //post
+    //for(var i:number = 0; i < 40; i++){
+    element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
+        console.log('login API success');
+        element.x = JSON.stringify(result, null, 2);
+        //console.log('X: '+ element.x);
+        element.token = get_Token(element.x);
+        element.semester = get_Semester(element.x);
+        //console.log('Semester: '+ element.semester);
+        //console.log('Token: '+ element.token);
+        element.token = encodeURIComponent(element.token);
+        var body = 'utf8=%E2%9C%93' +
+            '&authenticity_token=' + element.token +
+            '&login[account]=' + element.benutzername +
+            '&login[password]=' + element.password +
+            '&login[term_id]=' + element.semester +
+            '&commit=Anmeldung';
+        //console.log("Body: "+ body);
+        element.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
+            //console.log("POST: "+ JSON.stringify(result, null, 2));
+            //console.log("Header: "+ get_Header(JSON.stringify(result, null, 2)));
+            if (-1 == get_Header(JSON.stringify(result, null, 2))) {
+                var loader = element.loadingCtrl.create({
+                    content: "Daten werden geladen..."
+                });
+                loader.present();
+                //Falls vorhanden auch die Reservierungspläne herunterladen
+                //Raum D01:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264429/plans.ics', options).subscribe(function (result) {
+                    console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    console.log("first " + element.x);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    console.log("second  " + element.x);
+                    console.log(result);
+                    localStorage.setItem("D01", element.x);
+                    console.log("D01: " + localStorage.getItem("D01"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum D02:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264431/plans.ics', options).subscribe(function (result) {
+                    console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("D02", element.x);
+                    console.log("D02: " + localStorage.getItem("D02"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum D11:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131924/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("D11", element.x);
+                    //console.log("D11: "+localStorage.getItem("D11"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum D12:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131925/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("D12", element.x);
+                    //console.log("D12: "+localStorage.getItem("D12"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum D13:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131926/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("D13", element.x);
+                    //console.log("D13: "+localStorage.getItem("D13"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum D14:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131927/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("D14", element.x);
+                    //console.log("D14: "+localStorage.getItem("D14"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum D15:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131928/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("D15", element.x);
+                    //console.log("D15: "+localStorage.getItem("D15"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum D17:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131930/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("D17", element.x);
+                    //console.log("D17: "+localStorage.getItem("D17"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum D18:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/454131931/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("D18", element.x);
+                    //console.log("D18: "+localStorage.getItem("D18"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C001:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/967118069/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C001", element.x);
+                    //console.log("C001: "+localStorage.getItem("C001"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C007:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/967118075/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C007", element.x);
+                    //console.log("C007: "+localStorage.getItem("C007"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C035:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/967321020/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C035", element.x);
+                    //console.log("C035: "+localStorage.getItem("C035"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C037:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/967321022/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C037", element.x);
+                    //console.log("C037: "+localStorage.getItem("C037"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C113:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/975705394/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C113", element.x);
+                    //console.log("C113: "+localStorage.getItem("C113"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C213:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/984225074/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C213", element.x);
+                    //console.log("C213: "+localStorage.getItem("C213"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C237:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/984360376/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C237", element.x);
+                    //console.log("C237: "+localStorage.getItem("C237"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C305:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/992677104/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C305", element.x);
+                    //console.log("C305: "+localStorage.getItem("C305"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C313:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/992744751/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C313", element.x);
+                    //console.log("C313: "+localStorage.getItem("C313"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C361:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264469/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C361", element.x);
+                    //console.log("C361: "+localStorage.getItem("C361"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C375:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264470/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C375", element.x);
+                    //console.log("C375: "+localStorage.getItem("C375"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C377:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264471/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C377", element.x);
+                    //console.log("C377: "+localStorage.getItem("C377"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C405:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001196781/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C405", element.x);
+                    //console.log("C405: "+localStorage.getItem("C405"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C407:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001196783/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C407", element.x);
+                    //console.log("C407: "+localStorage.getItem("C407"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //Raum C413:
+                element.http.get('https://aor.cs.hs-rm.de/rooms/1001264428/plans.ics', options).subscribe(function (result) {
+                    //console.log('login API success');
+                    element.x = JSON.stringify(result, null, 2);
+                    element.x = get_Plan(element.x);
+                    if (-1 == element.x) {
+                        return;
+                    }
+                    localStorage.setItem("C413", element.x);
+                    //console.log("C413: "+localStorage.getItem("C413"));
+                }, function (error) {
+                    console.log("Error: " + JSON.stringify(error, null, 2));
+                });
+                //timeout(4);
+                loader.dismiss();
+                localStorage.setItem("benutzer", element.benutzername);
+                localStorage.setItem("passwort", element.password);
+                console.log("Benutzername und Passwort gespeichert.");
+                console.log(localStorage.getItem("benutzer"));
+                element.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+            }
+            else {
+                var fehlerFeld = document.getElementById('Fehler');
+                fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
+                fehlerFeld.style.display = "block";
+                var fehlerFeldZwei = document.getElementById('Fehler2');
+                fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte die App erneut starten.";
+                fehlerFeldZwei.style.display = "block";
+                var ladeicon = document.getElementById('laden');
+                ladeicon.style.display = "none";
+                return;
+            }
         }, function (error) {
-            console.log("Error: " + JSON.stringify(error, null, 2));
-        }); //get
-    } //for
+            //console.log("Error: POST: "+ JSON.stringify(error, null, 2));;
+            //Überprüfen ob alle Versuche gescheitert sind:
+            var fehlerFeld = document.getElementById('Fehler');
+            fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
+            fehlerFeld.style.display = "block";
+            var fehlerFeldZwei = document.getElementById('Fehler2');
+            fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte starte die App erneut.";
+            fehlerFeldZwei.style.display = "block";
+            var ladeicon = document.getElementById('laden');
+            ladeicon.style.display = "none";
+            return;
+        }); //post
+    }, function (error) {
+        console.log("Error: " + JSON.stringify(error, null, 2));
+    }); //get
+    //}//for
 }
 var LoginPage = /** @class */ (function () {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
