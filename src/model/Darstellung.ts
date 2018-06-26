@@ -74,6 +74,20 @@ export class Darstellung {
     this.GebaudeAuswahl = wahl;
   }
 
+  giveWochentag(){
+    var jetzt = new Date();
+    switch(jetzt.getDay()){
+      case 1: return "Montag";
+      case 2: return "Dienstag";
+      case 3: return "Mittwoch";
+      case 4: return "Donnerstag";
+      case 5: return "Freitag";
+      case 6: return "Samstag";
+      case 0: return "Sonntag";
+      default: break;
+      }
+  }
+
   /********************************************************************************************
   *                                                                                           *
   *   Funktion ermittelt anhand eines Datums den dazugehörigen Wochentag.                     *
