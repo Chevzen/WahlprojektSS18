@@ -28,7 +28,7 @@ function get_Plan(text:string) {
 	var ladeicon: HTMLElement = document.getElementById('laden');
 	ladeicon.style.display ="none";
 	return;
-	
+
 }
 
 function timeout(zahl:number) {
