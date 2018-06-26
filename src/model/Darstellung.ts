@@ -150,10 +150,14 @@ export class Darstellung {
     var raum = new RaumModel(raumname);
     console.log("parseToRaum");
     console.log(raumname);
+    
     var ics = raum.getICS(localStorage.getItem(raumname));
+    console.log(ics);
+    console.log(localStorage.getItem(raumname));
     ics.pop();
 
     var jcalData = ICAL.parse(ics.join("\r\n"));
+    console.log(ics);
     var vcalendar = new ICAL.Component(jcalData);
     var vevent = vcalendar.getAllSubcomponents('vevent');
 

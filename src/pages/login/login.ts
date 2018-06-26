@@ -16,7 +16,19 @@ function get_Header(text:string) {
 }
 
 function get_Plan(text:string) {
-	return text.substring(text.indexOf("_body")+9, text.indexOf("Cache-Control")-78);
+	if(-1 == text.indexOf("DOCTYPE")){
+		return text.substring(text.indexOf("_body")+9, text.indexOf("status")-6);
+	}
+	var fehlerFeld: HTMLElement = document.getElementById('Fehler');
+	fehlerFeld.innerText = "Fehler beim Herunterladen der Daten. Bitte versuche es erneut";
+	fehlerFeld.style.display = "block";
+	var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
+	fehlerFeldZwei.innerText = "Fehler beim Herunterladen der Daten. Bitte App neu starten";
+	fehlerFeldZwei.style.display = "block";
+	var ladeicon: HTMLElement = document.getElementById('laden');
+	ladeicon.style.display ="none";
+	return;
+	
 }
 
 function timeout(zahl:number) {
@@ -75,23 +87,26 @@ function loginFunction(element:any) {
 							result => {
 								console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
+								console.log("first "+element.x);
 								element.x = get_Plan(element.x);
+								console.log("second  " + element.x);
+								console.log(result);
 								localStorage.setItem("D01", element.x);
 
 
 
-								//console.log("D01: "+localStorage.getItem("D01"));
+								console.log("D01: "+localStorage.getItem("D01"));
 							}, error => {
-								//console.log("Error: "+ JSON.stringify(error, null, 2));
+								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
 						//Raum D02:
 						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264431/plans.ics', options).subscribe(
 							result => {
-								//console.log('login API success');
+								console.log('login API success');
 								element.x = JSON.stringify(result, null, 2);
 								element.x = get_Plan(element.x);
 								localStorage.setItem("D02", element.x);
-								//console.log("D02: "+localStorage.getItem("D02"));
+								console.log("D02: "+localStorage.getItem("D02"));
 							}, error => {
 								console.log("Error: "+ JSON.stringify(error, null, 2));
 							});
@@ -426,9 +441,9 @@ export class LoginPage {
 			header.style.display = "none";
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
-			//loginFunction(this);
+			loginFunction(this);
 			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-			this.navCtrl.setRoot(HomePage);
+			//this.navCtrl.setRoot(HomePage);
 
 		}
   }
