@@ -47,12 +47,25 @@ var CampusConfig = [
   }
 
 ];
+var campus = new CampusModel("HSRM");
+var freeTimeSlot : number [] = [];
 
-var freeTimeSlot = [
-  {
-    slot:[],
-    value:""
-  }
+function giveWochentag(){
+  var jetzt = new Date();
+  switch(jetzt.getDay()){
+    case 1: return "Montag";
+    case 2: return "Dienstag";
+    case 3: return "Mittwoch";
+    case 4: return "Donnerstag";
+    case 5: return "Freitag";
+    case 6: return "Samstag";
+    case 0: return "Sonntag";
+    default: break;
+    }
+}
+
+var StundenSlot: string [] = [
+  '8:15:00', '10:00:00', '11:45:00', '14:15:00', '16:00:00', '17:45:00', '19:30:00','ab 21:00:'
 ];
 
 
@@ -74,11 +87,11 @@ function parseUhrZeit(text:string) {
 
 function parseGebaude(raumnamen:string[], name:string){
   var gebaude = new GebaudeModel(name);
-  console.log("parseGebaude");
-  console.log(name);
+  //console.log("parseGebaude");
+  //console.log(name);
   raumnamen.forEach(raumname=> {
     var raum = parseToRaum(raumname);
-    console.log(raumname);
+    //console.log(raumname);
     gebaude.addRaum(raum);
 
   });
@@ -87,9 +100,9 @@ function parseGebaude(raumnamen:string[], name:string){
 
 function parseToRaum(raumname: string){
   var raum = new RaumModel(raumname);
-  console.log("parseToRaum");
-  console.log(raumname);
-  console.log(localStorage.getItem(raumname));
+  //console.log("parseToRaum");
+  //console.log(raumname);
+  //console.log(localStorage.getItem(raumname));
   var ics = raum.getICS(localStorage.getItem(raumname));
   ics.pop();
 
@@ -104,7 +117,7 @@ function parseToRaum(raumname: string){
     var endZeit = parseUhrZeit(end.toString());
     var name = vevent[i].getFirstPropertyValue('description');
     var wochentag = parseDateToWochentag(start.toString());
-    console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag, "end:"+ endZeit);
+    //console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag, "end:"+ endZeit);
     var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
     raum.addVeranstaltung(veranstaltung);
 
@@ -193,7 +206,7 @@ function parseToRaum(raumname: string){
 }
 
 function parseToCampus(){
-  var campus = new CampusModel("HSRM");
+  
   console.log(CampusConfig)
   for(let gebaudeConfig of CampusConfig){
     var gebaude = parseGebaude(gebaudeConfig.raumnamen, gebaudeConfig.gebaudename)
@@ -202,13 +215,9 @@ function parseToCampus(){
   }
   
   console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
-  return campus;
 }
 
-function searchRoom(searchbar){
-  var room:string = searchbar.target.value;
-  parseToCampus().gebaude[0].getRoom(room).
-}
+
 
 @IonicPage()
 @Component({
@@ -217,11 +226,40 @@ function searchRoom(searchbar){
 })
 export class Search {
 
-  private freeTimeSlot = freeTimeSlot;
+  
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-
+  
+  searchRoom(searchbar){
+    freeTimeSlot = [];
+    var room:string = searchbar.target.value;
+    for(let rooms of CampusConfig){
+      var raume: string [] = rooms.raumnamen;
+    }
+    if(raume.indexOf(room) == -1){
+      var fehlerFeld: HTMLElement = document.getElementById('Fehler');
+      fehlerFeld.innerText = "Raum konnte nicht gefunden werden";
+      fehlerFeld.style.display = "block";
+      return null;
+    }  
+    for(var y:number = 0; y < StundenSlot.length; y++){
+      console.log(parseToRaum(room).isFree(StundenSlot[y],giveWochentag()));
+      console.log(giveWochentag());
+      console.log(parseToRaum(room));
+      console.log(StundenSlot[y]);
+      if(parseToRaum(room).isFree(StundenSlot[y],giveWochentag())){
+        freeTimeSlot.push(y);
+       }
+      else{
+        freeTimeSlot.push(99);
+      } 
+    }
+    console.log(freeTimeSlot);
+    this.navCtrl.setRoot(this.navCtrl.getActive().component);
+  }
+  private freeTimeSlot:number [] = freeTimeSlot;  
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
   }

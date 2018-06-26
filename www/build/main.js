@@ -1,6 +1,6 @@
 webpackJsonp([4],{
 
-/***/ 103:
+/***/ 108:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -441,7 +441,7 @@ var LoginPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 115:
+/***/ 120:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -454,11 +454,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 115;
+webpackEmptyAsyncContext.id = 120;
 
 /***/ }),
 
-/***/ 157:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -490,306 +490,8 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 157;
+webpackAsyncContext.id = 162;
 module.exports = webpackAsyncContext;
-
-/***/ }),
-
-/***/ 158:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RaumModel; });
-var RaumModel = /** @class */ (function () {
-    function RaumModel(raumname) {
-        this.raumname = "";
-        this.veranstaltungen = [];
-        this.raumname = raumname;
-    }
-    RaumModel.prototype.addVeranstaltung = function (veranstaltung) {
-        this.veranstaltungen.push(veranstaltung);
-    };
-    //Hilfsfunktion
-    RaumModel.prototype.getICS = function (text) {
-        text.trim();
-        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
-        return text.split("\\r\\n");
-    };
-    RaumModel.prototype.getUhrZeit = function (text) {
-        var datum = text.split("T");
-        var tmp = datum[1];
-        return tmp;
-    };
-    RaumModel.prototype.isFree = function (uhrzeit, wochentag) {
-        var result = true;
-        this.veranstaltungen.forEach(function (veranstaltung) {
-            if (veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit) {
-                result = false;
-            }
-        });
-        return result;
-    };
-    return RaumModel;
-}());
-
-//# sourceMappingURL=RaumModel.1.js.map
-
-/***/ }),
-
-/***/ 160:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Veranstaltung; });
-var Veranstaltung = /** @class */ (function () {
-    function Veranstaltung(name, wochentag, uhrzeit, enduhrzeit) {
-        this.name = "";
-        this.wochentag = "";
-        this.uhrzeit = "";
-        this.enduhrzeit = "";
-        this.name = name;
-        this.uhrzeit = uhrzeit;
-        this.wochentag = wochentag;
-        this.enduhrzeit = enduhrzeit;
-    }
-    return Veranstaltung;
-}());
-
-//# sourceMappingURL=Veranstaltung.js.map
-
-/***/ }),
-
-/***/ 161:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
-var GebaudeModel = /** @class */ (function () {
-    function GebaudeModel(gebaudename) {
-        this.gebaudename = "";
-        this.raume = [];
-        this.gebaudename = gebaudename;
-    }
-    GebaudeModel.prototype.addRaum = function (raum) {
-        this.raume.push(raum);
-    };
-    GebaudeModel.prototype.getFreeRooms = function () {
-        var _this = this;
-        var result = []; // RaumModel[] = [];
-        var slots = this.giveSlots();
-        for (var i = 0; i < slots.length; i++) {
-            switch (slots[i]) {
-                case "08:15:00":
-                    result.push("08:15 bis 09:45:");
-                    break;
-                case "10:00:00":
-                    result.push("10:00 bis 11:30:");
-                    break;
-                case "11:45:00":
-                    result.push("11:45 bis 13:15:");
-                    break;
-                case "14:15:00":
-                    result.push("14:15 bis 15:45:");
-                    break;
-                case "16:00:00":
-                    result.push("16:00 bis 17:30:");
-                    break;
-                case "17:45:00":
-                    result.push("17:45 bis 19:15:");
-                    break;
-                case "19:30:00":
-                    result.push("19:30 bis 21:00:");
-                    break;
-                case "21:00:00":
-                    result.push("ab 21:00:");
-                    break;
-            }
-            this.raume.forEach(function (raum) {
-                if (raum.isFree(slots[i], _this.giveWochentag())) {
-                    result.push(raum.raumname);
-                }
-            });
-        }
-        return result;
-    };
-    GebaudeModel.prototype.giveSlots = function () {
-        var jetzt = new Date();
-        var stunden = jetzt.getHours();
-        var minuten = jetzt.getMinutes();
-        switch (true) {
-            case this.giveUhrzeit() == "08:15:00": return ["08:15:00", "10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
-            case this.giveUhrzeit() == "10:00:00": return ["10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
-            case this.giveUhrzeit() == "11:45:00": return ["11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
-            case this.giveUhrzeit() == "14:15:00": return ["14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
-            case this.giveUhrzeit() == "16:00:00": return ["16:00:00", "17:45:00", "19:30:00", "21:00:00"];
-            case this.giveUhrzeit() == "17:45:00": return ["17:45:00", "19:30:00", "21:00:00"];
-            case this.giveUhrzeit() == "19:30:00": return ["19:30:00", "21:00:00"];
-            case this.giveUhrzeit() == "21:00:00": return ["21:00:00"];
-            default: break;
-        }
-    };
-    GebaudeModel.prototype.giveUhrzeit = function () {
-        var jetzt = new Date();
-        var stunden = jetzt.getHours();
-        var minuten = jetzt.getMinutes();
-        switch (true) {
-            //0:00 - 0:59
-            case (stunden == 0) && (minuten >= 0 && minuten <= 59):
-                console.log("1");
-                return "08:15:00";
-            //1:00 - 1:59
-            case (stunden == 1) && (minuten >= 0 && minuten <= 59):
-                console.log("2");
-                return "08:15:00";
-            //2:00 - 2:59
-            case (stunden == 2) && (minuten >= 0 && minuten <= 59):
-                console.log("3");
-                return "08:15:00";
-            //3:00 - 3:59
-            case (stunden == 3) && (minuten >= 0 && minuten <= 59):
-                console.log("4");
-                return "08:15:00";
-            //4:00 - 4:59
-            case (stunden == 4) && (minuten >= 0 && minuten <= 59):
-                console.log("5");
-                return "08:15:00";
-            //5:00 - 5:59
-            case (stunden == 5) && (minuten >= 0 && minuten <= 59):
-                console.log("6");
-                return "08:15:00";
-            //6:00 - 6:59
-            case (stunden == 6) && (minuten >= 0 && minuten <= 59):
-                console.log("7");
-                return "08:15:00";
-            //7:00 - 7:59
-            case (stunden == 7) && (minuten >= 0 && minuten <= 59):
-                console.log("8");
-                return "08:15:00";
-            //8:00 - 8:59
-            case (stunden == 8) && (minuten >= 0 && minuten <= 59):
-                console.log("9");
-                return "08:15:00";
-            //9:00 - 9:44
-            case (stunden == 9) && (minuten >= 0 && minuten <= 44):
-                console.log("10");
-                return "08:15:00";
-            //9:45 - 9:59
-            case (stunden == 9) && (minuten >= 45 && minuten <= 59):
-                console.log("11");
-                return "10:00:00";
-            //10:00 - 10:59
-            case (stunden == 10) && (minuten >= 0 && minuten <= 59):
-                console.log("12");
-                return "10:00:00";
-            //11:00 - 11:44
-            case (stunden == 11) && (minuten >= 0 && minuten <= 44):
-                console.log("13");
-                return "10:00:00";
-            //11:45 - 11:59
-            case (stunden == 11) && (minuten >= 45 && minuten <= 59):
-                console.log("14");
-                return "11:45:00";
-            //12:00 - 12:59
-            case (stunden == 12) && (minuten >= 0 && minuten <= 59):
-                console.log("15");
-                return "11:45:00";
-            //13:00 - 13:59
-            case (stunden == 13) && (minuten >= 0 && minuten <= 59):
-                console.log("16");
-                return "11:45:00";
-            //14:00 - 14:14
-            case (stunden == 14) && (minuten >= 0 && minuten <= 14):
-                console.log("17");
-                return "11:45:00";
-            //14:15 - 14:59
-            case (stunden == 14) && (minuten >= 15 && minuten <= 59):
-                console.log("18");
-                return "14:15:00";
-            //15:00 - 15:59
-            case (stunden == 15) && (minuten >= 0 && minuten <= 59):
-                console.log("19");
-                return "14:15:00";
-            //16:00 - 16:59
-            case (stunden == 16) && (minuten >= 0 && minuten <= 59):
-                console.log("20");
-                return "16:00:00";
-            //17:00 - 17:44
-            case (stunden == 17) && (minuten >= 0 && minuten <= 44):
-                console.log("21");
-                return "16:00:00";
-            //17:45 - 17:59
-            case (stunden == 17) && (minuten >= 45 && minuten <= 59):
-                console.log("22");
-                return "17:45:00";
-            //18:00 - 18:59
-            case (stunden == 18) && (minuten >= 0 && minuten <= 59):
-                console.log("23");
-                return "17:45:00";
-            //19:00 - 19:29
-            case (stunden == 19) && (minuten >= 0 && minuten <= 29):
-                console.log("24");
-                return "17:45:00";
-            //19:30 - 19:59
-            case (stunden == 19) && (minuten >= 30 && minuten <= 59):
-                console.log("25");
-                return "19:30:00";
-            //20:00 - 20:59
-            case (stunden == 20) && (minuten >= 0 && minuten <= 59):
-                console.log("26");
-                return "19:30:00";
-            //21:00 - 21:59
-            case (stunden == 21) && (minuten >= 0 && minuten <= 59):
-                console.log("27");
-                return "21:00:00";
-            //22:00 - 22:59
-            case (stunden == 22) && (minuten >= 0 && minuten <= 59):
-                console.log("28");
-                return "21:00:00";
-            //23:00 - 23:59
-            case (stunden == 23) && (minuten >= 0 && minuten <= 59):
-                console.log("29");
-                return "21:00:00";
-            default: break;
-        }
-    };
-    GebaudeModel.prototype.giveWochentag = function () {
-        var jetzt = new Date();
-        switch (jetzt.getDay()) {
-            case 1: return "Montag";
-            case 2: return "Dienstag";
-            case 3: return "Mittwoch";
-            case 4: return "Donnerstag";
-            case 5: return "Freitag";
-            case 6: return "Samstag";
-            case 0: return "Sonntag";
-            default: break;
-        }
-    };
-    return GebaudeModel;
-}());
-
-//# sourceMappingURL=GebaudeModel.js.map
-
-/***/ }),
-
-/***/ 162:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CampusModel; });
-var CampusModel = /** @class */ (function () {
-    function CampusModel(name) {
-        this.campusname = "";
-        this.gebaude = [];
-        this.campusname = name;
-    }
-    CampusModel.prototype.addGebaude = function (gebaude) {
-        this.gebaude.push(gebaude);
-    };
-    return CampusModel;
-}());
-
-//# sourceMappingURL=CampusModel.js.map
 
 /***/ }),
 
@@ -824,7 +526,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_c_c__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_d_d__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login__ = __webpack_require__(108);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -907,7 +609,7 @@ var AppModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_c_c__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_d_d__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_login_login__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_login_login__ = __webpack_require__(108);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -975,6 +677,12 @@ var MyApp = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Search; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_RaumModel_1__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ical_js__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_ical_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__model_GebaudeModel__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_CampusModel__ = __webpack_require__(85);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -986,27 +694,246 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-/**
- * Generated class for the SearchPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
+
+
+
+
+// Die Konfigurationsvariable für die Räume und Gebäudenamen, diese wird in den späteren Funktionen verwendet
+var CampusConfig = [
+    {
+        gebaudename: "C",
+        raumnamen: [
+            "C001",
+            "C007",
+            "C035",
+            "C037",
+            "C113",
+            "C213",
+            "C237",
+            "C305",
+            "C313",
+            "C361",
+            "C375",
+            "C377",
+            "C405",
+            "C407",
+            "C413",
+        ]
+    },
+    {
+        gebaudename: "D",
+        raumnamen: [
+            "D01",
+            "D02",
+            "D12",
+            "D13",
+            "D14",
+            "D15",
+            "D17",
+            "D18",
+        ]
+    }
+];
+var campus = new __WEBPACK_IMPORTED_MODULE_6__model_CampusModel__["a" /* CampusModel */]("HSRM");
+var freeTimeSlot = [];
+function giveWochentag() {
+    var jetzt = new Date();
+    switch (jetzt.getDay()) {
+        case 1: return "Montag";
+        case 2: return "Dienstag";
+        case 3: return "Mittwoch";
+        case 4: return "Donnerstag";
+        case 5: return "Freitag";
+        case 6: return "Samstag";
+        case 0: return "Sonntag";
+        default: break;
+    }
+}
+var StundenSlot = [
+    '8:15:00', '10:00:00', '11:45:00', '14:15:00', '16:00:00', '17:45:00', '19:30:00', 'ab 21:00:'
+];
+function parseDateToWochentag(text) {
+    var datum = text.split("T");
+    datum.pop();
+    datum = datum[0].split("-");
+    var datum2 = new Date(datum[0], datum[1] - 1, datum[2]);
+    var tag = datum2.getDay();
+    var wochentag = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+    return wochentag[tag];
+}
+function parseUhrZeit(text) {
+    var datum = text.split("T");
+    var tmp = datum[1];
+    return tmp;
+}
+function parseGebaude(raumnamen, name) {
+    var gebaude = new __WEBPACK_IMPORTED_MODULE_5__model_GebaudeModel__["a" /* GebaudeModel */](name);
+    //console.log("parseGebaude");
+    //console.log(name);
+    raumnamen.forEach(function (raumname) {
+        var raum = parseToRaum(raumname);
+        //console.log(raumname);
+        gebaude.addRaum(raum);
+    });
+    return gebaude;
+}
+function parseToRaum(raumname) {
+    var raum = new __WEBPACK_IMPORTED_MODULE_2__model_RaumModel_1__["a" /* RaumModel */](raumname);
+    //console.log("parseToRaum");
+    //console.log(raumname);
+    //console.log(localStorage.getItem(raumname));
+    var ics = raum.getICS(localStorage.getItem(raumname));
+    ics.pop();
+    var jcalData = __WEBPACK_IMPORTED_MODULE_3_ical_js___default.a.parse(ics.join("\r\n"));
+    var vcalendar = new __WEBPACK_IMPORTED_MODULE_3_ical_js___default.a.Component(jcalData);
+    var vevent = vcalendar.getAllSubcomponents('vevent');
+    for (var i = 0; i < vevent.length; i++) {
+        var start = vevent[i].getFirstPropertyValue('dtstart');
+        var end = vevent[i].getFirstPropertyValue('dtend');
+        var startZeit = parseUhrZeit(start.toString());
+        var endZeit = parseUhrZeit(end.toString());
+        var name = vevent[i].getFirstPropertyValue('description');
+        var wochentag = parseDateToWochentag(start.toString());
+        //console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag, "end:"+ endZeit);
+        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit, endZeit);
+        raum.addVeranstaltung(veranstaltung);
+        switch (startZeit) {
+            case "08:15:00":
+                if (endZeit == "11:30:00") {
+                    console.log("hallo case 8 -11.30");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "13:15:00") {
+                    console.log("hallo case 8 -13");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "10:00:00":
+                if (endZeit == "13:15:00") {
+                    console.log("hallo case 10 -13.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "15:45:00") {
+                    console.log("hallo case 10 -15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "11:45:00":
+                if (endZeit == "15:45:00") {
+                    console.log("hallo case 11.45-15.45");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "17:30:00") {
+                    console.log("hallo case 11.45-17.35");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "14:15:00":
+                if (endZeit == "17:30:00") {
+                    console.log("hallo case 14.15-17.30");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "19:15:00") {
+                    console.log("hallo case 14.15-19.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "16:00:00":
+                if (endZeit == "19:15:00") {
+                    console.log("hallo case 16.00-19.15");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                else if (endZeit == "21:00:00") {
+                    console.log("hallo case 16.00-21.00");
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+                break;
+            case "17:45:00":
+                if (endZeit == "21:00:00") {
+                    var veranstaltung = new __WEBPACK_IMPORTED_MODULE_4__model_Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
+                    raum.addVeranstaltung(veranstaltung);
+                }
+            default:
+        }
+    }
+    return raum;
+}
+function parseToCampus() {
+    console.log(CampusConfig);
+    for (var _i = 0, CampusConfig_1 = CampusConfig; _i < CampusConfig_1.length; _i++) {
+        var gebaudeConfig = CampusConfig_1[_i];
+        var gebaude = parseGebaude(gebaudeConfig.raumnamen, gebaudeConfig.gebaudename);
+        campus.addGebaude(gebaude);
+        console.log(CampusConfig);
+    }
+    console.log("test" + campus.gebaude[0].getFreeRooms()[0]);
+}
 var Search = /** @class */ (function () {
     function Search(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.freeTimeSlot = freeTimeSlot;
     }
+    Search.prototype.searchRoom = function (searchbar) {
+        freeTimeSlot = [];
+        var room = searchbar.target.value;
+        for (var _i = 0, CampusConfig_2 = CampusConfig; _i < CampusConfig_2.length; _i++) {
+            var rooms = CampusConfig_2[_i];
+            var raume = rooms.raumnamen;
+        }
+        if (raume.indexOf(room) == -1) {
+            var fehlerFeld = document.getElementById('Fehler');
+            fehlerFeld.innerText = "Raum konnte nicht gefunden werden";
+            fehlerFeld.style.display = "block";
+            return null;
+        }
+        for (var y = 0; y < StundenSlot.length; y++) {
+            console.log(parseToRaum(room).isFree(StundenSlot[y], giveWochentag()));
+            console.log(giveWochentag());
+            console.log(parseToRaum(room));
+            console.log(StundenSlot[y]);
+            if (parseToRaum(room).isFree(StundenSlot[y], giveWochentag())) {
+                freeTimeSlot.push(y);
+            }
+            else {
+                freeTimeSlot.push(99);
+            }
+        }
+        console.log(freeTimeSlot);
+        this.navCtrl.setRoot(this.navCtrl.getActive().component);
+    };
     Search.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad SearchPage');
     };
     Search = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-search',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
+            selector: 'page-search',template:/*ion-inline-start:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" (change)="searchRoom($event)"placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n  <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n    </span>\n  <ion-list>\n      <ng-container *ngFor="let item of freeTimeSlot">\n          <h3 style="margin-top: 20px;" *ngIf="item == 0">08:15 bis 09:45</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 1">10:00 bis 11:30</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 2">11:45 bis 13:15</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 3">14:15 bis 15:45</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 4">16:00 bis 17:30</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 5">17:45 bis 19:15</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 6">19:30 bis 21:00</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 7">ab 21:00</h3>\n        </ng-container>\n  </ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/home/felix/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object])
     ], Search);
     return Search;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=search.js.map
@@ -1076,12 +1003,12 @@ var HomePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(85);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1321,12 +1248,12 @@ var Cgebaude = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_RaumModel_1__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ical_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ical_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_Veranstaltung__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__model_GebaudeModel__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__model_CampusModel__ = __webpack_require__(85);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1556,6 +1483,311 @@ var Dgebaude = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=d.js.map
+
+/***/ }),
+
+/***/ 81:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RaumModel; });
+var RaumModel = /** @class */ (function () {
+    function RaumModel(raumname) {
+        this.raumname = "";
+        this.veranstaltungen = [];
+        this.raumname = raumname;
+    }
+    RaumModel.prototype.addVeranstaltung = function (veranstaltung) {
+        this.veranstaltungen.push(veranstaltung);
+    };
+    //Hilfsfunktion
+    RaumModel.prototype.getICS = function (text) {
+        text.trim();
+        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
+        return text.split("\\r\\n");
+    };
+    RaumModel.prototype.getUhrZeit = function (text) {
+        var datum = text.split("T");
+        var tmp = datum[1];
+        return tmp;
+    };
+    RaumModel.prototype.isFree = function (uhrzeit, wochentag) {
+        var result = true;
+        this.veranstaltungen.forEach(function (veranstaltung) {
+            if (veranstaltung.wochentag == wochentag && veranstaltung.uhrzeit == uhrzeit) {
+                result = false;
+            }
+        });
+        return result;
+    };
+    return RaumModel;
+}());
+
+//# sourceMappingURL=RaumModel.1.js.map
+
+/***/ }),
+
+/***/ 83:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Veranstaltung; });
+var Veranstaltung = /** @class */ (function () {
+    function Veranstaltung(name, wochentag, uhrzeit, enduhrzeit) {
+        this.name = "";
+        this.wochentag = "";
+        this.uhrzeit = "";
+        this.enduhrzeit = "";
+        this.name = name;
+        this.uhrzeit = uhrzeit;
+        this.wochentag = wochentag;
+        this.enduhrzeit = enduhrzeit;
+    }
+    return Veranstaltung;
+}());
+
+//# sourceMappingURL=Veranstaltung.js.map
+
+/***/ }),
+
+/***/ 84:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
+var GebaudeModel = /** @class */ (function () {
+    function GebaudeModel(gebaudename) {
+        this.gebaudename = "";
+        this.raume = [];
+        this.gebaudename = gebaudename;
+    }
+    GebaudeModel.prototype.addRaum = function (raum) {
+        this.raume.push(raum);
+    };
+    GebaudeModel.prototype.getFreeRooms = function () {
+        var _this = this;
+        var result = []; // RaumModel[] = [];
+        var slots = this.giveSlots();
+        for (var i = 0; i < slots.length; i++) {
+            switch (slots[i]) {
+                case "08:15:00":
+                    result.push("08:15 bis 09:45:");
+                    break;
+                case "10:00:00":
+                    result.push("10:00 bis 11:30:");
+                    break;
+                case "11:45:00":
+                    result.push("11:45 bis 13:15:");
+                    break;
+                case "14:15:00":
+                    result.push("14:15 bis 15:45:");
+                    break;
+                case "16:00:00":
+                    result.push("16:00 bis 17:30:");
+                    break;
+                case "17:45:00":
+                    result.push("17:45 bis 19:15:");
+                    break;
+                case "19:30:00":
+                    result.push("19:30 bis 21:00:");
+                    break;
+                case "21:00:00":
+                    result.push("ab 21:00:");
+                    break;
+            }
+            this.raume.forEach(function (raum) {
+                if (raum.isFree(slots[i], _this.giveWochentag())) {
+                    result.push(raum.raumname);
+                }
+            });
+        }
+        return result;
+    };
+    GebaudeModel.prototype.giveSlots = function () {
+        var jetzt = new Date();
+        var stunden = jetzt.getHours();
+        var minuten = jetzt.getMinutes();
+        switch (true) {
+            case this.giveUhrzeit() == "08:15:00": return ["08:15:00", "10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "10:00:00": return ["10:00:00", "11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "11:45:00": return ["11:45:00", "14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "14:15:00": return ["14:15:00", "16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "16:00:00": return ["16:00:00", "17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "17:45:00": return ["17:45:00", "19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "19:30:00": return ["19:30:00", "21:00:00"];
+            case this.giveUhrzeit() == "21:00:00": return ["21:00:00"];
+            default: break;
+        }
+    };
+    GebaudeModel.prototype.giveUhrzeit = function () {
+        var jetzt = new Date();
+        var stunden = jetzt.getHours();
+        var minuten = jetzt.getMinutes();
+        switch (true) {
+            //0:00 - 0:59
+            case (stunden == 0) && (minuten >= 0 && minuten <= 59):
+                console.log("1");
+                return "08:15:00";
+            //1:00 - 1:59
+            case (stunden == 1) && (minuten >= 0 && minuten <= 59):
+                console.log("2");
+                return "08:15:00";
+            //2:00 - 2:59
+            case (stunden == 2) && (minuten >= 0 && minuten <= 59):
+                console.log("3");
+                return "08:15:00";
+            //3:00 - 3:59
+            case (stunden == 3) && (minuten >= 0 && minuten <= 59):
+                console.log("4");
+                return "08:15:00";
+            //4:00 - 4:59
+            case (stunden == 4) && (minuten >= 0 && minuten <= 59):
+                console.log("5");
+                return "08:15:00";
+            //5:00 - 5:59
+            case (stunden == 5) && (minuten >= 0 && minuten <= 59):
+                console.log("6");
+                return "08:15:00";
+            //6:00 - 6:59
+            case (stunden == 6) && (minuten >= 0 && minuten <= 59):
+                console.log("7");
+                return "08:15:00";
+            //7:00 - 7:59
+            case (stunden == 7) && (minuten >= 0 && minuten <= 59):
+                console.log("8");
+                return "08:15:00";
+            //8:00 - 8:59
+            case (stunden == 8) && (minuten >= 0 && minuten <= 59):
+                console.log("9");
+                return "08:15:00";
+            //9:00 - 9:44
+            case (stunden == 9) && (minuten >= 0 && minuten <= 44):
+                console.log("10");
+                return "08:15:00";
+            //9:45 - 9:59
+            case (stunden == 9) && (minuten >= 45 && minuten <= 59):
+                console.log("11");
+                return "10:00:00";
+            //10:00 - 10:59
+            case (stunden == 10) && (minuten >= 0 && minuten <= 59):
+                console.log("12");
+                return "10:00:00";
+            //11:00 - 11:44
+            case (stunden == 11) && (minuten >= 0 && minuten <= 44):
+                console.log("13");
+                return "10:00:00";
+            //11:45 - 11:59
+            case (stunden == 11) && (minuten >= 45 && minuten <= 59):
+                console.log("14");
+                return "11:45:00";
+            //12:00 - 12:59
+            case (stunden == 12) && (minuten >= 0 && minuten <= 59):
+                console.log("15");
+                return "11:45:00";
+            //13:00 - 13:59
+            case (stunden == 13) && (minuten >= 0 && minuten <= 59):
+                console.log("16");
+                return "11:45:00";
+            //14:00 - 14:14
+            case (stunden == 14) && (minuten >= 0 && minuten <= 14):
+                console.log("17");
+                return "11:45:00";
+            //14:15 - 14:59
+            case (stunden == 14) && (minuten >= 15 && minuten <= 59):
+                console.log("18");
+                return "14:15:00";
+            //15:00 - 15:59
+            case (stunden == 15) && (minuten >= 0 && minuten <= 59):
+                console.log("19");
+                return "14:15:00";
+            //16:00 - 16:59
+            case (stunden == 16) && (minuten >= 0 && minuten <= 59):
+                console.log("20");
+                return "16:00:00";
+            //17:00 - 17:44
+            case (stunden == 17) && (minuten >= 0 && minuten <= 44):
+                console.log("21");
+                return "16:00:00";
+            //17:45 - 17:59
+            case (stunden == 17) && (minuten >= 45 && minuten <= 59):
+                console.log("22");
+                return "17:45:00";
+            //18:00 - 18:59
+            case (stunden == 18) && (minuten >= 0 && minuten <= 59):
+                console.log("23");
+                return "17:45:00";
+            //19:00 - 19:29
+            case (stunden == 19) && (minuten >= 0 && minuten <= 29):
+                console.log("24");
+                return "17:45:00";
+            //19:30 - 19:59
+            case (stunden == 19) && (minuten >= 30 && minuten <= 59):
+                console.log("25");
+                return "19:30:00";
+            //20:00 - 20:59
+            case (stunden == 20) && (minuten >= 0 && minuten <= 59):
+                console.log("26");
+                return "19:30:00";
+            //21:00 - 21:59
+            case (stunden == 21) && (minuten >= 0 && minuten <= 59):
+                console.log("27");
+                return "21:00:00";
+            //22:00 - 22:59
+            case (stunden == 22) && (minuten >= 0 && minuten <= 59):
+                console.log("28");
+                return "21:00:00";
+            //23:00 - 23:59
+            case (stunden == 23) && (minuten >= 0 && minuten <= 59):
+                console.log("29");
+                return "21:00:00";
+            default: break;
+        }
+    };
+    GebaudeModel.prototype.giveWochentag = function () {
+        var jetzt = new Date();
+        switch (jetzt.getDay()) {
+            case 1: return "Montag";
+            case 2: return "Dienstag";
+            case 3: return "Mittwoch";
+            case 4: return "Donnerstag";
+            case 5: return "Freitag";
+            case 6: return "Samstag";
+            case 0: return "Sonntag";
+            default: break;
+        }
+    };
+    GebaudeModel.prototype.getRoom = function (name) {
+        this.raume.forEach(function (raum) {
+            if (raum.raumname == name) {
+                return raum;
+            }
+        });
+    };
+    return GebaudeModel;
+}());
+
+//# sourceMappingURL=GebaudeModel.js.map
+
+/***/ }),
+
+/***/ 85:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CampusModel; });
+var CampusModel = /** @class */ (function () {
+    function CampusModel(name) {
+        this.campusname = "";
+        this.gebaude = [];
+        this.campusname = name;
+    }
+    CampusModel.prototype.addGebaude = function (gebaude) {
+        this.gebaude.push(gebaude);
+    };
+    return CampusModel;
+}());
+
+//# sourceMappingURL=CampusModel.js.map
 
 /***/ })
 
