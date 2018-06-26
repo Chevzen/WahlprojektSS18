@@ -175,5 +175,17 @@ export class GebaudeModel{
       case 0: return "Sonntag";
       default: break;
     }
+<<<<<<< HEAD
   }
+=======
+
+    getRoom(name:string){
+        this.raume.forEach(raum => {
+            if(raum.raumname == name){
+                return raum;
+            }
+        });
+
+    }
+>>>>>>> f204bf760131b969e0d42ef077947a9c1cec163f
 }

@@ -15,6 +15,10 @@ export class MyApp {
   @ViewChild(Nav) nav:Nav;
   rootPage:any = LoginPage;
   navCtrl:any;
+<<<<<<< HEAD
+=======
+
+>>>>>>> f204bf760131b969e0d42ef077947a9c1cec163f
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
