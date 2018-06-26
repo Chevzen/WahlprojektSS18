@@ -37,6 +37,15 @@ var StundenSlot: string [] = [
   '8:15:00', '10:00:00', '11:45:00', '14:15:00', '16:00:00', '17:45:00', '19:30:00','ab 21:00:'
 ];
 
+function timeout(zahl:number) {
+	var start:any = new Date().getTime();
+	var i:number;
+	for(i = 0; i < 1e7; i++){
+		if((new Date().getTime() - start) > zahl*1000){
+			break;
+		}
+	}
+}
 
 @IonicPage()
 @Component({
@@ -57,8 +66,8 @@ export class Search {
     console.log('ionViewDidLoad SearchPage');
     this.darstellung = new Darstellung(0);
     this.darstellung2 = new Darstellung(1);
-    this.gebaudeC.raume = this.darstellung.parseGebaude(CampusConfig,"C");
-    this.gebaudeD.raume = this.darstellung2.parseGebaude(CampusConfig2,"D");
+    this.gebaudeC = this.darstellung.parseGebaude(CampusConfig,"C");
+    this.gebaudeD = this.darstellung2.parseGebaude(CampusConfig2,"D");
     console.log(this.gebaudeC);
     console.log(this.gebaudeD);
   }
@@ -67,10 +76,10 @@ export class Search {
     var room:string = searchbar.target.value;
     console.log("Campusconfig: "+CampusConfig);
     var raume:string[] = [];
-    for(let rooms of this.gebaudeC.raume.raume){
+    for(let rooms of this.gebaudeC.raume){
       raume.push(rooms.raumname);
     }
-    for(let rooms of this.gebaudeD.raume.raume){
+    for(let rooms of this.gebaudeD.raume){
       raume.push(rooms.raumname);
     }
     console.log(room+" "+raume);
@@ -78,11 +87,12 @@ export class Search {
       var fehlerFeld: HTMLElement = document.getElementById('Fehler');
       fehlerFeld.innerText = "Raum konnte nicht gefunden werden";
       fehlerFeld.style.display = "block";
+      this.navCtrl.setRoot(this.navCtrl.getActive().component);
       return null;
     }
     for(var y:number = 0; y < StundenSlot.length; y++){
-      console.log(this.darstellung.parseToRaum(room).isFree(StundenSlot[y],this.darstellung.giveWochentag()));
-      console.log(this.darstellung.giveWochentag());
+      //console.log(this.darstellung.parseToRaum(room).isFree(StundenSlot[y],this.darstellung.giveWochentag()));
+      //console.log(this.darstellung.giveWochentag());
       //console.log(this.darstellung.parseToRaum(room));
       console.log(StundenSlot[y]);
       if(this.darstellung.parseToRaum(room).isFree(StundenSlot[y],this.darstellung.giveWochentag())){

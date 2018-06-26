@@ -1119,6 +1119,15 @@ var freeTimeSlot = [];
 var StundenSlot = [
     '8:15:00', '10:00:00', '11:45:00', '14:15:00', '16:00:00', '17:45:00', '19:30:00', 'ab 21:00:'
 ];
+function timeout(zahl) {
+    var start = new Date().getTime();
+    var i;
+    for (i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > zahl * 1000) {
+            break;
+        }
+    }
+}
 var Search = /** @class */ (function () {
     function Search(navCtrl, navParams) {
         this.navCtrl = navCtrl;
@@ -1132,8 +1141,8 @@ var Search = /** @class */ (function () {
         console.log('ionViewDidLoad SearchPage');
         this.darstellung = new __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__["a" /* Darstellung */](0);
         this.darstellung2 = new __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__["a" /* Darstellung */](1);
-        this.gebaudeC.raume = this.darstellung.parseGebaude(CampusConfig, "C");
-        this.gebaudeD.raume = this.darstellung2.parseGebaude(CampusConfig2, "D");
+        this.gebaudeC = this.darstellung.parseGebaude(CampusConfig, "C");
+        this.gebaudeD = this.darstellung2.parseGebaude(CampusConfig2, "D");
         console.log(this.gebaudeC);
         console.log(this.gebaudeD);
     };
@@ -1142,11 +1151,11 @@ var Search = /** @class */ (function () {
         var room = searchbar.target.value;
         console.log("Campusconfig: " + CampusConfig);
         var raume = [];
-        for (var _i = 0, _a = this.gebaudeC.raume.raume; _i < _a.length; _i++) {
+        for (var _i = 0, _a = this.gebaudeC.raume; _i < _a.length; _i++) {
             var rooms = _a[_i];
             raume.push(rooms.raumname);
         }
-        for (var _b = 0, _c = this.gebaudeD.raume.raume; _b < _c.length; _b++) {
+        for (var _b = 0, _c = this.gebaudeD.raume; _b < _c.length; _b++) {
             var rooms = _c[_b];
             raume.push(rooms.raumname);
         }
@@ -1155,11 +1164,12 @@ var Search = /** @class */ (function () {
             var fehlerFeld = document.getElementById('Fehler');
             fehlerFeld.innerText = "Raum konnte nicht gefunden werden";
             fehlerFeld.style.display = "block";
+            this.navCtrl.setRoot(this.navCtrl.getActive().component);
             return null;
         }
         for (var y = 0; y < StundenSlot.length; y++) {
-            console.log(this.darstellung.parseToRaum(room).isFree(StundenSlot[y], this.darstellung.giveWochentag()));
-            console.log(this.darstellung.giveWochentag());
+            //console.log(this.darstellung.parseToRaum(room).isFree(StundenSlot[y],this.darstellung.giveWochentag()));
+            //console.log(this.darstellung.giveWochentag());
             //console.log(this.darstellung.parseToRaum(room));
             console.log(StundenSlot[y]);
             if (this.darstellung.parseToRaum(room).isFree(StundenSlot[y], this.darstellung.giveWochentag())) {
@@ -1176,10 +1186,9 @@ var Search = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-search',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" (change)="searchRoom($event)"placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n  <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n    </span>\n  <ion-list>\n      <ng-container *ngFor="let item of freeTimeSlot">\n          <h3 style="margin-top: 20px;" *ngIf="item == 0">08:15 bis 09:45</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 1">10:00 bis 11:30</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 2">11:45 bis 13:15</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 3">14:15 bis 15:45</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 4">16:00 bis 17:30</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 5">17:45 bis 19:15</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 6">19:30 bis 21:00</h3>\n          <h3 style="margin-top: 20px;" *ngIf="item == 7">ab 21:00</h3>\n        </ng-container>\n  </ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], Search);
     return Search;
-    var _a, _b;
 }());
 
 //# sourceMappingURL=search.js.map
