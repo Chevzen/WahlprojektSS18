@@ -26,26 +26,7 @@ export class Cgebaude {
   }
 
   ionViewDidLoad() {
-    var show: HTMLElement = document.getElementById('Lehraussen');
-    show.style.display = "none";
-    var innen: HTMLElement = document.getElementById('Lehrinnen');
-    innen.style.display = "none";
-    var span1: HTMLElement = document.getElementById('span1');
-    span1.style.display = "none";
-    var span2: HTMLElement = document.getElementById('span2');
-    span2.style.display = "none";
-    var button: HTMLElement = document.getElementById('button');
-    button.style.display = "none";
-    console.log('ionViewDidLoad CPage');
-    this.darstellung = new Darstellung(0);
-    console.log(this.darstellung);
-    this.darstellung.parseToCampus();
-    console.log(this.darstellung);
-    this.freeRooms = this.darstellung.freeRooms;
-    this.zugang = this.darstellung.zugang;
-    this.fav = localStorage.getItem("Favoriten").split(",");
-    console.log(this.freeRooms);
-    console.log(this.zugang);
+    
   }
 
 
