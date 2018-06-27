@@ -41,9 +41,30 @@ export class Dgebaude {
       console.log(this.darstellung);
       this.freeRooms = this.darstellung.freeRooms;
       this.zugang = this.darstellung.zugang;
+      this.fav = localStorage.getItem("Favoriten").split(",");
       console.log(this.freeRooms);
       console.log(this.zugang);
     }
+
+    makeFav(item) {
+    //Gehe alle Räume durch
+    this.fav = localStorage.getItem("Favoriten").split(",");
+    var isDelete:number = 0;
+    //Gehe über alle Favoriten druch
+    for(var i:number = 0; i < this.fav.length; i++) {
+      //Ist der angeklickte Raum in den Favoriten? Lösche ihn
+      if(this.fav[i] == item) {
+        this.fav.splice(i,1);
+        console.log("Eintrag gelöscht");
+        isDelete = -1;
+      } 
+    }
+    //Wenn der Raum nicht in den Favoriten ist, füge ihn hinzu
+    if(isDelete == 0) {
+      this.fav.push(item);
+    }
+    localStorage.setItem("Favoriten", this.fav);
+  }
 
     onTip(raum:string){
       let toast = this.toastCtrl.create({

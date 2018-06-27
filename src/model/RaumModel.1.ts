@@ -13,7 +13,6 @@ export class RaumModel{
   raumname:string = "";
   veranstaltungen:Veranstaltung [] = [];
 
-
   constructor (raumname:string){
     this.raumname = raumname;
 

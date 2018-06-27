@@ -261,9 +261,12 @@ export class Darstellung {
     for(var j:number = 0;j<campus.gebaude[this.GebaudeAuswahl].zugangsberechtigung.length;j++){//zugang1.length;i++){
       this.zugang.push(campus.gebaude[this.GebaudeAuswahl].zugangsberechtigung[j]);
     }
+
     //console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
     return campus;
   }
+
+   
 
   /********************************************************************************************
   *                                                                                           *
