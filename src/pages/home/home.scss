@@ -1,6 +1,19 @@
 page-home {
 
 }
-a {
-	display:block; border-style:dotted; width:87px; height:41px; position:absolute; left: 179px; top: 266px; transform:rotate(67deg);
+.my-toast>.toast-wrapper>.toast-container {
+  background-color: rgba(66, 134, 244, 0.5);
+  border-radius: 5px;
+  border: 2px solid rgb(66, 134, 244);
+  width: 100%;
+}
+.my-toast>.toast-wrapper {
+  opacity: 1.0;
+  background-color: rgba(66, 134, 244, 0.5);
+  border-radius: 5px;
+  width: 80%;
+  text-align: center;
+}
+.my-toast {
+  text-align: center;
 }

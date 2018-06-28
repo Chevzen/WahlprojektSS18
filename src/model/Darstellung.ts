@@ -65,7 +65,7 @@ export class Darstellung {
 
   /********************************************************************************************
   *                                                                                           *
-  *   Funktion setzt das Gebäude.                                                             *
+  *   Konstruktor setzt das Gebäude.                                                             *
   *                                                                                           *
   *   wahl -> Nummer des Gebäude (0 -> C-Gebäude, 1 -> D-Gebäude)                             *
   *                                                                                           *
@@ -74,6 +74,11 @@ export class Darstellung {
     this.GebaudeAuswahl = wahl;
   }
 
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion gibt den aktuellen Wochentag zurück                                            *
+  *                                                                                           *
+  ********************************************************************************************/
   giveWochentag(){
     var jetzt = new Date();
     switch(jetzt.getDay()){
@@ -128,11 +133,8 @@ export class Darstellung {
   ********************************************************************************************/
   parseGebaude(raumnamen:string[], name:string){
     var gebaude = new GebaudeModel(name);
-    console.log("parseGebaude");
-    //console.log(name);
     raumnamen.forEach(raumname=> {
       var raum = this.parseToRaum(raumname);
-      //console.log(raumname);
       gebaude.addRaum(raum);
 
     });
@@ -148,16 +150,11 @@ export class Darstellung {
   ********************************************************************************************/
   parseToRaum(raumname: string){
     var raum = new RaumModel(raumname);
-    console.log("parseToRaum");
-    console.log(raumname);
-    
+
     var ics = raum.getICS(localStorage.getItem(raumname));
-    console.log(ics);
-    console.log(localStorage.getItem(raumname));
     ics.pop();
 
     var jcalData = ICAL.parse(ics.join("\r\n"));
-    console.log(ics);
     var vcalendar = new ICAL.Component(jcalData);
     var vevent = vcalendar.getAllSubcomponents('vevent');
 
@@ -168,7 +165,6 @@ export class Darstellung {
       var endZeit = this.parseUhrZeit(end.toString());
       var name = vevent[i].getFirstPropertyValue('description');
       var wochentag = this.parseDateToWochentag(start.toString());
-      //console.log("start:"+ startZeit, "name" + name, "Wochentag " +wochentag, "end:"+ endZeit);
       var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
       raum.addVeranstaltung(veranstaltung);
 
@@ -176,12 +172,10 @@ export class Darstellung {
 
         case "08:15:00":
         if (endZeit == "11:30:00") {
-          console.log("hallo case 8 -11.30");
           var veranstaltung1 = new Veranstaltung(name, wochentag, "10:00:00", endZeit);
           raum.addVeranstaltung(veranstaltung1);
         }
         else if (endZeit == "13:15:00"){
-          console.log("hallo case 8 -13");
           var veranstaltung2 = new Veranstaltung(name, wochentag, "10:00:00", endZeit);
           raum.addVeranstaltung(veranstaltung2);
           var veranstaltung3 = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
@@ -191,12 +185,10 @@ export class Darstellung {
 
         case "10:00:00":
         if (endZeit == "13:15:00") {
-          console.log("hallo case 10 -13.15");
           var veranstaltung4 = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
           raum.addVeranstaltung(veranstaltung4);
         }
         else if (endZeit == "15:45:00") {
-          console.log("hallo case 10 -15.45");
           var veranstaltung5 = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
           raum.addVeranstaltung(veranstaltung5);
           var veranstaltung6 = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
@@ -206,12 +198,10 @@ export class Darstellung {
 
         case "11:45:00":
         if (endZeit == "15:45:00") {
-          console.log("hallo case 11.45-15.45");
           var veranstaltung7 = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
           raum.addVeranstaltung(veranstaltung7);
         }
         else if (endZeit == "17:30:00") {
-          console.log("hallo case 11.45-17.35");
           var veranstaltung8 = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
           raum.addVeranstaltung(veranstaltung8);
           var veranstaltung9 = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
@@ -221,12 +211,10 @@ export class Darstellung {
 
         case "14:15:00":
         if (endZeit == "17:30:00") {
-          console.log("hallo case 14.15-17.30");
           var veranstaltung10 = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
           raum.addVeranstaltung(veranstaltung10);
         }
         else if (endZeit == "19:15:00"){
-          console.log("hallo case 14.15-19.15");
           var veranstaltung11 = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
           raum.addVeranstaltung(veranstaltung11);
           var veranstaltung12 = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
@@ -236,12 +224,10 @@ export class Darstellung {
 
         case "16:00:00":
         if (endZeit == "19:15:00") {
-          console.log("hallo case 16.00-19.15");
           var veranstaltung13 = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
           raum.addVeranstaltung(veranstaltung13);
         }
         else if (endZeit == "21:00:00"){
-          console.log("hallo case 16.00-21.00");
           var veranstaltung14 = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
           raum.addVeranstaltung(veranstaltung14);
           var veranstaltung15 = new Veranstaltung(name, wochentag, "19:30:00", endZeit);
@@ -267,11 +253,9 @@ export class Darstellung {
   ********************************************************************************************/
   parseToCampus(){
     var campus = new CampusModel("HSRM");
-    //console.log(this.CampusConfig)
     for(let gebaudeConfig of this.CampusConfig){
       var gebaude = this.parseGebaude(gebaudeConfig.raumnamen, gebaudeConfig.gebaudename)
       campus.addGebaude(gebaude);
-      //console.log(this.CampusConfig);
     }
     for(var i: number = 0; i < campus.gebaude[this.GebaudeAuswahl].getFreeRooms().length; i++){
       this.freeRooms.push(campus.gebaude[this.GebaudeAuswahl].getFreeRooms()[i]);
@@ -279,7 +263,6 @@ export class Darstellung {
     for(var j:number = 0;j<campus.gebaude[this.GebaudeAuswahl].zugangsberechtigung.length;j++){//zugang1.length;i++){
       this.zugang.push(campus.gebaude[this.GebaudeAuswahl].zugangsberechtigung[j]);
     }
-    //console.log("test"+campus.gebaude[0].getFreeRooms()[0]);
     return campus;
   }
 
@@ -319,7 +302,6 @@ export class Darstellung {
   ********************************************************************************************/
   erstelleElement(text:string, tag:string){
     var element: HTMLElement = document.createElement(tag);
-    //var text2:HTMLElement;
     var texte:string[] = text.split(",");
 
     for(var i:number = 0;i<texte.length;i++){
@@ -357,15 +339,9 @@ export class Darstellung {
   *                                                                                           *
   ********************************************************************************************/
   zeigeLehrveranstaltungen(lehrveranstaltungen:string[], raumname:string){
-    /*var show: HTMLElement = document.getElementById('Lehraussen');
-    show.style.display = "block";
-    var notShow: HTMLElement = document.getElementById('anzeige');
-    notShow.style.display = "none";*/
     var inhalt: HTMLElement = document.createElement("div");
     var ueberschrift: HTMLElement = this.erstelleElement(raumname,"h3");
     inhalt.appendChild(ueberschrift);
-    //var breaks:HTMLElement = document.createElement("br");
-    //inhalt.innerHTML = "<h3>"+raumname+"</h3>";
 
     var veranstaltung: HTMLElement;
     var lehrvtmp:string = "";
@@ -380,29 +356,27 @@ export class Darstellung {
       switch(lehrveranstaltungen[j]){
         case "Montag":
           ueberschrift = this.erstelleElement("Montag", "h5");
-          inhalt.appendChild(ueberschrift);continue;//inhalt.innerHTML += "<h5>Montag</h5>";continue;
+          inhalt.appendChild(ueberschrift);continue;
         case "Dienstag":
           ueberschrift = this.erstelleElement("Dienstag", "h5");
-          inhalt.appendChild(ueberschrift);continue;//inhalt.innerHTML += "<h5>Dienstag</h5>";continue;
+          inhalt.appendChild(ueberschrift);continue;
         case "Mittwoch":
           ueberschrift = this.erstelleElement("Mittwoch", "h5");
-          inhalt.appendChild(ueberschrift);continue;//inhalt.innerHTML += "<h5>Mittwoch</h5>";continue;
+          inhalt.appendChild(ueberschrift);continue;
         case "Donnerstag":
           ueberschrift = this.erstelleElement("Donnerstag", "h5");
-          inhalt.appendChild(ueberschrift);continue;//inhalt.innerHTML += "<h5>Donnerstag</h5>";continue;
+          inhalt.appendChild(ueberschrift);continue;
         case "Freitag":
           ueberschrift = this.erstelleElement("Freitag", "h5");
-          inhalt.appendChild(ueberschrift);continue;//inhalt.innerHTML += "<h5>Freitag</h5>";continue;
+          inhalt.appendChild(ueberschrift);continue;
         case "Samstag":
           ueberschrift = this.erstelleElement("Samstag", "h5");
-          inhalt.appendChild(ueberschrift);continue;//inhalt.innerHTML += "<h5>Samstag</h5>";continue;
+          inhalt.appendChild(ueberschrift);continue;
         case "Sonntag":
           ueberschrift = this.erstelleElement("Sonntag", "h5");
-          inhalt.appendChild(ueberschrift);continue;//inhalt.innerHTML += "<h5>Sonntag</h5>";continue;
+          inhalt.appendChild(ueberschrift);continue;
       }
       if(lehrveranstaltungen[j] != lehrvtmp){
-        console.log(lehrveranstaltungen[j]);
-        console.log(lehrveranstaltungen[j+1]);
         //Ermitteln welcher Veranstaltungstyp es ist:
         var vl = lehrveranstaltungen[j].indexOf("Vorlesung");
         var se = lehrveranstaltungen[j].indexOf("Seminar");
@@ -415,45 +389,34 @@ export class Darstellung {
           veranstaltung.style.backgroundColor = "rgba(74, 106, 255, 0.5)";
           veranstaltung.style.border = "2px solid rgb(74, 106, 255)";
           inhalt.appendChild(veranstaltung);
-          //console.log("HALLO");inhalt.innerHTML += "<span style='background-color: rgb(66, 134, 244); border-radius: 3px;'>";
         }else if(se != -1){
           //Seminar erstellen:
           veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(26, 123, 81, 0.5)";
           veranstaltung.style.border = "2px solid rgb(26, 123, 81)";
           inhalt.appendChild(veranstaltung);
-          //inhalt.innerHTML += "<span style='background-color: rgb(111, 160, 36); border-radius: 3px; width: 100%;'>";
         }else if(pr != -1){
           //Praktikum erstellen:
           veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(255, 146, 63, 0.5)";
           veranstaltung.style.border = "2px solid rgb(255, 146, 63)";
           inhalt.appendChild(veranstaltung);
-          //inhalt.innerHTML += "<span style='background-color: rgb(244, 65, 65); border-radius: 3px; width: 100%;'>";
         }else if(ue != -1){
           //Uebung erstellen:
           veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(44, 250, 40, 0.4)";
           veranstaltung.style.border = "2px solid rgb(44, 250, 40)";
           inhalt.appendChild(veranstaltung);
-          //inhalt.innerHTML += "<span style='background-color: rgb(65, 196, 244); border-radius: 3px; width: 100%;'>";
         }else {
           //Sonstige Veranstaltung erstellen:
           veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(140, 140, 140, 0.3)";
           veranstaltung.style.border = "2px solid rgb(140, 140, 140)";
           inhalt.appendChild(veranstaltung);
-          //inhalt.innerHTML += "<span style='background-color: rgb(65, 196, 244); border-radius: 3px; width: 100%;'>";
         }
         lehrvtmp = lehrveranstaltungen[j+1];
-        //inhalt.appendChild(breaks);
-        //inhalt.innerHTML += ""+lehrveranstaltungen[j]+"<br>";
       }
     }
-    /*console.log("INNERHTML :"+inhalt.outerHTML.toString());
-    var inhaltString:string = inhalt.outerHTML.toString();
-    console.log(inhaltString);
-    return inhaltString.toString();*/
     return inhalt;
   }
 
@@ -475,7 +438,6 @@ export class Darstellung {
 
     for(var i:number = 0; i< this.parseToRaum(raumname).veranstaltungen.length; i++){
       name = this.parseToRaum(raumname).veranstaltungen[i].name;
-      console.log(name);
 
       if(this.parseToRaum(raumname).veranstaltungen[i].wochentag != Wochentag){
         Wochentag = this.parseToRaum(raumname).veranstaltungen[i].wochentag;

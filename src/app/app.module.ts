@@ -3,14 +3,11 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpModule } from '@angular/http'
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { Cgebaude } from '../pages/c/c';
-import { Dgebaude } from '../pages/d/d';
+import { Gebaude } from '../pages/page/page';
 import { Search } from '../pages/search/search';
 import { LoginPage } from '../pages/login/login';
 
@@ -18,8 +15,7 @@ import { LoginPage } from '../pages/login/login';
   declarations: [
     MyApp,
     HomePage,
-    Cgebaude,
-    Dgebaude,
+    Gebaude,
     Search,
     LoginPage
   ],
@@ -34,8 +30,7 @@ import { LoginPage } from '../pages/login/login';
   entryComponents: [
     MyApp,
     HomePage,
-    Cgebaude,
-    Dgebaude,
+    Gebaude,
     Search,
     LoginPage
   ],

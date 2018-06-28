@@ -11,7 +11,7 @@ export class GebaudeModel{
   ********************************************************************************************/
   gebaudename: string = "";
   raume: RaumModel[] = [];
-  zugangsberechtigung:string[] = ["C001","C007"];
+  zugangsberechtigung:string[] = ["D01","D12","D13","D15","D18","C001","C007","C113","C213","C237","C305","C313","C361","C375","C377","C413"];
 
 
   constructor(gebaudename:string){

@@ -3,63 +3,135 @@ import { NavController, AlertController, LoadingController, MenuController } fro
 import { HomePage } from '../home/home';
 import { Http, Headers } from '@angular/http';
 
+/********************************************************************************************
+*                                                                                           *
+*   Funktion filtert aus dem übergebenen String das Token für die                           *
+*   Anmeldung beim Server.                                                                  *
+*   text -> String mit einem Text, in der das Token steckt                                  *
+*                                                                                           *
+********************************************************************************************/
 function get_Token(text:string) {
 	return text.substring(text.indexOf("csrf-token")+23, text.indexOf("csrf-token")+111);
 }
 
+/********************************************************************************************
+*                                                                                           *
+*   Funktion filtert aus dem übergebenen String das Semester für die                        *
+*   Anmeldung beim Server.                                                                  *
+*   text -> String mit einem Text, in der das Semester steckt                               *
+*                                                                                           *
+********************************************************************************************/
 function get_Semester(text:string) {
 	return text.substring(text.indexOf("option selected")+37, text.indexOf("option selected")+46);
 }
 
+/********************************************************************************************
+*                                                                                           *
+*   Funktion filtert aus dem übergebenen String einen bestimmten String heraus,             *
+*   um festzustellen, ob die Anmeldung erfolgreich war.                                     *
+*   text -> String mit einem Text, in dem die Antwort des Servers steckt                    *
+*                                                                                           *
+********************************************************************************************/
 function get_Header(text:string) {
 	return text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten");
 }
 
+/********************************************************************************************
+*                                                                                           *
+*   Funktion gibt eine Fehlermeldung aus.                                                   *
+*   meldung1 -> String der ersten Fehlermeldung                                             *
+*   meldung2 -> String der zweiten Fehlermeldung                                             *
+*                                                                                           *
+********************************************************************************************/
+function fehler(meldung1:string, meldung2:string){
+	var fehlerFeld: HTMLElement = document.getElementById('Fehler');
+	fehlerFeld.innerText = meldung1;
+	fehlerFeld.style.display = "block";
+	var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
+	fehlerFeldZwei.innerText = meldung2;
+	fehlerFeldZwei.style.display = "block";
+	var ladeicon: HTMLElement = document.getElementById('laden');
+	ladeicon.style.display ="none";
+}
+
+/********************************************************************************************
+*                                                                                           *
+*   Funktion filtert aus dem übergebenen String den Quelltext der ics-Dateien heraus        *
+*   text -> String mit der Antwort des Servers, in der der Quelltext steckt                 *
+*                                                                                           *
+********************************************************************************************/
 function get_Plan(text:string) {
 	if(-1 == text.indexOf("DOCTYPE")){
 		return text.substring(text.indexOf("_body")+9, text.indexOf("status")-6);
 	}
-	var fehlerFeld: HTMLElement = document.getElementById('Fehler');
-	fehlerFeld.innerText = "Fehler beim Herunterladen der Daten. Bitte versuche es erneut";
-	fehlerFeld.style.display = "block";
-	var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
-	fehlerFeldZwei.innerText = "Fehler beim Herunterladen der Daten. Bitte App neu starten";
-	fehlerFeldZwei.style.display = "block";
-	var ladeicon: HTMLElement = document.getElementById('laden');
-	ladeicon.style.display ="none";
+	//Sollte im String "DOCTYPE" stehen, dann ist das nicht der Inhalt der ics-Datei:
+	fehler("Fehler beim Herunterladen der Daten. Bitte versuche es erneut", "Fehler beim Herunterladen der Daten. Bitte App neu starten");
 	return -1;
 }
 
-function timeout(zahl:number) {
-	var start:any = new Date().getTime();
-	var i:number;
-	for(i = 0; i < 1e7; i++){
-		if((new Date().getTime() - start) > zahl*1000){
-			break;
-		}
+/********************************************************************************************
+*                                                                                           *
+*   Funktion lädt die ics-Dateien herunter und speichert sie im localStorage                *
+*   element -> der aus der Klasse übergebene http-Parameter                                 *
+*   options -> der aus der loginFunction übergebenen Header für die get-Anfragen            *
+*   stelle -> Zahl, die die Anzahl der Downloads enthält (Beginn bei 0 -> 1. Download)      *
+*   loader -> Loader                                                                        *
+*                                                                                           *
+********************************************************************************************/
+function download(element:any, options:any, stelle:number, loader:any){
+	//Arrays mit der id des Raumplans und den Räumen:
+	var id:string[] = ["1001264429","1001264431","454131924","454131925","454131926","454131927","454131928","454131930","454131931",
+	"967118069","967118075","967321020","967321022","975705394","984225074","984360376","992677104","992744751","1001264469","1001264470","1001264471","1001196781","1001196783","1001264428"];
+	var raum:string[] = ["D01","D02","D11","D12","D13","D14","D15","D17","D18",
+	"C001","C007","C035","C037","C113","C213","C237","C305","C313","C361","C375","C377","C405","C407","C413"];
+
+	//Solange nicht alle Raumpläne heruntergeladen wurden:
+	if(stelle < id.length){
+		//Raumplan über id herunterladen
+		element.http.get('https://aor.cs.hs-rm.de/rooms/'+id[stelle]+'/plans.ics', options).subscribe(
+			result => {
+				element.x = JSON.stringify(result, null, 2);
+				element.x = get_Plan(element.x);
+				if(-1 == element.x){
+					return;
+				}
+				//Raumplan abspeichern
+				localStorage.setItem(raum[stelle], element.x);
+				//nächsten Raumplan:
+				download(element,options,stelle+1,loader);
+			}, error => {
+				console.log("Error: "+ JSON.stringify(error, null, 2));
+			});
+	}else{
+		loader.dismiss();
+		localStorage.setItem("benutzer", element.benutzername);
+		localStorage.setItem("passwort", element.password);
+		element.navCtrl.setRoot(HomePage);
 	}
 }
 
-
+/********************************************************************************************
+*                                                                                           *
+*   Funktion führt den Login durch.                                                         *
+*   element -> der aus der Klasse übergebene http-Parameter                                 *
+*                                                                                           *
+********************************************************************************************/
 function loginFunction(element:any) {
+	//Header für die Anmeldung
 	let options = {
 		headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
 		withCredentials: true
 	};
 
-	var zahl: number = 0;
-	//for(var i:number = 0; i < 40; i++){
+	//GET-Anfrage um den Content der Seite zu bekommen, damit das Token gefunden werden kann
 	element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(
 		result => {
-			console.log('login API success');
-
 			element.x = JSON.stringify(result, null, 2);
-			//console.log('X: '+ element.x);
 			element.token = get_Token(element.x);
 			element.semester = get_Semester(element.x);
-			//console.log('Semester: '+ element.semester);
-			//console.log('Token: '+ element.token);
 			element.token = encodeURIComponent(element.token);
+
+			//Der Body für die Anmeldung:
 			var body = 'utf8=%E2%9C%93' +
 			'&authenticity_token=' + element.token +
 			'&login[account]=' + element.benutzername +
@@ -67,390 +139,27 @@ function loginFunction(element:any) {
 			'&login[term_id]=' + element.semester +
 			'&commit=Anmeldung';
 
-			//console.log("Body: "+ body);
-
 			element.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(
 				result => {
-					//console.log("POST: "+ JSON.stringify(result, null, 2));
-					//console.log("Header: "+ get_Header(JSON.stringify(result, null, 2)));
 					if(-1 == get_Header(JSON.stringify(result, null, 2))){
 
 						let loader = element.loadingCtrl.create({
-							content: "Daten werden geladen..."
+							content: "Login war erfolgreich. Daten werden geladen..."
 						});
 						loader.present();
-
-						//Falls vorhanden auch die Reservierungspläne herunterladen
-						//Raum D01:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264429/plans.ics', options).subscribe(
-							result => {
-								console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								console.log("first "+element.x);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								console.log("second  " + element.x);
-								console.log(result);
-								localStorage.setItem("D01", element.x);
-
-
-
-								console.log("D01: "+localStorage.getItem("D01"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum D02:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264431/plans.ics', options).subscribe(
-							result => {
-								console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("D02", element.x);
-								console.log("D02: "+localStorage.getItem("D02"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum D11:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/454131924/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("D11", element.x);
-								//console.log("D11: "+localStorage.getItem("D11"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum D12:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/454131925/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("D12", element.x);
-								//console.log("D12: "+localStorage.getItem("D12"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum D13:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/454131926/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("D13", element.x);
-								//console.log("D13: "+localStorage.getItem("D13"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum D14:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/454131927/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("D14", element.x);
-								//console.log("D14: "+localStorage.getItem("D14"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum D15:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/454131928/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("D15", element.x);
-								//console.log("D15: "+localStorage.getItem("D15"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum D17:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/454131930/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("D17", element.x);
-								//console.log("D17: "+localStorage.getItem("D17"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum D18:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/454131931/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("D18", element.x);
-								//console.log("D18: "+localStorage.getItem("D18"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C001:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/967118069/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C001", element.x);
-								//console.log("C001: "+localStorage.getItem("C001"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C007:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/967118075/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C007", element.x);
-								//console.log("C007: "+localStorage.getItem("C007"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C035:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/967321020/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C035", element.x);
-								//console.log("C035: "+localStorage.getItem("C035"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C037:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/967321022/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C037", element.x);
-								//console.log("C037: "+localStorage.getItem("C037"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C113:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/975705394/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C113", element.x);
-								//console.log("C113: "+localStorage.getItem("C113"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C213:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/984225074/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C213", element.x);
-								//console.log("C213: "+localStorage.getItem("C213"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C237:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/984360376/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C237", element.x);
-								//console.log("C237: "+localStorage.getItem("C237"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C305:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/992677104/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C305", element.x);
-								//console.log("C305: "+localStorage.getItem("C305"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C313:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/992744751/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C313", element.x);
-								//console.log("C313: "+localStorage.getItem("C313"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C361:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264469/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C361", element.x);
-								//console.log("C361: "+localStorage.getItem("C361"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C375:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264470/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C375", element.x);
-								//console.log("C375: "+localStorage.getItem("C375"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C377:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264471/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C377", element.x);
-								//console.log("C377: "+localStorage.getItem("C377"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C405:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/1001196781/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C405", element.x);
-								//console.log("C405: "+localStorage.getItem("C405"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C407:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/1001196783/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C407", element.x);
-								//console.log("C407: "+localStorage.getItem("C407"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//Raum C413:
-						element.http.get('https://aor.cs.hs-rm.de/rooms/1001264428/plans.ics', options).subscribe(
-							result => {
-								//console.log('login API success');
-								element.x = JSON.stringify(result, null, 2);
-								element.x = get_Plan(element.x);
-								if(-1 == element.x){
-									return;
-								}
-								localStorage.setItem("C413", element.x);
-								//console.log("C413: "+localStorage.getItem("C413"));
-							}, error => {
-								console.log("Error: "+ JSON.stringify(error, null, 2));
-							});
-						//timeout(4);
-						loader.dismiss();
-						localStorage.setItem("benutzer", element.benutzername);
-						localStorage.setItem("passwort", element.password);
-						console.log("Benutzername und Passwort gespeichert.");
-						console.log(localStorage.getItem("benutzer"));
-						element.navCtrl.setRoot(HomePage);
-					} else{
-						var fehlerFeld: HTMLElement = document.getElementById('Fehler');
-						fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
-						fehlerFeld.style.display = "block";
 						var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
-						fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte die App erneut starten.";
+						fehlerFeldZwei.innerText = "Login war erfolgreich.";
 						fehlerFeldZwei.style.display = "block";
-						var ladeicon: HTMLElement = document.getElementById('laden');
-						ladeicon.style.display ="none";
+
+						//Wenn die Anmeldung erfolgreich war, werden die Raumpläne heruntergeladen:
+						download(element,options,0,loader);
+					} else{
+						fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
 						return;
 					}
 				}, error => {
 					//console.log("Error: POST: "+ JSON.stringify(error, null, 2));;
-					var fehlerFeld: HTMLElement = document.getElementById('Fehler');
-					fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
-					fehlerFeld.style.display = "block";
-					var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
-					fehlerFeldZwei.innerText = "Login fehlgeschlagen. Bitte starte die App erneut.";
-					fehlerFeldZwei.style.display = "block";
-					var ladeicon: HTMLElement = document.getElementById('laden');
-					ladeicon.style.display ="none";
+					fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
 					return;
 
 				});//post
@@ -467,13 +176,21 @@ function loginFunction(element:any) {
 })
 export class LoginPage {
 
-	//Variablen anlegen
+	/********************************************************************************************
+	*                                                                                           *
+	*   showLogin -> bool ob Login angezeigt wird                                               *
+	*   benutzername -> String mit dem Benutzernamen im Formular                                *
+	*   password -> String mit dem Passwort im Formular                                         *
+	*   token -> String mit dem zu ermittelnden Token                                           *
+	*   x -> String für die Antwort des Servers                                                 *
+	*   semester -> String für das zu ermittelnde Semester                                      *
+	*                                                                                           *
+	********************************************************************************************/
   showLogin:boolean = true;
   benutzername:string = '';
   password:string = '';
   token:string ='';
   x:string = '';
-  i:number = 0;
 	semester:string='';
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -499,11 +216,13 @@ export class LoginPage {
 		if(localStorage.getItem("benutzer") != null && localStorage.getItem("passwort") != null){
 			this.benutzername = localStorage.getItem("benutzer");
 			this.password = localStorage.getItem("passwort");
-			timeout(3);
+
+			//Das Loginformular wird ausgeblendet:
 			var formular: HTMLElement = document.getElementById('content');
 			formular.style.display = "none";
 			var header: HTMLElement = document.getElementById('header');
 			header.style.display = "none";
+			//Der Screen für den automatischen Login wird eingeblendet:
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
 			loginFunction(this);
@@ -513,11 +232,21 @@ export class LoginPage {
 		}
   }
 
+	/********************************************************************************************
+	*                                                                                           *
+	*   Funktion blendet das Fehlerfeld des Loginformulars aus.                                 *
+	*                                                                                           *
+	********************************************************************************************/
   clicked(){
     var fehlerFeld: HTMLElement = document.getElementById('Fehler');
     fehlerFeld.style.display = "none";
   }
 
+	/********************************************************************************************
+	*                                                                                           *
+	*   Funktion führt den Login nach dem korrekten Ausfüllen des Formulars durch.              *
+	*                                                                                           *
+	********************************************************************************************/
   doLogin() {
     if(this.showLogin) {
       console.log('login im gange');
@@ -527,7 +256,6 @@ export class LoginPage {
         fehlerFeld.style.display = "block";
         return;
       }
-
 
 			loginFunction(this);
 			var ladeicon: HTMLElement = document.getElementById('laden');
@@ -539,18 +267,21 @@ export class LoginPage {
 
   }
 
-	testLogin() {
-		//Um einfach ohne Login auf die Startseite zu kommen diese Funktion verwenden:
-		this.navCtrl.setRoot(HomePage);
-	}
-
+	/********************************************************************************************
+	*                                                                                           *
+	*   Funktion setzt das Sidemenü für die Loginseite aus.                                     *
+	*                                                                                           *
+	********************************************************************************************/
 	ionViewWillEnter() {
-
        this.menuCtrl.swipeEnable( false )
    }
 
+	/********************************************************************************************
+ 	*                                                                                           *
+ 	*   Funktion setzt das Sidemenü nach der Loginseite aktiv.                                  *
+ 	*                                                                                           *
+ 	********************************************************************************************/
    ionViewDidLeave() {
-
        this.menuCtrl.swipeEnable( true )
    }
 };
