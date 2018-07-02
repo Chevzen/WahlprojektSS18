@@ -45,6 +45,7 @@ export class Search {
   ionViewDidLoad(){
     console.log('ionViewDidLoad SearchPage');
     this.darstellung = new Darstellung(0);
+    localStorage.setItem("page","Search");
   }
 
   /********************************************************************************************

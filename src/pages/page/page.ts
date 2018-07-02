@@ -231,7 +231,7 @@ export class Gebaude {
   *                                                                                           *
   ********************************************************************************************/
   search() {
-    this.navCtrl.setRoot( Search);
+    this.navCtrl.push( Search);
   }
 
   /********************************************************************************************
@@ -241,6 +241,7 @@ export class Gebaude {
   ********************************************************************************************/
   getL(raumname:string){
     console.log("GETL");
+
     var show2: HTMLElement = document.getElementById('Lehrinnen');
 
     //Entfernen der Lehrveranstaltungen:
@@ -264,9 +265,12 @@ export class Gebaude {
     //Freie Räume ausblenden:
     var notShow: HTMLElement = document.getElementById('anzeige');
     notShow.style.display = "none";
-
+    var header: HTMLElement = document.getElementById('header');
+    header.style.display = "none";
 
     show2.appendChild(this.darstellung.getLehrveranstaltungen(raumname));
+
+    localStorage.setItem("page", "room");
     this.scrollTop();
   }
 
@@ -280,6 +284,8 @@ export class Gebaude {
     //Freie Räume einblenden:
     var show: HTMLElement = document.getElementById('anzeige');
     show.style.display = "block";
+    var header: HTMLElement = document.getElementById('header');
+    header.style.display = "block";
     //Raumplan-Popup ausblenden:
     var notShow: HTMLElement = document.getElementById('Lehraussen');
     notShow.style.display = "none";
@@ -291,6 +297,8 @@ export class Gebaude {
     span2.style.display = "none";
     var button: HTMLElement = document.getElementById('button');
     button.style.display = "none";
+    var page:string = this.navParams.get('item');
+    localStorage.setItem("page", page);
     this.scrollTop();
   }
 

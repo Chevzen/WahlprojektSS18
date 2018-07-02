@@ -21,6 +21,15 @@ export class MyApp {
     this.statusBar.styleDefault();
     this.splashScreen.hide
     platform.registerBackButtonAction(() => {
+      var page:string;
+      if(null != localStorage.getItem("page")){
+        page = localStorage.getItem("page");
+        switch(page){
+          case "room":
+          console.log("backPressed 1");return;
+        }
+      }
+      this.nav.pop();
       console.log("backPressed 1");
       //this.navCtrl.setRoot(HomePage);
     },1);
@@ -37,6 +46,6 @@ export class MyApp {
   openPage(page, item) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component, {item: item});
+    this.nav.push(page.component, {item: item});
   }
 }
