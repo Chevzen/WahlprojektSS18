@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, MenuController } from 'ionic-angular';
+import { NavController, AlertController, MenuController, NavParams, ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Http, Headers } from '@angular/http';
 
@@ -78,7 +78,7 @@ function get_Plan(text:string) {
 *   loader -> Loader                                                                        *
 *                                                                                           *
 ********************************************************************************************/
-function download(element:any, options:any, stelle:number, loader:any){
+function download(element:any, options:any, stelle:number){
 	//Arrays mit der id des Raumplans und den Räumen:
 	var id:string[] = ["1001264429","1001264431","454131924","454131925","454131926","454131927","454131928","454131930","454131931",
 	"967118069","967118075","967321020","967321022","975705394","984225074","984360376","992677104","992744751","1001264469","1001264470","1001264471","1001196781","1001196783","1001264428"];
@@ -98,14 +98,22 @@ function download(element:any, options:any, stelle:number, loader:any){
 				//Raumplan abspeichern
 				localStorage.setItem(raum[stelle], element.x);
 				//nächsten Raumplan:
-				download(element,options,stelle+1,loader);
+				download(element,options,stelle+1);
 			}, error => {
 				console.log("Error: "+ JSON.stringify(error, null, 2));
 			});
 	}else{
-		loader.dismiss();
-		localStorage.setItem("benutzer", element.benutzername);
-		localStorage.setItem("passwort", element.password);
+		if(element.speichern){
+			localStorage.setItem("benutzer", element.benutzername);
+			localStorage.setItem("passwort", element.password);
+			let toast = element.toastCtrl.create({
+					message:  "Benutzerdaten wurden gespeichert! Du kannst deine Benutzerdaten jederzeit löschen.",
+					duration: 3000,
+					position: 'middle',
+					cssClass: "my-toast"
+			});
+			toast.present();
+		}
 		element.navCtrl.setRoot(HomePage);
 	}
 }
@@ -143,16 +151,14 @@ function loginFunction(element:any) {
 				result => {
 					if(-1 == get_Header(JSON.stringify(result, null, 2))){
 
-						let loader = element.loadingCtrl.create({
-							content: "Login war erfolgreich. Daten werden geladen..."
-						});
-						loader.present();
 						var fehlerFeldZwei: HTMLElement = document.getElementById('Fehler2');
-						fehlerFeldZwei.innerText = "Login war erfolgreich.";
+						fehlerFeldZwei.innerText = "Login war erfolgreich. Daten werden geladen...";
 						fehlerFeldZwei.style.display = "block";
+						var lademessage:HTMLElement = document.getElementById('lademessage');
+						lademessage.innerText = "Login war erfolgreich. Daten werden geladen...";
 
 						//Wenn die Anmeldung erfolgreich war, werden die Raumpläne heruntergeladen:
-						download(element,options,0,loader);
+						download(element,options,0);
 					} else{
 						fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
 						return;
@@ -166,6 +172,59 @@ function loginFunction(element:any) {
 		}, error => {
 			console.log("Error: "+ JSON.stringify(error, null, 2));
 		});//get
+}
+
+/********************************************************************************************
+*                                                                                           *
+*   Funktion prüft ob der Benutzer zuletzt zu Beginn des letzten Semesters aufgefordert     *
+*   wurde zu aktualisieren.                                                                 *
+*   Beispiel:                                                                               *
+*   Der Benutzer öffnet die App am 3.4.2018 also zu Beginn des Sommersemesters.             *
+*   Im localStorage steht ein Datum, an dem er das letzte Mal aufgefordert wurde die        *
+*   Raumpläne zu aktualisieren.                                                             *
+*   In diesem Beispiel wurde der Benutzer am 4.10.2017 zuletzt aufgefordert.                *
+*   Also liegt der letzte Aktualisierungsvorgang im letzten Semester.                       *
+*   Der Benutzer kann natürlich während des letzten Semesters auch nach dem 4.10.2017       *
+*   über das Menü aktualisiert haben, aber das spielt hier keine Rolle.                     *
+*                                                                                           *
+********************************************************************************************/
+function getSemesterBeginn(){
+	var jetzt = new Date();
+	var monat = jetzt.getMonth();
+	var tag = jetzt.getDate();
+
+	monat++;
+
+	if(localStorage.getItem('aktuell') != null){
+		var old = new Date(localStorage.getItem('aktuell'));
+		switch(monat){
+			//Wenn der aktuelle Monat April ist und zuletzt im Oktober
+			//durch den Alert aktualisiert wurde wird 1 zurückgegeben
+			case 4:
+			if(old.getMonth()+1 == 10){
+				return 1;
+			}else{
+				return 0;
+			}
+			//Wenn der aktuelle Monat Oktober ist und zuletzt im April
+			//durch den Alert aktualisiert wurde wird 1 zurückgegeben
+			case 10:
+			if(old.getMonth()+1 == 4){
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+	}
+
+	if(monat == 4 && (tag >= 1 && tag <= 10) || monat == 10 && (tag >= 1 && tag <= 10)){
+		//Wenn das Datum zwischen dem 1.4. und dem 10.4. oder zwischen dem 1.10. und dem 10.10. liegt hat ein neues Semester begonnen!
+		console.log("1");
+		return 1;
+	}else{
+		console.log("0");
+		return 0;
+	}
 }
 
 
@@ -193,13 +252,15 @@ export class LoginPage {
   x:string = '';
 	semester:string='';
 
+	speichern = [true];
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//   Wichtiger Hinweis!!!!!!                                                                                                                                        //
 	//   Diesen Parameter auf jeden Fall im Konstruktor stehen lassen, auch wenn der Compiler warnings ausgibt.                                                         //
 	//   http wird an die Funktion loginFunction mit dem Parameter "this" übergeben!                                                                                    //
-	//    |________________________________________________________________________________________________________________________________________________________     //
-	//                                                                                                                                                            |     //
-  constructor(public navCtrl: NavController, public menuCtrl: MenuController, public alertCtrl: AlertController, public loadingCtrl:LoadingController, private http: Http) {}
+	//    |______________________________________________________________________________________________________________________________________________________       //
+	//                                                                                                                                                          |       //
+  constructor(public toastCtrl: ToastController, public navCtrl: NavController, public menuCtrl: MenuController, public alertCtrl: AlertController, private http: Http, public navParams: NavParams) {}
 
   ionViewDidLoad() {
     console.log('Dat is die LoginPage');
@@ -225,10 +286,46 @@ export class LoginPage {
 			//Der Screen für den automatischen Login wird eingeblendet:
 			var login: HTMLElement = document.getElementById('login');
 			login.style.display = "block";
-			loginFunction(this);
-			//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-			//this.navCtrl.setRoot(HomePage);
 
+			if(this.navParams.get('item') == 'Aktualisieren'){
+				loginFunction(this);
+				//Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
+				//this.navCtrl.setRoot(HomePage);
+			}else{
+				//Es wird ermittelt ob ein Semester begonnen hat:
+				//Wenn ja, wird außerdem noch überprüft, ob bereits durch diesen Alert zu Semesterbeginn
+				//aktualisiert wurde.
+				var aktualisieren:number = getSemesterBeginn();
+				console.log("Aktualisieren: "+aktualisieren);
+				if(aktualisieren == 1){
+					let alert = this.alertCtrl.create({
+						title: 'Aktualisieren',
+						message: 'Ein neues Semester hat begonnen. Möchtest du die Raumpläne aktualisieren?',
+						buttons: [
+							{
+								text: 'Nein',
+								role: 'cancel',
+								handler: () => {
+									alert = null;
+									this.navCtrl.setRoot(HomePage);
+								}
+							},
+							{
+								text: 'Ja',
+								handler: () => {
+									var jetzt = new Date("Tue Apr 03 2018 11:09:54 GMT+0200 (CEST)");
+									localStorage.setItem('aktuell', jetzt.toString());
+									console.log("Aktuell: "+localStorage.getItem('aktuell'));
+									loginFunction(this);
+								}
+							}
+						]
+					});
+					alert.present();
+				}else{
+					this.navCtrl.setRoot(HomePage);
+				}
+			}
 		}
   }
 
@@ -250,6 +347,7 @@ export class LoginPage {
   doLogin() {
     if(this.showLogin) {
       console.log('login im gange');
+			console.log("checkbox: "+this.speichern);
       if(this.benutzername.length != 8 || this.password === '') {
         var fehlerFeld: HTMLElement = document.getElementById('Fehler');
         fehlerFeld.innerText = "Benutzername oder Passwort falsch.";

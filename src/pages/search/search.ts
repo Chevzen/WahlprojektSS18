@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ToastController, Platform, Nav } from 'ionic-angular';
 import { GebaudeModel } from '../../model/GebaudeModel';
 import { Darstellung } from '../../model/Darstellung';
+import { HomePage } from '../home/home';
+import { Gebaude } from '../page/page';
 
 /********************************************************************************************
 *                                                                                           *
@@ -39,7 +41,28 @@ export class Search {
   private freeTimeSlot:number [] = freeTimeSlot;
   private freeUeberschrift:string[] = freeUeberschrift;
 
-  constructor(public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams) {
+
+  @ViewChild(Nav) nav:Nav;
+
+  constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams) {
+
+    platform.registerBackButtonAction(() => {
+      var page:string;
+      if(null != localStorage.getItem("from")){
+        page = localStorage.getItem("from");
+        switch(page){
+          case "Home":
+          this.nav.setRoot(HomePage);
+          console.log("backPressed 1");return;
+          case "C":
+          this.nav.setRoot(Gebaude, {item: "C"});
+          console.log("backPressed 1");return;
+          case "D":
+          this.nav.setRoot(Gebaude, {item: "D"});
+          console.log("backPressed 1");return;
+        }
+      }
+    },101);
   }
 
   ionViewDidLoad(){

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Content } from 'ionic-angular';
+import { Content, Platform, Nav } from 'ionic-angular';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Search } from '../search/search';
@@ -40,13 +40,28 @@ export class Gebaude {
 
 
   @ViewChild(Content) content: Content;
+  @ViewChild(Nav) nav:Nav;
 
   private darstellung:Darstellung;
-  constructor(public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams) {
+
+    platform.registerBackButtonAction(() => {
+      var page:string;
+      if(null != localStorage.getItem("page")){
+        page = localStorage.getItem("page");
+        switch(page){
+          case "room":
+          this.backClicked();
+          console.log("backPressed 1");return;
+        }
+      }
+      this.nav.pop();
+      console.log("backPressed 1");
+    },101);
   }
 
   ionViewDidLoad() {
-    console.log("NAVPARAMS: "+ this.navParams.get('item'))
+    console.log("NAVPARAMS: "+ this.navParams.get('item'));
     var page:string = this.navParams.get('item');
     var show: HTMLElement = document.getElementById('Lehraussen');
     show.style.display = "none";
@@ -232,6 +247,8 @@ export class Gebaude {
   ********************************************************************************************/
   search() {
     this.navCtrl.push( Search);
+    var page:string = this.navParams.get('item');
+    localStorage.setItem("from",page);
   }
 
   /********************************************************************************************

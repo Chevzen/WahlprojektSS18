@@ -39,7 +39,8 @@ export class MyApp {
       { title: 'Campusplan', component: HomePage, item: "Home" },
       { title: 'Gebäude C', component: Gebaude, item: "C" },
       { title: 'Gebäude D', component: Gebaude, item: "D" },
-      { title: 'Raumsuche', component: Search, item: "Search" }
+      { title: 'Raumsuche', component: Search, item: "Search" },
+      { title: 'Aktualisieren', component: LoginPage, item: "Aktualisieren"}
     ];
   }
 
