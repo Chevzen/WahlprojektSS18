@@ -13,6 +13,10 @@
     <ion-row>
       <b>Herzlich Willkommen!</b>
     </ion-row>
+      <b>Deine freien Favoriten</b>
+      <ng-container *ngFor="let temp of temp">
+        <ion-row>{{ temp }}</ion-row>
+      </ng-container>
     <ion-row>
       Bitte wähle dein Gebäude:
     </ion-row>
