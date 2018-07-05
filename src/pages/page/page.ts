@@ -101,6 +101,7 @@ export class Gebaude {
     this.freeRooms = this.darstellung.freeRooms;
     this.zugang = this.darstellung.zugang;
     console.log(this.freeRooms);
+    localStorage.setItem("Frei", this.freeRooms);
     console.log(this.zugang);
     //Favoriten laden:
     this.getMarkierung();
