@@ -8,11 +8,9 @@ import { Darstellung } from '../../model/Darstellung';
 /********************************************************************************************
 *                                                                                           *
 *   ueberschrift -> Array für die Überschrift der Seite                                     *
-*   headTitle -> Array für den Titel der Seite                                              *
 *                                                                                           *
 ********************************************************************************************/
 var ueberschrift:string[] = [];
-var headTitle:string[] = [];
 
 @IonicPage()
 @Component({
@@ -23,8 +21,7 @@ export class Gebaude {
 
   /********************************************************************************************
   *                                                                                           *
-  *   ueberschrift -> Array für die Überschrift der Seite                                     *
-  *   headTitle -> Array für den Titel der Seite                                              *
+  *   ueberschrift -> Array für die Überschriften der Seite                                   *
   *   freeRooms -> Array mit den freien Räumen                                                *
   *   zugang -> Array mit den Räumen, die eine Zugangsbeschränkung haben                      *
   *   markiert -> Array mit allen markierten Räumen                                           *
@@ -32,7 +29,6 @@ export class Gebaude {
   *                                                                                           *
   ********************************************************************************************/
   private ueberschrift:string[] = ueberschrift;
-  private headTitle:string[] = headTitle;
   private freeRooms:string[] = [];
   private zugang:string[] = [];
   private markiert:string[] = [];
@@ -74,20 +70,28 @@ export class Gebaude {
     var button: HTMLElement = document.getElementById('button');
     button.style.display = "none";
     console.log('ionViewDidLoad '+page+'Page');
+    var tmp:string = "";
+
+    console.log(page.length);
+    if(page.length > 1){
+      console.log(page);
+      tmp = page;
+      page = page.substring(0,1);
+    }
 
     //Unterscheide Seiten:
     switch(page){
       case "C":
         console.log("C");
         this.darstellung = new Darstellung(0);
-        headTitle[0] = "C-Gebäude";
-        ueberschrift[0] = "Folgende Räume sind zur Zeit im C-Gebäude frei:";
+        ueberschrift[0] = "C-Gebäude";
+        ueberschrift[1] = "Folgende Räume sind zur Zeit im C-Gebäude frei:";
         break;
       case "D":
         console.log("D");
         this.darstellung = new Darstellung(1);
-        headTitle[0] = "D-Gebäude";
-        ueberschrift[0] = "Folgende Räume sind zur Zeit im D-Gebäude frei:";
+        ueberschrift[0] = "D-Gebäude";
+        ueberschrift[1] = "Folgende Räume sind zur Zeit im D-Gebäude frei:";
         break;
     }
 
@@ -102,6 +106,10 @@ export class Gebaude {
     this.getMarkierung();
     console.log("Markiert: "+this.markiert);
     console.log("Entmarkiert: "+this.entmarkiert);
+    //Raumplan anzeigen, falls gefordert durch Startseite:
+    if(tmp != ""){
+      this.getL(tmp);
+    }
   }
 
   /********************************************************************************************

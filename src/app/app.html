@@ -15,6 +15,9 @@
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p, p.item)">
         {{p.title}}
       </button>
+      <button menuClose ion-item (click)="deleteDaten()">
+        Datenverwaltung
+      </button>
     </ion-list>
   </ion-content>
 

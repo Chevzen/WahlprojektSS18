@@ -36,7 +36,6 @@ export class Search {
   *                                                                                           *
   ********************************************************************************************/
   private darstellung:Darstellung;
-  private darstellung2:Darstellung;
   private gebaude:GebaudeModel = new GebaudeModel("C");
   private freeTimeSlot:number [] = freeTimeSlot;
   private freeUeberschrift:string[] = freeUeberschrift;

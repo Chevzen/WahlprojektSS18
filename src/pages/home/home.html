@@ -11,9 +11,20 @@
 <ion-content padding>
   <ion-grid>
     <ion-row>
-      <b>Herzlich Willkommen!</b>
+      <h5>Herzlich Willkommen!</h5>
     </ion-row>
     <ion-row>
+      <ng-container *ngFor="let temp of temp; let i = index" [attr.data-index]="i">
+        <span *ngIf="i == 0"><b>Folgende markierte Räume sind gerade frei:</b></span>
+        <span style="width: 100%;">
+          <ion-item style="float: left; width: 85%;" (click)="onTip(temp)">
+            {{temp}}
+          </ion-item>
+          <ion-icon style="height: 100%; font-size: 2em; padding-top: 15px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="arrow-dropright" (click)="onTip(temp)"></ion-icon>
+        </span>
+      </ng-container>
+    </ion-row>
+    <ion-row style="margin-top: 20px;">
       Bitte wähle dein Gebäude:
     </ion-row>
     <ion-row style="text-align:center;">
@@ -34,9 +45,6 @@
     </ion-row>
     <ion-row style="text-align:center">
       <img id="img9" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>
-    </ion-row>
-    <ion-row style="text-align:center">
-      <button ion-button block style="margin-top: 80px; margin-bottom: 5px;" (click)="deleteDaten()">Daten löschen</button>
     </ion-row>
   </ion-grid>
 

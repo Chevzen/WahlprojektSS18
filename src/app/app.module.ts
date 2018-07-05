@@ -38,8 +38,6 @@ import { LoginPage } from '../pages/login/login';
     StatusBar,
     SplashScreen,
     HttpClient,
-
-
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

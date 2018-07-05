@@ -5,8 +5,8 @@
         <ion-icon name="menu"></ion-icon>
       </button>
       <ion-title style="float: left;">
-        <span *ngFor="let headTitles of headTitle; let i = index" [attr.data-index]="i">
-          <ng-container *ngIf="i == 0">{{ headTitles }}</ng-container>
+        <span *ngFor="let headTitle of ueberschrift; let i = index" [attr.data-index]="i">
+          <ng-container *ngIf="i == 0">{{ headTitle }}</ng-container>
         </span>
       </ion-title>
       <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>
@@ -30,10 +30,10 @@
     </span>
   </div>
 
-  <div id="anzeige">
+  <div id="anzeige" style="margin-top: 30px;">
     <b>
-      <div style="margin-bottom: -30px;" *ngFor="let ueberschriften of ueberschrift; let i = index" [attr.data-index]="i">
-        <ng-container *ngIf="i == 0">{{ ueberschriften }}</ng-container>
+      <div style="margin-bottom: -30px;" *ngFor="let ueberschrift of ueberschrift; let i = index" [attr.data-index]="i">
+        <ng-container *ngIf="i == 1">{{ ueberschrift }}</ng-container>
       </div>
     </b>
     <ion-list style="margin-bottom: 170px;">
