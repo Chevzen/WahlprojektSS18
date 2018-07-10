@@ -22,221 +22,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-/********************************************************************************************
-*                                                                                           *
-*   Funktion filtert aus dem übergebenen String das Token für die                           *
-*   Anmeldung beim Server.                                                                  *
-*   text -> String mit einem Text, in der das Token steckt                                  *
-*                                                                                           *
-********************************************************************************************/
-function get_Token(text) {
-    return text.substring(text.indexOf("csrf-token") + 23, text.indexOf("csrf-token") + 111);
-}
-/********************************************************************************************
-*                                                                                           *
-*   Funktion filtert aus dem übergebenen String das Semester für die                        *
-*   Anmeldung beim Server.                                                                  *
-*   text -> String mit einem Text, in der das Semester steckt                               *
-*                                                                                           *
-********************************************************************************************/
-function get_Semester(text) {
-    return text.substring(text.indexOf("option selected") + 37, text.indexOf("option selected") + 46);
-}
-/********************************************************************************************
-*                                                                                           *
-*   Funktion filtert aus dem übergebenen String einen bestimmten String heraus,             *
-*   um festzustellen, ob die Anmeldung erfolgreich war.                                     *
-*   text -> String mit einem Text, in dem die Antwort des Servers steckt                    *
-*                                                                                           *
-********************************************************************************************/
-function get_Header(text) {
-    return text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten");
-}
-/********************************************************************************************
-*                                                                                           *
-*   Funktion gibt eine Fehlermeldung aus.                                                   *
-*   meldung1 -> String der ersten Fehlermeldung                                             *
-*   meldung2 -> String der zweiten Fehlermeldung                                             *
-*                                                                                           *
-********************************************************************************************/
-function fehler(meldung1, meldung2) {
-    var fehlerFeld = document.getElementById('Fehler');
-    fehlerFeld.innerText = meldung1;
-    fehlerFeld.style.display = "block";
-    var fehlerFeldZwei = document.getElementById('Fehler2');
-    fehlerFeldZwei.innerText = meldung2;
-    fehlerFeldZwei.style.display = "block";
-    var ladeicon = document.getElementById('laden');
-    ladeicon.style.display = "none";
-}
-/********************************************************************************************
-*                                                                                           *
-*   Funktion filtert aus dem übergebenen String den Quelltext der ics-Dateien heraus        *
-*   text -> String mit der Antwort des Servers, in der der Quelltext steckt                 *
-*                                                                                           *
-********************************************************************************************/
-function get_Plan(text) {
-    if (-1 == text.indexOf("DOCTYPE")) {
-        return text.substring(text.indexOf("_body") + 9, text.indexOf("status") - 6);
-    }
-    //Sollte im String "DOCTYPE" stehen, dann ist das nicht der Inhalt der ics-Datei:
-    fehler("Fehler beim Herunterladen der Daten. Bitte versuche es erneut", "Fehler beim Herunterladen der Daten. Bitte App neu starten");
-    return -1;
-}
-/********************************************************************************************
-*                                                                                           *
-*   Funktion lädt die ics-Dateien herunter und speichert sie im localStorage                *
-*   element -> der aus der Klasse übergebene http-Parameter                                 *
-*   options -> der aus der loginFunction übergebenen Header für die get-Anfragen            *
-*   stelle -> Zahl, die die Anzahl der Downloads enthält (Beginn bei 0 -> 1. Download)      *
-*   loader -> Loader                                                                        *
-*                                                                                           *
-********************************************************************************************/
-function download(element, options, stelle) {
-    //Arrays mit der id des Raumplans und den Räumen:
-    var id = ["1001264429", "1001264431", "454131924", "454131925", "454131926", "454131927", "454131928", "454131930", "454131931",
-        "967118069", "967118075", "967321020", "967321022", "975705394", "984225074", "984360376", "992677104", "992744751", "1001264469", "1001264470", "1001264471", "1001196781", "1001196783", "1001264428"];
-    var raum = ["D01", "D02", "D11", "D12", "D13", "D14", "D15", "D17", "D18",
-        "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"];
-    //Solange nicht alle Raumpläne heruntergeladen wurden:
-    if (stelle < id.length) {
-        //Raumplan über id herunterladen
-        element.http.get('https://aor.cs.hs-rm.de/rooms/' + id[stelle] + '/plans.ics', options).subscribe(function (result) {
-            element.x = JSON.stringify(result, null, 2);
-            element.x = get_Plan(element.x);
-            if (-1 == element.x) {
-                return;
-            }
-            //Raumplan abspeichern
-            localStorage.setItem(raum[stelle], element.x);
-            //nächsten Raumplan:
-            download(element, options, stelle + 1);
-        }, function (error) {
-            console.log("Error: " + JSON.stringify(error, null, 2));
-        });
-    }
-    else {
-        if (element.speichern) {
-            localStorage.setItem("benutzer", element.benutzername);
-            localStorage.setItem("passwort", element.password);
-            var toast = element.toastCtrl.create({
-                message: "Benutzerdaten wurden gespeichert! Du kannst deine Benutzerdaten jederzeit löschen.",
-                duration: 3000,
-                position: 'middle',
-                cssClass: "my-toast"
-            });
-            toast.present();
-        }
-        element.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-    }
-}
-/********************************************************************************************
-*                                                                                           *
-*   Funktion führt den Login durch.                                                         *
-*   element -> der aus der Klasse übergebene http-Parameter                                 *
-*                                                                                           *
-********************************************************************************************/
-function loginFunction(element) {
-    //Header für die Anmeldung
-    var options = {
-        headers: new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-        withCredentials: true
-    };
-    //GET-Anfrage um den Content der Seite zu bekommen, damit das Token gefunden werden kann
-    element.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
-        element.x = JSON.stringify(result, null, 2);
-        element.token = get_Token(element.x);
-        element.semester = get_Semester(element.x);
-        element.token = encodeURIComponent(element.token);
-        //Der Body für die Anmeldung:
-        var body = 'utf8=%E2%9C%93' +
-            '&authenticity_token=' + element.token +
-            '&login[account]=' + element.benutzername +
-            '&login[password]=' + element.password +
-            '&login[term_id]=' + element.semester +
-            '&commit=Anmeldung';
-        element.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
-            if (-1 == get_Header(JSON.stringify(result, null, 2))) {
-                var fehlerFeldZwei = document.getElementById('Fehler2');
-                fehlerFeldZwei.innerText = "Login war erfolgreich. Daten werden geladen...";
-                fehlerFeldZwei.style.display = "block";
-                var lademessage = document.getElementById('lademessage');
-                lademessage.innerText = "Login war erfolgreich. Daten werden geladen...";
-                //Wenn die Anmeldung erfolgreich war, werden die Raumpläne heruntergeladen:
-                download(element, options, 0);
-            }
-            else {
-                fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
-                return;
-            }
-        }, function (error) {
-            //console.log("Error: POST: "+ JSON.stringify(error, null, 2));;
-            fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
-            return;
-        }); //post
-    }, function (error) {
-        console.log("Error: " + JSON.stringify(error, null, 2));
-    }); //get
-}
-/********************************************************************************************
-*                                                                                           *
-*   Funktion prüft ob der Benutzer zuletzt zu Beginn des letzten Semesters aufgefordert     *
-*   wurde zu aktualisieren.                                                                 *
-*   Beispiel:                                                                               *
-*   Der Benutzer öffnet die App am 3.4.2018 also zu Beginn des Sommersemesters.             *
-*   Im localStorage steht ein Datum, an dem er das letzte Mal aufgefordert wurde die        *
-*   Raumpläne zu aktualisieren.                                                             *
-*   In diesem Beispiel wurde der Benutzer am 4.10.2017 zuletzt aufgefordert.                *
-*   Also liegt der letzte Aktualisierungsvorgang im letzten Semester.                       *
-*   Der Benutzer kann natürlich während des letzten Semesters auch nach dem 4.10.2017       *
-*   über das Menü aktualisiert haben, aber das spielt hier keine Rolle.                     *
-*                                                                                           *
-********************************************************************************************/
-function getSemesterBeginn() {
-    var jetzt = new Date();
-    var monat = jetzt.getMonth();
-    var tag = jetzt.getDate();
-    monat++;
-    if (localStorage.getItem('aktuell') != null) {
-        var old = new Date(localStorage.getItem('aktuell'));
-        switch (monat) {
-            //Wenn der aktuelle Monat April ist und zuletzt im Oktober
-            //durch den Alert aktualisiert wurde wird 1 zurückgegeben
-            case 4:
-                if (old.getMonth() + 1 == 10) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-            //Wenn der aktuelle Monat Oktober ist und zuletzt im April
-            //durch den Alert aktualisiert wurde wird 1 zurückgegeben
-            case 10:
-                if (old.getMonth() + 1 == 4) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-        }
-    }
-    if (monat == 4 && (tag >= 1 && tag <= 10) || monat == 10 && (tag >= 1 && tag <= 10)) {
-        //Wenn das Datum zwischen dem 1.4. und dem 10.4. oder zwischen dem 1.10. und dem 10.10. liegt hat ein neues Semester begonnen!
-        console.log("1");
-        return 1;
-    }
-    else {
-        console.log("0");
-        return 0;
-    }
-}
 var LoginPage = /** @class */ (function () {
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //   Wichtiger Hinweis!!!!!!                                                                                                                                        //
-    //   Diesen Parameter auf jeden Fall im Konstruktor stehen lassen, auch wenn der Compiler warnings ausgibt.                                                         //
-    //   http wird an die Funktion loginFunction mit dem Parameter "this" übergeben!                                                                                    //
-    //    |______________________________________________________________________________________________________________________________________________________       //
-    //                                                                                                                                                          |       //
     function LoginPage(toastCtrl, navCtrl, menuCtrl, alertCtrl, http, navParams) {
         this.toastCtrl = toastCtrl;
         this.navCtrl = navCtrl;
@@ -252,6 +38,7 @@ var LoginPage = /** @class */ (function () {
         *   token -> String mit dem zu ermittelnden Token                                           *
         *   x -> String für die Antwort des Servers                                                 *
         *   semester -> String für das zu ermittelnde Semester                                      *
+        *   speicher -> boolean für die Checkbox -> Standard: true                                  *
         *                                                                                           *
         ********************************************************************************************/
         this.showLogin = true;
@@ -262,17 +49,18 @@ var LoginPage = /** @class */ (function () {
         this.semester = '';
         this.speichern = [true];
     }
+    /********************************************************************************************
+  *                                                                                           *
+  *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+  *                                                                                           *
+  ********************************************************************************************/
     LoginPage.prototype.ionViewDidLoad = function () {
-        var _this = this;
         console.log('Dat is die LoginPage');
-        //Hier überprüfen:
-        //-ob schon Benutzerdaten vorhanden sind.
-        //Wenn ja, dann Login-formular ausblenden und Login durchführen.
         var FehlerFeld = document.getElementById('Fehler');
         FehlerFeld.style.display = "none";
         var ladeicon = document.getElementById('laden');
         ladeicon.style.display = "none";
-        //Nachfolgenden Abschnitt einkommentieren um automatisch angemeldet zu werden:
+        //Wenn Benutzerdaten vorhanden sind, dann Login-formular ausblenden und Login durchführen.
         if (localStorage.getItem("benutzer") != null && localStorage.getItem("passwort") != null) {
             this.benutzername = localStorage.getItem("benutzer");
             this.password = localStorage.getItem("passwort");
@@ -285,45 +73,10 @@ var LoginPage = /** @class */ (function () {
             var login = document.getElementById('login');
             login.style.display = "block";
             if (this.navParams.get('item') == 'Aktualisieren') {
-                loginFunction(this);
-                //Falls man beim Starten der App nicht den Login machen möchte einfach die loginFunction auskommentieren und diese Zeile einkommentieren:
-                //this.navCtrl.setRoot(HomePage);
+                this.loginFunction();
             }
             else {
-                //Es wird ermittelt ob ein Semester begonnen hat:
-                //Wenn ja, wird außerdem noch überprüft, ob bereits durch diesen Alert zu Semesterbeginn
-                //aktualisiert wurde.
-                var aktualisieren = getSemesterBeginn();
-                console.log("Aktualisieren: " + aktualisieren);
-                if (aktualisieren == 1) {
-                    var alert_1 = this.alertCtrl.create({
-                        title: 'Aktualisieren',
-                        message: 'Ein neues Semester hat begonnen. Möchtest du die Raumpläne aktualisieren?',
-                        buttons: [
-                            {
-                                text: 'Nein',
-                                role: 'cancel',
-                                handler: function () {
-                                    alert_1 = null;
-                                    _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-                                }
-                            },
-                            {
-                                text: 'Ja',
-                                handler: function () {
-                                    var jetzt = new Date("Tue Apr 03 2018 11:09:54 GMT+0200 (CEST)");
-                                    localStorage.setItem('aktuell', jetzt.toString());
-                                    console.log("Aktuell: " + localStorage.getItem('aktuell'));
-                                    loginFunction(_this);
-                                }
-                            }
-                        ]
-                    });
-                    alert_1.present();
-                }
-                else {
-                    this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-                }
+                this.aktualisierungsAnfrage();
             }
         }
     };
@@ -351,12 +104,283 @@ var LoginPage = /** @class */ (function () {
                 fehlerFeld.style.display = "block";
                 return;
             }
-            loginFunction(this);
+            this.loginFunction();
             var ladeicon = document.getElementById('laden');
             ladeicon.style.display = "block";
         }
         else {
             this.showLogin = true;
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert aus dem übergebenen String das Token für die                           *
+    *   Anmeldung beim Server.                                                                  *
+    *   text -> String mit einem Text, in der das Token steckt                                  *
+    *                                                                                           *
+    *   RETURN-Wert: Das csrf-Token                                                             *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.get_Token = function (text) {
+        return text.substring(text.indexOf("csrf-token") + 23, text.indexOf("csrf-token") + 111);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert aus dem übergebenen String das Semester für die                        *
+    *   Anmeldung beim Server.                                                                  *
+    *   text -> String mit einem Text, in der das Semester steckt                               *
+    *                                                                                           *
+    *   RETURN-Wert: Die ID des Semesters                                                       *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.get_Semester = function (text) {
+        return text.substring(text.indexOf("option selected") + 37, text.indexOf("option selected") + 46);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert aus dem übergebenen String einen bestimmten String heraus,             *
+    *   um festzustellen, ob die Anmeldung erfolgreich war.                                     *
+    *   text -> String mit einem Text, in dem die Antwort des Servers steckt                    *
+    *                                                                                           *
+    *   RETURN-Wert: Falls Anmeldung erfolgreich -1, sonst eine Zahl >= 0                       *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.get_Header = function (text) {
+        return text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten");
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion gibt eine Fehlermeldung aus.                                                   *
+    *   meldung1 -> String der ersten Fehlermeldung                                             *
+    *   meldung2 -> String der zweiten Fehlermeldung                                             *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.fehler = function (meldung1, meldung2) {
+        var fehlerFeld = document.getElementById('Fehler');
+        fehlerFeld.innerText = meldung1;
+        fehlerFeld.style.display = "block";
+        var fehlerFeldZwei = document.getElementById('Fehler2');
+        fehlerFeldZwei.innerText = meldung2;
+        fehlerFeldZwei.style.display = "block";
+        var ladeicon = document.getElementById('laden');
+        ladeicon.style.display = "none";
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert aus dem übergebenen String den Quelltext der ics-Dateien heraus        *
+    *   text -> String mit der Antwort des Servers, in der der Quelltext steckt                 *
+    *                                                                                           *
+    *   RETURN-Wert: Der Inhalt der ics-Datei                                                   *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.get_Plan = function (text) {
+        if (-1 == text.indexOf("DOCTYPE")) {
+            return text.substring(text.indexOf("_body") + 9, text.indexOf("status") - 6);
+        }
+        //Sollte im String "DOCTYPE" stehen, dann ist das nicht der Inhalt der ics-Datei:
+        this.fehler("Fehler beim Herunterladen der Daten. Bitte versuche es erneut", "Fehler beim Herunterladen der Daten. Bitte App neu starten");
+        return "-1";
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion lädt die ics-Dateien herunter und speichert sie im localStorage                *
+    *   options -> der aus der loginFunction übergebenen Header für die get-Anfragen            *
+    *   stelle -> Zahl, die die Anzahl der Downloads enthält (Beginn bei 0 -> 1. Download)      *
+    *   loader -> Loader                                                                        *
+    *                                                                                           *
+    *   RETURN-Wert: -1 im Fehlerfall                                                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.download = function (options, stelle) {
+        var _this = this;
+        //Arrays mit der id des Raumplans und den Räumen:
+        var id = [
+            "1001264429", "1001264431", "454131924", "454131925", "454131926", "454131927", "454131928", "454131930", "454131931",
+            "967118069", "967118075", "967321020", "967321022", "975705394", "984225074", "984360376", "992677104", "992744751",
+            "1001264469", "1001264470", "1001264471", "1001196781", "1001196783", "1001264428"
+        ];
+        var raum = [
+            "D01", "D02", "D11", "D12", "D13", "D14", "D15", "D17", "D18",
+            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
+        ];
+        //Solange nicht alle Raumpläne heruntergeladen wurden:
+        if (stelle < id.length) {
+            //Raumplan über id herunterladen
+            this.http.get('https://aor.cs.hs-rm.de/rooms/' + id[stelle] + '/plans.ics', options).subscribe(function (result) {
+                _this.x = JSON.stringify(result, null, 2);
+                _this.x = _this.get_Plan(_this.x);
+                if ("-1" == _this.x) {
+                    return -1;
+                }
+                //Raumplan abspeichern
+                localStorage.setItem(raum[stelle], _this.x);
+                //nächsten Raumplan:
+                _this.download(options, stelle + 1);
+            }, function (error) {
+                console.log("Error: " + JSON.stringify(error, null, 2));
+            });
+        }
+        else {
+            if (this.speichern) {
+                localStorage.setItem("benutzer", this.benutzername);
+                localStorage.setItem("passwort", this.password);
+                var toast = this.toastCtrl.create({
+                    message: "Benutzerdaten wurden gespeichert! Du kannst deine Benutzerdaten jederzeit löschen.",
+                    duration: 3000,
+                    position: 'middle',
+                    cssClass: "my-toast"
+                });
+                toast.present();
+            }
+            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion führt den Login durch.                                                         *
+    *                                                                                           *
+    *   RETURN-Wert: -1 im Fehlerfall                                                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.loginFunction = function () {
+        var _this = this;
+        //Header für die Anmeldung
+        var options = {
+            headers: new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+            withCredentials: true
+        };
+        //GET-Anfrage um den Content der Seite zu bekommen, damit das Token gefunden werden kann
+        this.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
+            _this.x = JSON.stringify(result, null, 2);
+            _this.token = _this.get_Token(_this.x);
+            _this.semester = _this.get_Semester(_this.x);
+            _this.token = encodeURIComponent(_this.token);
+            //Der Body für die Anmeldung:
+            var body = 'utf8=%E2%9C%93' +
+                '&authenticity_token=' + _this.token +
+                '&login[account]=' + _this.benutzername +
+                '&login[password]=' + _this.password +
+                '&login[term_id]=' + _this.semester +
+                '&commit=Anmeldung';
+            _this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
+                if (-1 == _this.get_Header(JSON.stringify(result, null, 2))) {
+                    var fehlerFeldZwei = document.getElementById('Fehler2');
+                    fehlerFeldZwei.innerText = "Login war erfolgreich. Daten werden geladen...";
+                    fehlerFeldZwei.style.display = "block";
+                    var lademessage = document.getElementById('lademessage');
+                    lademessage.innerText = "Login war erfolgreich. Daten werden geladen...";
+                    //Wenn die Anmeldung erfolgreich war, werden die Raumpläne heruntergeladen:
+                    _this.download(options, 0);
+                }
+                else {
+                    _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
+                    return -1;
+                }
+            }, function (error) {
+                //console.log("Error: POST: "+ JSON.stringify(error, null, 2));;
+                _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
+                return -1;
+            }); //post
+        }, function (error) {
+            console.log("Error: " + JSON.stringify(error, null, 2));
+        }); //get
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion prüft ob der Benutzer zuletzt zu Beginn des letzten Semesters aufgefordert     *
+    *   wurde zu aktualisieren.                                                                 *
+    *   Beispiel:                                                                               *
+    *   Der Benutzer öffnet die App am 3.4.2018 also zu Beginn des Sommersemesters.             *
+    *   Im localStorage steht ein Datum, an dem er das letzte Mal aufgefordert wurde die        *
+    *   Raumpläne zu aktualisieren.                                                             *
+    *   In diesem Beispiel wurde der Benutzer am 4.10.2017 zuletzt aufgefordert.                *
+    *   Also liegt der letzte Aktualisierungsvorgang im letzten Semester.                       *
+    *   Der Benutzer kann natürlich während des letzten Semesters auch nach dem 4.10.2017       *
+    *   über das Menü aktualisiert haben, aber das spielt hier keine Rolle.                     *
+    *                                                                                           *
+    *   RETURN-Wert: 0 wenn kein neues Semester begonnen hat, sonst 1                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.getSemesterBeginn = function () {
+        var jetzt = new Date();
+        var monat = jetzt.getMonth();
+        var tag = jetzt.getDate();
+        monat++;
+        if (localStorage.getItem('aktuell') != null) {
+            var old = new Date(localStorage.getItem('aktuell'));
+            switch (monat) {
+                //Wenn der aktuelle Monat April ist und zuletzt im Oktober
+                //durch den Alert aktualisiert wurde wird 1 zurückgegeben
+                case 4:
+                    if (old.getMonth() + 1 == 10) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                //Wenn der aktuelle Monat Oktober ist und zuletzt im April
+                //durch den Alert aktualisiert wurde wird 1 zurückgegeben
+                case 10:
+                    if (old.getMonth() + 1 == 4) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+            }
+        }
+        if (monat == 4 && (tag >= 1 && tag <= 10) || monat == 10 && (tag >= 1 && tag <= 10)) {
+            //Wenn das Datum zwischen dem 1.4. und dem 10.4.
+            //oder zwischen dem 1.10. und dem 10.10. liegt hat ein neues Semester begonnen!
+            console.log("1");
+            return 1;
+        }
+        else {
+            console.log("0");
+            return 0;
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion zeigt entweder einen Aktualisierungshinweis an oder leitet auf die             *
+    *   Startseite weiter.                                                                      *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.aktualisierungsAnfrage = function () {
+        var _this = this;
+        //Es wird ermittelt ob ein Semester begonnen hat:
+        //Wenn ja, wird außerdem noch überprüft, ob bereits durch diesen Alert zu Semesterbeginn
+        //aktualisiert wurde.
+        var aktualisieren = this.getSemesterBeginn();
+        if (aktualisieren == 1) {
+            var alert_1 = this.alertCtrl.create({
+                title: 'Aktualisieren',
+                message: 'Ein neues Semester hat begonnen. Möchtest du die Raumpläne aktualisieren?',
+                buttons: [
+                    {
+                        text: 'Nein',
+                        role: 'cancel',
+                        handler: function () {
+                            alert_1 = null;
+                            _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+                        }
+                    },
+                    {
+                        text: 'Ja',
+                        handler: function () {
+                            //Es wird das Datum des Aktualisierungshinweises gesetzt:
+                            var jetzt = new Date("Tue Apr 03 2018 11:09:54 GMT+0200 (CEST)");
+                            localStorage.setItem('aktuell', jetzt.toString());
+                            _this.loginFunction();
+                        }
+                    }
+                ]
+            });
+            alert_1.present();
+        }
+        else {
+            //Wenn nicht aktualisiert werden muss:
+            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
         }
     };
     /********************************************************************************************
@@ -379,10 +403,10 @@ var LoginPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <div id="laden" style="display:none; margin: -16px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      <span id="lademessage">Login wird durchgeführt.</span>\n    </div>\n  </div>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>\n        </ion-item>\n\n        <ion-item text-wrap>\n          <ion-label>Benutzerdaten speichern und angemeldet bleiben.</ion-label>\n          <ion-checkbox [(ngModel)]="speichern"></ion-checkbox>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;white-space:pre-line;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n    </ion-row>\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>\n    </ion-row>\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _f || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], LoginPage);
     return LoginPage;
-    var _a, _b, _c, _d, _e, _f;
 }());
 
 ;
@@ -445,6 +469,8 @@ module.exports = webpackAsyncContext;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Darstellung__ = __webpack_require__(49);
+
 var GebaudeModel = /** @class */ (function () {
     function GebaudeModel(gebaudename) {
         /********************************************************************************************
@@ -473,11 +499,21 @@ var GebaudeModel = /** @class */ (function () {
     *                                                                                           *
     *   Funktion, die alle freien Räume zu allen Timeslots ermittelt                            *
     *                                                                                           *
+    *   RETURN-Wert: Alle freien Räume                                                          *
+    *                                                                                           *
     ********************************************************************************************/
     GebaudeModel.prototype.getFreeRooms = function () {
-        var _this = this;
-        var result = []; // RaumModel[] = [];
+        var result = [];
         var slots = this.giveSlots();
+        var darstellung;
+        switch (this.gebaudename) {
+            case "C":
+                darstellung = new __WEBPACK_IMPORTED_MODULE_0__Darstellung__["a" /* Darstellung */](0);
+                break;
+            case "D":
+                darstellung = new __WEBPACK_IMPORTED_MODULE_0__Darstellung__["a" /* Darstellung */](1);
+                break;
+        }
         for (var i = 0; i < slots.length; i++) {
             switch (slots[i]) {
                 case "08:15:00":
@@ -506,7 +542,7 @@ var GebaudeModel = /** @class */ (function () {
                     break;
             }
             this.raume.forEach(function (raum) {
-                if (raum.isFree(slots[i], _this.giveWochentag())) {
+                if (raum.isFree(slots[i], darstellung.giveWochentag())) {
                     result.push(raum.raumname);
                 }
             });
@@ -516,6 +552,8 @@ var GebaudeModel = /** @class */ (function () {
     /********************************************************************************************
     *                                                                                           *
     *   Funktion gibt zur aktuellen Uhrzeit die nachfolgenden Timeslots zurück.                 *
+    *                                                                                           *
+    *   RETURN-Wert: Alle Timeslots                                                             *
     *                                                                                           *
     ********************************************************************************************/
     GebaudeModel.prototype.giveSlots = function () {
@@ -535,155 +573,103 @@ var GebaudeModel = /** @class */ (function () {
     *                                                                                           *
     *   Funktion gibt die Uhrzeit des aktuellen Slots zurück                                    *
     *                                                                                           *
+    *   RETURN-Wert: Die Uhrzeit des aktuellen Slots                                            *
+    *                                                                                           *
     ********************************************************************************************/
     GebaudeModel.prototype.giveUhrzeit = function () {
         var jetzt = new Date();
         var stunden = jetzt.getHours();
         var minuten = jetzt.getMinutes();
         switch (true) {
-            //0:00 - 0:59
-            case (stunden == 0) && (minuten >= 0 && minuten <= 59):
+            /*0:00 - 0:59*/ case (stunden == 0) && (minuten >= 0 && minuten <= 59):
                 console.log("1");
                 return "08:15:00";
-            //1:00 - 1:59
-            case (stunden == 1) && (minuten >= 0 && minuten <= 59):
+            /*1:00 - 1:59*/ case (stunden == 1) && (minuten >= 0 && minuten <= 59):
                 console.log("2");
                 return "08:15:00";
-            //2:00 - 2:59
-            case (stunden == 2) && (minuten >= 0 && minuten <= 59):
+            /*2:00 - 2:59*/ case (stunden == 2) && (minuten >= 0 && minuten <= 59):
                 console.log("3");
                 return "08:15:00";
-            //3:00 - 3:59
-            case (stunden == 3) && (minuten >= 0 && minuten <= 59):
+            /*3:00 - 3:59*/ case (stunden == 3) && (minuten >= 0 && minuten <= 59):
                 console.log("4");
                 return "08:15:00";
-            //4:00 - 4:59
-            case (stunden == 4) && (minuten >= 0 && minuten <= 59):
+            /*4:00 - 4:59*/ case (stunden == 4) && (minuten >= 0 && minuten <= 59):
                 console.log("5");
                 return "08:15:00";
-            //5:00 - 5:59
-            case (stunden == 5) && (minuten >= 0 && minuten <= 59):
+            /*5:00 - 5:59*/ case (stunden == 5) && (minuten >= 0 && minuten <= 59):
                 console.log("6");
                 return "08:15:00";
-            //6:00 - 6:59
-            case (stunden == 6) && (minuten >= 0 && minuten <= 59):
+            /*6:00 - 6:59*/ case (stunden == 6) && (minuten >= 0 && minuten <= 59):
                 console.log("7");
                 return "08:15:00";
-            //7:00 - 7:59
-            case (stunden == 7) && (minuten >= 0 && minuten <= 59):
+            /*7:00 - 7:59*/ case (stunden == 7) && (minuten >= 0 && minuten <= 59):
                 console.log("8");
                 return "08:15:00";
-            //8:00 - 8:59
-            case (stunden == 8) && (minuten >= 0 && minuten <= 59):
+            /*8:00 - 8:59*/ case (stunden == 8) && (minuten >= 0 && minuten <= 59):
                 console.log("9");
                 return "08:15:00";
-            //9:00 - 9:44
-            case (stunden == 9) && (minuten >= 0 && minuten <= 44):
+            /*9:00 - 9:44*/ case (stunden == 9) && (minuten >= 0 && minuten <= 44):
                 console.log("10");
                 return "08:15:00";
-            //9:45 - 9:59
-            case (stunden == 9) && (minuten >= 45 && minuten <= 59):
+            /*9:45 - 9:59*/ case (stunden == 9) && (minuten >= 45 && minuten <= 59):
                 console.log("11");
                 return "10:00:00";
-            //10:00 - 10:59
-            case (stunden == 10) && (minuten >= 0 && minuten <= 59):
+            /*10:00 - 10:59*/ case (stunden == 10) && (minuten >= 0 && minuten <= 59):
                 console.log("12");
                 return "10:00:00";
-            //11:00 - 11:44
-            case (stunden == 11) && (minuten >= 0 && minuten <= 44):
+            /*11:00 - 11:44*/ case (stunden == 11) && (minuten >= 0 && minuten <= 44):
                 console.log("13");
                 return "10:00:00";
-            //11:45 - 11:59
-            case (stunden == 11) && (minuten >= 45 && minuten <= 59):
+            /*11:45 - 11:59*/ case (stunden == 11) && (minuten >= 45 && minuten <= 59):
                 console.log("14");
                 return "11:45:00";
-            //12:00 - 12:59
-            case (stunden == 12) && (minuten >= 0 && minuten <= 59):
+            /*12:00 - 12:59*/ case (stunden == 12) && (minuten >= 0 && minuten <= 59):
                 console.log("15");
                 return "11:45:00";
-            //13:00 - 13:59
-            case (stunden == 13) && (minuten >= 0 && minuten <= 59):
+            /*13:00 - 13:59*/ case (stunden == 13) && (minuten >= 0 && minuten <= 59):
                 console.log("16");
                 return "11:45:00";
-            //14:00 - 14:14
-            case (stunden == 14) && (minuten >= 0 && minuten <= 14):
+            /*14:00 - 14:14*/ case (stunden == 14) && (minuten >= 0 && minuten <= 14):
                 console.log("17");
                 return "11:45:00";
-            //14:15 - 14:59
-            case (stunden == 14) && (minuten >= 15 && minuten <= 59):
+            /*14:15 - 14:59*/ case (stunden == 14) && (minuten >= 15 && minuten <= 59):
                 console.log("18");
                 return "14:15:00";
-            //15:00 - 15:59
-            case (stunden == 15) && (minuten >= 0 && minuten <= 59):
+            /*15:00 - 15:59*/ case (stunden == 15) && (minuten >= 0 && minuten <= 59):
                 console.log("19");
                 return "14:15:00";
-            //16:00 - 16:59
-            case (stunden == 16) && (minuten >= 0 && minuten <= 59):
+            /*16:00 - 16:59*/ case (stunden == 16) && (minuten >= 0 && minuten <= 59):
                 console.log("20");
                 return "16:00:00";
-            //17:00 - 17:44
-            case (stunden == 17) && (minuten >= 0 && minuten <= 44):
+            /*17:00 - 17:44*/ case (stunden == 17) && (minuten >= 0 && minuten <= 44):
                 console.log("21");
                 return "16:00:00";
-            //17:45 - 17:59
-            case (stunden == 17) && (minuten >= 45 && minuten <= 59):
+            /*17:45 - 17:59*/ case (stunden == 17) && (minuten >= 45 && minuten <= 59):
                 console.log("22");
                 return "17:45:00";
-            //18:00 - 18:59
-            case (stunden == 18) && (minuten >= 0 && minuten <= 59):
+            /*18:00 - 18:59*/ case (stunden == 18) && (minuten >= 0 && minuten <= 59):
                 console.log("23");
                 return "17:45:00";
-            //19:00 - 19:29
-            case (stunden == 19) && (minuten >= 0 && minuten <= 29):
+            /*19:00 - 19:29*/ case (stunden == 19) && (minuten >= 0 && minuten <= 29):
                 console.log("24");
                 return "17:45:00";
-            //19:30 - 19:59
-            case (stunden == 19) && (minuten >= 30 && minuten <= 59):
+            /*19:30 - 19:59*/ case (stunden == 19) && (minuten >= 30 && minuten <= 59):
                 console.log("25");
                 return "19:30:00";
-            //20:00 - 20:59
-            case (stunden == 20) && (minuten >= 0 && minuten <= 59):
+            /*20:00 - 20:59*/ case (stunden == 20) && (minuten >= 0 && minuten <= 59):
                 console.log("26");
                 return "19:30:00";
-            //21:00 - 21:59
-            case (stunden == 21) && (minuten >= 0 && minuten <= 59):
+            /*21:00 - 21:59*/ case (stunden == 21) && (minuten >= 0 && minuten <= 59):
                 console.log("27");
                 return "21:00:00";
-            //22:00 - 22:59
-            case (stunden == 22) && (minuten >= 0 && minuten <= 59):
+            /*22:00 - 22:59*/ case (stunden == 22) && (minuten >= 0 && minuten <= 59):
                 console.log("28");
                 return "21:00:00";
-            //23:00 - 23:59
-            case (stunden == 23) && (minuten >= 0 && minuten <= 59):
+            /*23:00 - 23:59*/ case (stunden == 23) && (minuten >= 0 && minuten <= 59):
                 console.log("29");
                 return "21:00:00";
             default: break;
         }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion gibt den aktuellen Wochentag zurück                                            *
-    *                                                                                           *
-    ********************************************************************************************/
-    GebaudeModel.prototype.giveWochentag = function () {
-        var jetzt = new Date();
-        switch (jetzt.getDay()) {
-            case 1: return "Montag";
-            case 2: return "Dienstag";
-            case 3: return "Mittwoch";
-            case 4: return "Donnerstag";
-            case 5: return "Freitag";
-            case 6: return "Samstag";
-            case 0: return "Sonntag";
-            default: break;
-        }
-    };
-    GebaudeModel.prototype.getRoom = function (name) {
-        this.raume.forEach(function (raum) {
-            if (raum.raumname == name) {
-                return raum;
-            }
-        });
     };
     return GebaudeModel;
 }());
@@ -821,23 +807,12 @@ var RaumModel = /** @class */ (function () {
     *                                                                                           *
     *   text -> Text, der gesplittet werden soll                                                *
     *                                                                                           *
+    *   RETURN-Wert: Array mit Einträgen aus dem übergebenen Text(ics-Datei)                    *
+    *                                                                                           *
     ********************************************************************************************/
     RaumModel.prototype.getICS = function (text) {
         text.trim();
-        //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
         return text.split("\\r\\n");
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion parst die Uhrzeit aus dem Raumplan in das Format HH:MM:SS.                     *
-    *                                                                                           *
-    *   text -> Uhrzeit, die geparst werden soll                                                *
-    *                                                                                           *
-    ********************************************************************************************/
-    RaumModel.prototype.getUhrZeit = function (text) {
-        var datum = text.split("T");
-        var tmp = datum[1];
-        return tmp;
     };
     /********************************************************************************************
     *                                                                                           *
@@ -845,6 +820,8 @@ var RaumModel = /** @class */ (function () {
     *                                                                                           *
     *   uhrzeit -> Uhrzeit, zu der der Raum frei sein soll                                      *
     *   wochentag -> Wochentag, zu dem der Raum frei sein soll                                  *
+    *                                                                                           *
+    *   RETURN-Wert: true, wenn der Raum frei ist; false falls nicht                            *
     *                                                                                           *
     ********************************************************************************************/
     RaumModel.prototype.isFree = function (uhrzeit, wochentag) {
@@ -968,6 +945,7 @@ var MyApp = /** @class */ (function () {
         this.platform.ready().then(function () {
             _this.statusBar.styleDefault();
             _this.splashScreen.hide;
+            //Der Hardware-Backbutton des Handys bekommt eine Aktion:
             platform.registerBackButtonAction(function () {
                 var page;
                 if (null != localStorage.getItem("page")) {
@@ -983,6 +961,7 @@ var MyApp = /** @class */ (function () {
                 //this.navCtrl.setRoot(HomePage);
             }, 1);
         });
+        //Die Seiten des Menüs:
         this.pages = [
             { title: 'Campusplan', component: __WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */], item: "Home" },
             { title: 'Gebäude C', component: __WEBPACK_IMPORTED_MODULE_5__pages_page_page__["a" /* Gebaude */], item: "C" },
@@ -991,6 +970,14 @@ var MyApp = /** @class */ (function () {
             { title: 'Aktualisieren', component: __WEBPACK_IMPORTED_MODULE_7__pages_login_login__["a" /* LoginPage */], item: "Aktualisieren" }
         ];
     }
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion öffnet die übergebene Seite                                                    *
+    *                                                                                           *
+    *   page -> Seite, die geöffnet werden soll                                                 *
+    *   item -> item mit dem Inhalt, der an die Seite übermittelt werden soll                   *
+    *                                                                                           *
+    ********************************************************************************************/
     MyApp.prototype.openPage = function (page, item) {
         // Reset the content nav to have just this page
         // we wouldn't want the back button to show in this scenario
@@ -998,7 +985,7 @@ var MyApp = /** @class */ (function () {
     };
     /********************************************************************************************
     *                                                                                           *
-    *   Funktion löscht die Benutzerdaten                                                       *
+    *   Funktion ruft die Startseite auf                                                        *
     *                                                                                           *
     ********************************************************************************************/
     MyApp.prototype.deleteDaten = function () {
@@ -1009,7 +996,7 @@ var MyApp = /** @class */ (function () {
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p, p.item)">\n        {{p.title}}\n      </button>\n      <button menuClose ion-item (click)="deleteDaten()">\n        Datenverwaltung\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <!--Das Menü wird erstellt:-->\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p, p.item)">\n        {{p.title}}\n      </button>\n      <button menuClose ion-item (click)="deleteDaten()">\n        Datenverwaltung\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
@@ -1029,7 +1016,7 @@ var MyApp = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__page_page__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(49);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1054,59 +1041,81 @@ var HomePage = /** @class */ (function () {
         this.navParams = navParams;
         this.temp = [];
     }
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+    *                                                                                           *
+    ********************************************************************************************/
     HomePage.prototype.ionViewDidLoad = function () {
         localStorage.setItem("page", "Home");
         if (localStorage.getItem("markiert") != null) {
             this.favoriten = localStorage.getItem("markiert").split(",");
-            var c = 0;
-            var e = 0;
             var h = 0;
             for (h = 0; h < 2; h++) {
                 this.darstellung = new __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__["a" /* Darstellung */](h);
                 this.darstellung.parseToCampus();
                 this.freeRooms = this.darstellung.freeRooms;
-                for (var i = 0; i < this.favoriten.length; i++) {
-                    //Alle Favoriten durchgehen
-                    c = 0;
-                    for (var x = 0; x < this.freeRooms.length; x++) {
-                        //Alle freien Räume durchgehen
-                        if (c == 2) {
-                            break;
-                        }
-                        //Wenn String ein Zeitslot ist
-                        //Also mit einer Zahl statt einem Buchstaben beginnt
-                        if (this.freeRooms[x].charAt(0) == '0' || this.freeRooms[x].charAt(0) == '1' || this.freeRooms[x].charAt(0) == '2' ||
-                            this.freeRooms[x].charAt(0) == '3' || this.freeRooms[x].charAt(0) == '4' || this.freeRooms[x].charAt(0) == '5' ||
-                            this.freeRooms[x].charAt(0) == '6' || this.freeRooms[x].charAt(0) == '7' || this.freeRooms[x].charAt(0) == '8' ||
-                            this.freeRooms[x].charAt(0) == '9') {
-                            c++;
-                            //console.log("Slot endeckt c: " + c);
-                        } //if
-                        else {
-                            //Wenn Favoriten im ersten Slot der freien Räume sind
-                            //console.log("Raum: " + this.freeRooms[x]);
-                            if (this.freeRooms[x] == this.favoriten[i]) {
-                                //console.log("Dieser Raum ist in den Favoriten");
-                                //Ist der Favorit schon in Temp
-                                for (var t = 0; t < this.temp.length; t++) {
-                                    if (this.temp[t] == this.favoriten[i]) {
-                                        e = 1;
-                                    } //if
-                                } //for t
-                                if (e == 0) {
-                                    this.temp.push(this.favoriten[i]);
-                                } //if
-                                e = 0;
-                            } //if
-                        } //else
-                    } //for x
-                } //for i
-            } //for h
-        } //if
+                this.freieMarkierte();
+            }
+        }
         if (this.navParams.get("item") == "daten") {
             this.deleteDaten();
         }
     };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion ermittelt die aktuell freien, markierten Räume.                                *
+    *   Diese werden in den Array temp geschrieben.                                             *
+    *                                                                                           *
+    ********************************************************************************************/
+    HomePage.prototype.freieMarkierte = function () {
+        var c = 0;
+        var e = 0;
+        for (var i = 0; i < this.favoriten.length; i++) {
+            //Alle Favoriten durchgehen
+            c = 0;
+            for (var x = 0; x < this.freeRooms.length; x++) {
+                //Alle freien Räume durchgehen
+                if (c == 2) {
+                    break;
+                }
+                //Wenn String ein Zeitslot ist
+                //Also mit einer Zahl statt einem Buchstaben beginnt
+                if (this.freeRooms[x].charAt(0) == '0' || this.freeRooms[x].charAt(0) == '1' ||
+                    this.freeRooms[x].charAt(0) == '2' || this.freeRooms[x].charAt(0) == '3' ||
+                    this.freeRooms[x].charAt(0) == '4' || this.freeRooms[x].charAt(0) == '5' ||
+                    this.freeRooms[x].charAt(0) == '6' || this.freeRooms[x].charAt(0) == '7' ||
+                    this.freeRooms[x].charAt(0) == '8' || this.freeRooms[x].charAt(0) == '9') {
+                    c++;
+                    //console.log("Slot endeckt c: " + c);
+                } //if
+                else {
+                    //Wenn Favoriten im ersten Slot der freien Räume sind
+                    //console.log("Raum: " + this.freeRooms[x]);
+                    if (this.freeRooms[x] == this.favoriten[i]) {
+                        //console.log("Dieser Raum ist in den Favoriten");
+                        //Ist der Favorit schon in Temp
+                        for (var t = 0; t < this.temp.length; t++) {
+                            if (this.temp[t] == this.favoriten[i]) {
+                                e = 1;
+                            } //if
+                        } //for t
+                        if (e == 0) {
+                            this.temp.push(this.favoriten[i]);
+                        } //if
+                        e = 0;
+                    } //if
+                } //else
+            } //for x
+        } //for i
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion ruft das Gebäude auf und übermittelt den Namen des Raums.                      *
+    *                                                                                           *
+    *   temp -> Name des Raums auf den geklickt wurde                                           *
+    *                                                                                           *
+    ********************************************************************************************/
     HomePage.prototype.onTip = function (temp) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__page_page__["a" /* Gebaude */], { item: temp });
     };
@@ -1141,13 +1150,15 @@ var HomePage = /** @class */ (function () {
     };
     /********************************************************************************************
     *                                                                                           *
-    *   Funktion löscht die Benutzerdaten                                                       *
+    *   Funktion öffnet die Datenverwaltung                                                     *
     *                                                                                           *
     ********************************************************************************************/
     HomePage.prototype.deleteDaten = function () {
         var _this = this;
-        var raum = ["D01", "D02", "D11", "D12", "D13", "D14", "D15", "D17", "D18",
-            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"];
+        var raum = [
+            "D01", "D02", "D11", "D12", "D13", "D14", "D15", "D17", "D18",
+            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
+        ];
         var alert = this.alertCtrl.create({
             title: 'Datenverwaltung',
             message: 'Welche Daten möchtest du löschen?',
@@ -1164,56 +1175,78 @@ var HomePage = /** @class */ (function () {
                     handler: function () {
                         localStorage.removeItem("benutzer");
                         localStorage.removeItem("passwort");
-                        var toast = _this.toastCtrl.create({
-                            message: "Benutzerdaten gelöscht!",
-                            duration: 2000,
-                            position: 'middle',
-                            cssClass: "my-toast"
-                        });
-                        toast.present();
+                        _this.toasts("Benutzerdaten gelöscht!");
                     }
                 },
                 {
                     text: 'Markierte Räume',
                     handler: function () {
                         localStorage.removeItem("markiert");
-                        var toast = _this.toastCtrl.create({
-                            message: "Markierte Räume gelöscht!",
-                            duration: 2000,
-                            position: 'middle',
-                            cssClass: "my-toast"
-                        });
-                        toast.present();
+                        _this.toasts("Markierte Räume gelöscht!");
                     }
                 },
                 {
                     text: 'Alles',
                     handler: function () {
-                        localStorage.removeItem("benutzer");
-                        localStorage.removeItem("passwort");
-                        localStorage.removeItem("markiert");
-                        for (var i = 0; i < raum.length; i++) {
-                            localStorage.removeItem(raum[i]);
-                        }
-                        var toast = _this.toastCtrl.create({
-                            message: "Alle Daten wurden gelöscht!",
-                            duration: 2000,
-                            position: 'middle',
-                            cssClass: "my-toast"
+                        alert = null;
+                        var alert1 = _this.alertCtrl.create({
+                            title: 'Warnung!',
+                            message: 'Alle Daten löschen und die App schließen?',
+                            buttons: [
+                                {
+                                    text: 'Nein',
+                                    role: 'cancel',
+                                    handler: function () {
+                                        alert1 = null;
+                                    }
+                                },
+                                {
+                                    text: 'Ja',
+                                    handler: function () {
+                                        localStorage.removeItem("benutzer");
+                                        localStorage.removeItem("passwort");
+                                        localStorage.removeItem("markiert");
+                                        localStorage.removeItem("page");
+                                        localStorage.removeItem("from");
+                                        localStorage.removeItem("aktuell");
+                                        localStorage.removeItem("markiert");
+                                        for (var i = 0; i < raum.length; i++) {
+                                            localStorage.removeItem(raum[i]);
+                                        }
+                                        _this.toasts("Alle Daten wurden gelöscht!");
+                                        _this.platform.exitApp();
+                                    }
+                                }
+                            ]
                         });
-                        toast.present();
-                        _this.platform.exitApp();
+                        alert1.present();
                     }
                 }
             ]
         });
         alert.present();
     };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion erstellt eine Meldung                                                          *
+    *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
+    *                                                                                           *
+    ********************************************************************************************/
+    HomePage.prototype.toasts = function (message) {
+        var toast = this.toastCtrl.create({
+            message: message,
+            duration: 2000,
+            position: 'middle',
+            cssClass: "my-toast"
+        });
+        toast.present();
+    };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-home',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row>\n      <h5>Herzlich Willkommen!</h5>\n    </ion-row>\n    <ion-row>\n      <ng-container *ngFor="let temp of temp; let i = index" [attr.data-index]="i">\n        <span *ngIf="i == 0"><b>Folgende markierte Räume sind gerade frei:</b></span>\n        <span style="width: 100%;">\n          <ion-item style="float: left; width: 85%;" (click)="onTip(temp)">\n            {{temp}}\n          </ion-item>\n          <ion-icon style="height: 100%; font-size: 2em; padding-top: 15px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="arrow-dropright" (click)="onTip(temp)"></ion-icon>\n        </span>\n      </ng-container>\n    </ion-row>\n    <ion-row style="margin-top: 20px;">\n      Bitte wähle dein Gebäude:\n    </ion-row>\n    <ion-row style="text-align:center;">\n      <img id="img1" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img2" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n    	<img id="img3" style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n    	<img id="img4" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img5" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img6" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n    	<img id="img7" style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n    	<img id="img8" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img9" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], HomePage);
     return HomePage;
 }());
@@ -1231,7 +1264,7 @@ var HomePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(49);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1273,7 +1306,11 @@ var Gebaude = /** @class */ (function () {
         this.freeRooms = [];
         this.zugang = [];
         this.markiert = [];
-        this.entmarkiert = ["D01", "D02", "D12", "D13", "D14", "D15", "D17", "D18", "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"];
+        this.entmarkiert = [
+            "D01", "D02", "D12", "D13", "D14", "D15", "D17", "D18",
+            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
+        ];
+        //Der Hardware-Backbutton des Handys bekommt eine Aktion:
         platform.registerBackButtonAction(function () {
             var page;
             if (null != localStorage.getItem("page")) {
@@ -1287,8 +1324,13 @@ var Gebaude = /** @class */ (function () {
             }
             _this.nav.pop();
             console.log("backPressed 1");
-        }, 101);
+        }, 1);
     }
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+    *                                                                                           *
+    ********************************************************************************************/
     Gebaude.prototype.ionViewDidLoad = function () {
         console.log("NAVPARAMS: " + this.navParams.get('item'));
         var page = this.navParams.get('item');
@@ -1340,21 +1382,6 @@ var Gebaude = /** @class */ (function () {
         if (tmp != "") {
             this.getL(tmp);
         }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion erstellt eine Meldung                                                          *
-    *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.toasts = function (message) {
-        var toast = this.toastCtrl.create({
-            message: message,
-            duration: 2000,
-            position: 'middle',
-            cssClass: "my-toast"
-        });
-        toast.present();
     };
     /********************************************************************************************
     *                                                                                           *
@@ -1511,6 +1538,7 @@ var Gebaude = /** @class */ (function () {
         header.style.display = "none";
         show2.appendChild(this.darstellung.getLehrveranstaltungen(raumname));
         localStorage.setItem("page", "room");
+        console.log("PAGE: " + localStorage.getItem("page"));
         this.scrollTop();
     };
     /********************************************************************************************
@@ -1537,7 +1565,11 @@ var Gebaude = /** @class */ (function () {
         var button = document.getElementById('button');
         button.style.display = "none";
         var page = this.navParams.get('item');
+        if (page.length > 1) {
+            page = page.substring(0, 1);
+        }
         localStorage.setItem("page", page);
+        console.log("PAGE: " + page);
         this.scrollTop();
     };
     /********************************************************************************************
@@ -1548,21 +1580,37 @@ var Gebaude = /** @class */ (function () {
     Gebaude.prototype.scrollTop = function () {
         this.content.scrollToTop();
     };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion erstellt eine Meldung                                                          *
+    *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.toasts = function (message) {
+        var toast = this.toastCtrl.create({
+            message: message,
+            duration: 2000,
+            position: 'middle',
+            cssClass: "my-toast"
+        });
+        toast.present();
+    };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]) === "function" && _a || Object)
     ], Gebaude.prototype, "content", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
+        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]) === "function" && _b || Object)
     ], Gebaude.prototype, "nav", void 0);
     Gebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'gebaude',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/'<span id="header">\n  <ion-header>\n    <ion-navbar>\n      <button ion-button menuToggle>\n        <ion-icon name="menu"></ion-icon>\n      </button>\n      <ion-title style="float: left;">\n        <span *ngFor="let headTitle of ueberschrift; let i = index" [attr.data-index]="i">\n          <ng-container *ngIf="i == 0">{{ headTitle }}</ng-container>\n        </span>\n      </ion-title>\n      <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n    </ion-navbar>\n  </ion-header>\n</span>\n\n<ion-content padding>\n  <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">\n    <span id="span1" style="display: none; float: left; width: 100%; text-align:left;">\n      <!--<ion-icon id="button" name="close-circle" (click)="backClicked()" style="display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 5px; margin-right: 5px;"></ion-icon>-->\n      <ion-icon id="button" (click)="backClicked()" style="float: left; display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 13px; margin-left: 20px;" name="arrow-back"></ion-icon>\n      <ion-title style="float: left; margin-top: 13px;">\n        &nbsp;Zurück zur Raumübersicht\n      </ion-title>\n    </span>\n    <span id="span2" style="display: none; float: right; width: 100%;">\n      <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">\n        {{ item }}\n      </div>\n    </span>\n  </div>\n\n  <div id="anzeige" style="margin-top: 85px;">\n    <b>\n      <div style="margin-bottom: -30px;" *ngFor="let ueberschrift of ueberschrift; let i = index" [attr.data-index]="i">\n        <ng-container *ngIf="i == 1">{{ ueberschrift }}</ng-container>\n      </div>\n    </b>\n    <ion-list style="margin-bottom: 170px;">\n      <ng-container *ngFor="let item of freeRooms">\n\n        <div style="clear: both;">\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        </div>\n\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <span style="width: 100%; margin-bottom: 20px;">\n            <ion-item (click)="getL(item)" [color]="primary" style="float: left; width: 75%;">\n              <!--Wenn ein Raum markiert wurde wird der Raumname hervorgehoben:-->\n              <ng-container *ngFor="let markierte of markiert">\n                <span *ngIf="item == markierte" style="float: left; color: rgb(66, 134, 244);"><b>{{ item }}</b></span>\n              </ng-container>\n\n              <ng-container *ngFor="let entmarkierte of entmarkiert">\n                <span *ngIf="item == entmarkierte" style="float: left;">{{ item }}</span>\n              </ng-container>\n            </ion-item>\n\n            <!--Wenn ein Raum markiert wurde wird der Stern farbig:-->\n            <ng-container *ngFor="let markierte of markiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(66, 134, 244);" name="star" *ngIf="item == markierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <ng-container *ngFor="let entmarkierte of entmarkiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(120, 120, 120);" name="star" *ngIf="item == entmarkierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <ng-container *ngFor="let keys of zugang">\n              <ion-icon style="height: 100%; padding-top: 17px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="key" *ngIf="item == keys" (click)="onTip(item)"></ion-icon>\n            </ng-container>\n          </span>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n    <button ion-button style="left: 50%; position: fixed; bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _f || Object])
     ], Gebaude);
     return Gebaude;
+    var _a, _b, _c, _d, _e, _f;
 }());
 
 //# sourceMappingURL=page.js.map
@@ -1577,7 +1625,7 @@ var Gebaude = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_GebaudeModel__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__home_home__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__page_page__ = __webpack_require__(42);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1621,6 +1669,7 @@ var Search = /** @class */ (function () {
             var page;
             if (null != localStorage.getItem("from")) {
                 page = localStorage.getItem("from");
+                localStorage.setItem("from", "Search");
                 switch (page) {
                     case "Home":
                         _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_4__home_home__["a" /* HomePage */]);
@@ -1636,8 +1685,13 @@ var Search = /** @class */ (function () {
                         return;
                 }
             }
-        }, 101);
+        }, 1);
     }
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+    *                                                                                           *
+    ********************************************************************************************/
     Search.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad SearchPage');
         this.darstellung = new __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__["a" /* Darstellung */](0);
@@ -1697,6 +1751,7 @@ var Search = /** @class */ (function () {
         }
         console.log(freeTimeSlot);
         liste.style.display = "block";
+        //Markiert?
         var markiert = [];
         if (localStorage.getItem("markiert") != null) {
             markiert = localStorage.getItem("markiert").split(",");
@@ -1736,7 +1791,8 @@ var Search = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-search',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" (change)="searchRoom($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n  <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <ion-list>\n    <span id="liste">\n      <ng-container *ngFor="let item of freeTimeSlot; let i = index" [attr.data-index]="i">\n        <ng-container *ngFor="let head of freeUeberschrift">\n          <h5 *ngIf="i == 0" style="margin-top: 30px;"> {{ head }} </h5>\n        </ng-container>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 0">08:15 bis 09:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 1">10:00 bis 11:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 2">11:45 bis 13:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 3">14:15 bis 15:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 4">16:00 bis 17:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 5">17:45 bis 19:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 6">19:30 bis 21:00</ion-item>\n        <ion-item style="margin-top: 20px; margin-bottom: 50px;" *ngIf="item == 7">ab 21:00</ion-item>\n      </ng-container>\n    </span>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Search);
     return Search;
 }());
@@ -1745,7 +1801,7 @@ var Search = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 80:
+/***/ 49:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1818,6 +1874,8 @@ var Darstellung = /** @class */ (function () {
     *                                                                                           *
     *   Funktion gibt den aktuellen Wochentag zurück                                            *
     *                                                                                           *
+    *   RETURN-Wert: Der aktuelle Wochentag als String                                          *
+    *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.giveWochentag = function () {
         var jetzt = new Date();
@@ -1834,9 +1892,12 @@ var Darstellung = /** @class */ (function () {
     };
     /********************************************************************************************
     *                                                                                           *
-    *   Funktion ermittelt anhand eines Datums den dazugehörigen Wochentag.                     *
+    *   Funktion parst ein Datum aus dem Raumplan (Format: HH:MM:SSTJahr-Monat-Tag)             *
+    *   und ermittelt dessen Wochentag.                                                         *
     *                                                                                           *
     *   text -> Datum                                                                           *
+    *                                                                                           *
+    *   RETURN-Wert: Der Wochentag eines Datums                                                 *
     *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.parseDateToWochentag = function (text) {
@@ -1850,9 +1911,12 @@ var Darstellung = /** @class */ (function () {
     };
     /********************************************************************************************
     *                                                                                           *
-    *   Funktion parst die Uhrzeit aus dem Raumplan in das Format HH:MM:SS.                     *
+    *   Funktion parst ein Datum aus dem Raumplan (Format: HH:MM:SSTJahr-Monat-Tag)             *
+    *   und ermittelt dessen Uhrzeit.                                                           *
     *                                                                                           *
     *   text -> Uhrzeit, die geparst werden soll                                                *
+    *                                                                                           *
+    *   RETURN-Wert: Die Uhrzeit eines Datums                                                   *
     *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.parseUhrZeit = function (text) {
@@ -1867,6 +1931,8 @@ var Darstellung = /** @class */ (function () {
     *   raumnamen -> Array mit Namen der Räume                                                  *
     *   name -> Name des Gebäudes                                                               *
     *                                                                                           *
+    *   RETURN-Wert: Das erstellte Gebäude                                                      *
+    *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.parseGebaude = function (raumnamen, name) {
         var _this = this;
@@ -1879,9 +1945,11 @@ var Darstellung = /** @class */ (function () {
     };
     /********************************************************************************************
     *                                                                                           *
-    *   Funktion parst die Raumpläne und legt Veranstaltungen an.                               *
+    *   Funktion parst die Raumpläne und fügt Veranstaltungen einem Raum hinzu.                 *
     *                                                                                           *
     *   raumname -> Name des Raums für den der Raumplan ermittelt werden soll                   *
+    *                                                                                           *
+    *   RETURN-Wert: Der erstellte Raum                                                         *
     *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.parseToRaum = function (raumname) {
@@ -1898,82 +1966,95 @@ var Darstellung = /** @class */ (function () {
             var endZeit = this.parseUhrZeit(end.toString());
             var name = vevent[i].getFirstPropertyValue('description');
             var wochentag = this.parseDateToWochentag(start.toString());
-            var veranstaltung = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit, endZeit);
-            raum.addVeranstaltung(veranstaltung);
-            switch (startZeit) {
-                case "08:15:00":
-                    if (endZeit == "11:30:00") {
-                        var veranstaltung1 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung1);
-                    }
-                    else if (endZeit == "13:15:00") {
-                        var veranstaltung2 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "10:00:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung2);
-                        var veranstaltung3 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung3);
-                    }
-                    break;
-                case "10:00:00":
-                    if (endZeit == "13:15:00") {
-                        var veranstaltung4 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung4);
-                    }
-                    else if (endZeit == "15:45:00") {
-                        var veranstaltung5 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "11:45:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung5);
-                        var veranstaltung6 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung6);
-                    }
-                    break;
-                case "11:45:00":
-                    if (endZeit == "15:45:00") {
-                        var veranstaltung7 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung7);
-                    }
-                    else if (endZeit == "17:30:00") {
-                        var veranstaltung8 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "14:15:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung8);
-                        var veranstaltung9 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung9);
-                    }
-                    break;
-                case "14:15:00":
-                    if (endZeit == "17:30:00") {
-                        var veranstaltung10 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung10);
-                    }
-                    else if (endZeit == "19:15:00") {
-                        var veranstaltung11 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "16:00:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung11);
-                        var veranstaltung12 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung12);
-                    }
-                    break;
-                case "16:00:00":
-                    if (endZeit == "19:15:00") {
-                        var veranstaltung13 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung13);
-                    }
-                    else if (endZeit == "21:00:00") {
-                        var veranstaltung14 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "17:45:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung14);
-                        var veranstaltung15 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung15);
-                    }
-                    break;
-                case "17:45:00":
-                    if (endZeit == "21:00:00") {
-                        var veranstaltung16 = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, "19:30:00", endZeit);
-                        raum.addVeranstaltung(veranstaltung16);
-                    }
-                default:
-            }
+            this.neueVeranstaltung(name, wochentag, startZeit, endZeit, raum);
+            this.laengereVeranstaltungen(name, wochentag, startZeit, endZeit, raum);
         }
         return raum;
     };
     /********************************************************************************************
     *                                                                                           *
+    *   Funktion erstellt eine neue Veranstaltung.                                              *
+    *                                                                                           *
+    *   name -> Name der Veranstaltung                                                          *
+    *   wochentag -> Wochtag der Veranstaltung                                                  *
+    *   startZeit -> Beginn der Veranstaltung                                                   *
+    *   endZeit -> Ende der Veranstaltung                                                       *
+    *   raum -> Raum, zu dem die Veranstaltung hinzugefügt werden soll                          *
+    *                                                                                           *
+    ********************************************************************************************/
+    Darstellung.prototype.neueVeranstaltung = function (name, wochentag, startZeit, endZeit, raum) {
+        var veranstaltung = new __WEBPACK_IMPORTED_MODULE_2__Veranstaltung__["a" /* Veranstaltung */](name, wochentag, startZeit, endZeit);
+        raum.addVeranstaltung(veranstaltung);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion erstellt eine neue Veranstaltung.                                              *
+    *                                                                                           *
+    *   name -> Name der Veranstaltung                                                          *
+    *   wochentag -> Wochtag der Veranstaltung                                                  *
+    *   startZeit -> Beginn der Veranstaltung                                                   *
+    *   endZeit -> Ende der Veranstaltung                                                       *
+    *   raum -> Raum, in der die Veranstaltung stattfindet                                      *
+    *                                                                                           *
+    ********************************************************************************************/
+    Darstellung.prototype.laengereVeranstaltungen = function (name, wochentag, startZeit, endZeit, raum) {
+        switch (startZeit) {
+            case "08:15:00":
+                if (endZeit == "11:30:00") {
+                    this.neueVeranstaltung(name, wochentag, "10:00:00", endZeit, raum);
+                }
+                else if (endZeit == "13:15:00") {
+                    this.neueVeranstaltung(name, wochentag, "10:00:00", endZeit, raum);
+                    this.neueVeranstaltung(name, wochentag, "11:45:00", endZeit, raum);
+                }
+                break;
+            case "10:00:00":
+                if (endZeit == "13:15:00") {
+                    this.neueVeranstaltung(name, wochentag, "11:45:00", endZeit, raum);
+                }
+                else if (endZeit == "15:45:00") {
+                    this.neueVeranstaltung(name, wochentag, "11:45:00", endZeit, raum);
+                    this.neueVeranstaltung(name, wochentag, "14:15:00", endZeit, raum);
+                }
+                break;
+            case "11:45:00":
+                if (endZeit == "15:45:00") {
+                    this.neueVeranstaltung(name, wochentag, "14:15:00", endZeit, raum);
+                }
+                else if (endZeit == "17:30:00") {
+                    this.neueVeranstaltung(name, wochentag, "14:15:00", endZeit, raum);
+                    this.neueVeranstaltung(name, wochentag, "16:00:00", endZeit, raum);
+                }
+                break;
+            case "14:15:00":
+                if (endZeit == "17:30:00") {
+                    this.neueVeranstaltung(name, wochentag, "16:00:00", endZeit, raum);
+                }
+                else if (endZeit == "19:15:00") {
+                    this.neueVeranstaltung(name, wochentag, "16:00:00", endZeit, raum);
+                    this.neueVeranstaltung(name, wochentag, "17:45:00", endZeit, raum);
+                }
+                break;
+            case "16:00:00":
+                if (endZeit == "19:15:00") {
+                    this.neueVeranstaltung(name, wochentag, "17:45:00", endZeit, raum);
+                }
+                else if (endZeit == "21:00:00") {
+                    this.neueVeranstaltung(name, wochentag, "17:45:00", endZeit, raum);
+                    this.neueVeranstaltung(name, wochentag, "19:30:00", endZeit, raum);
+                }
+                break;
+            case "17:45:00":
+                if (endZeit == "21:00:00") {
+                    this.neueVeranstaltung(name, wochentag, "19:30:00", endZeit, raum);
+                }
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
     *   Funktion erstellt den Campus und füllt den Array freeRooms mit den freien Räumen.       *
+    *                                                                                           *
+    *   RETURN-Wert: Der erstellte Campus                                                       *
     *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.parseToCampus = function () {
@@ -1996,6 +2077,8 @@ var Darstellung = /** @class */ (function () {
     *   Funktion entfernt die Sekunden in der Uhrzeit                                           *
     *                                                                                           *
     *   zeit -> Uhrzeit, die bearbeitet werden soll                                             *
+    *                                                                                           *
+    *   RETURN-Wert: Die geänderte Uhrzeit                                                      *
     *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.changeZeit = function (zeit) {
@@ -2022,6 +2105,8 @@ var Darstellung = /** @class */ (function () {
     *                                                                                           *
     *   text -> Text der in das HTML-Element gefüllt werden soll.                               *
     *   tag -> Tag des HTML-Elements                                                            *
+    *                                                                                           *
+    *   RETURN-Wert: Das erstellte HTML-Element                                                 *
     *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.erstelleElement = function (text, tag) {
@@ -2050,7 +2135,7 @@ var Darstellung = /** @class */ (function () {
     *   raumname -> Name des Raums für den der Raumplan dargestellt werden soll                 *
     *                                                                                           *
     *   Aufbau des DOM-Trees:                                                                   *
-    *   <show2> //in c.ts bzw. d.ts                                                             *
+    *   <show2> //in page.ts                                                                    *
     *     <inhalt>                              #                                               *
     *       <ueberschrift>                        #                                             *
     *       ...Kann mehrere Ueberschriften         # werden in dieser Funktion erstellt         *
@@ -2058,6 +2143,8 @@ var Darstellung = /** @class */ (function () {
     *       ...und Veranstaltungen enthalten      #                                             *
     *     </inhalt>                             #                                               *
     *   </show2>                                                                                *
+    *                                                                                           *
+    *   RETURN-Wert: Der erstellte Raumplan                                                     *
     *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.zeigeLehrveranstaltungen = function (lehrveranstaltungen, raumname) {
@@ -2074,34 +2161,28 @@ var Darstellung = /** @class */ (function () {
             return inhalt;
         }
         for (var j = 0; j < lehrveranstaltungen.length; j++) {
+            //Wenn im Array ein Wochentag steht, dann wird eine Wochentagsüberschrift erstellt:
             switch (lehrveranstaltungen[j]) {
                 case "Montag":
-                    ueberschrift = this.erstelleElement("Montag", "h5");
-                    inhalt.appendChild(ueberschrift);
+                    this.erstelleUeberschrift("Montag", inhalt);
                     continue;
                 case "Dienstag":
-                    ueberschrift = this.erstelleElement("Dienstag", "h5");
-                    inhalt.appendChild(ueberschrift);
+                    this.erstelleUeberschrift("Dienstag", inhalt);
                     continue;
                 case "Mittwoch":
-                    ueberschrift = this.erstelleElement("Mittwoch", "h5");
-                    inhalt.appendChild(ueberschrift);
+                    this.erstelleUeberschrift("Mittwoch", inhalt);
                     continue;
                 case "Donnerstag":
-                    ueberschrift = this.erstelleElement("Donnerstag", "h5");
-                    inhalt.appendChild(ueberschrift);
+                    this.erstelleUeberschrift("Donnerstag", inhalt);
                     continue;
                 case "Freitag":
-                    ueberschrift = this.erstelleElement("Freitag", "h5");
-                    inhalt.appendChild(ueberschrift);
+                    this.erstelleUeberschrift("Freitag", inhalt);
                     continue;
                 case "Samstag":
-                    ueberschrift = this.erstelleElement("Samstag", "h5");
-                    inhalt.appendChild(ueberschrift);
+                    this.erstelleUeberschrift("Samstag", inhalt);
                     continue;
                 case "Sonntag":
-                    ueberschrift = this.erstelleElement("Sonntag", "h5");
-                    inhalt.appendChild(ueberschrift);
+                    this.erstelleUeberschrift("Sonntag", inhalt);
                     continue;
             }
             if (lehrveranstaltungen[j] != lehrvtmp) {
@@ -2110,41 +2191,37 @@ var Darstellung = /** @class */ (function () {
                 var se = lehrveranstaltungen[j].indexOf("Seminar");
                 var pr = lehrveranstaltungen[j].indexOf("Praktikum");
                 var ue = lehrveranstaltungen[j].indexOf("Übung");
+                veranstaltung = this.erstelleElement("" + lehrveranstaltungen[j] + "," + lehrveranstaltungen[j + 1], "p");
                 if (vl != -1) {
-                    //Vorlesung erstellen:
-                    veranstaltung = this.erstelleElement("" + lehrveranstaltungen[j] + "," + lehrveranstaltungen[j + 1], "p");
+                    //Farben für Vorlesungen festlegen:
                     veranstaltung.style.backgroundColor = "rgba(74, 106, 255, 0.5)";
                     veranstaltung.style.border = "2px solid rgb(74, 106, 255)";
-                    inhalt.appendChild(veranstaltung);
                 }
                 else if (se != -1) {
-                    //Seminar erstellen:
+                    //Farben für Seminar festlegen:
                     veranstaltung = this.erstelleElement("" + lehrveranstaltungen[j] + "," + lehrveranstaltungen[j + 1], "p");
                     veranstaltung.style.backgroundColor = "rgba(26, 123, 81, 0.5)";
                     veranstaltung.style.border = "2px solid rgb(26, 123, 81)";
-                    inhalt.appendChild(veranstaltung);
                 }
                 else if (pr != -1) {
-                    //Praktikum erstellen:
+                    //Farben für Praktikum festlegen:
                     veranstaltung = this.erstelleElement("" + lehrveranstaltungen[j] + "," + lehrveranstaltungen[j + 1], "p");
                     veranstaltung.style.backgroundColor = "rgba(255, 146, 63, 0.5)";
                     veranstaltung.style.border = "2px solid rgb(255, 146, 63)";
-                    inhalt.appendChild(veranstaltung);
                 }
                 else if (ue != -1) {
-                    //Uebung erstellen:
+                    //Farben für Uebung festlegen:
                     veranstaltung = this.erstelleElement("" + lehrveranstaltungen[j] + "," + lehrveranstaltungen[j + 1], "p");
                     veranstaltung.style.backgroundColor = "rgba(44, 250, 40, 0.4)";
                     veranstaltung.style.border = "2px solid rgb(44, 250, 40)";
-                    inhalt.appendChild(veranstaltung);
                 }
                 else {
-                    //Sonstige Veranstaltung erstellen:
+                    //Farben für Sonstige Veranstaltung festlegen:
                     veranstaltung = this.erstelleElement("" + lehrveranstaltungen[j] + "," + lehrveranstaltungen[j + 1], "p");
                     veranstaltung.style.backgroundColor = "rgba(140, 140, 140, 0.3)";
                     veranstaltung.style.border = "2px solid rgb(140, 140, 140)";
-                    inhalt.appendChild(veranstaltung);
                 }
+                inhalt.appendChild(veranstaltung);
                 lehrvtmp = lehrveranstaltungen[j + 1];
             }
         }
@@ -2152,9 +2229,23 @@ var Darstellung = /** @class */ (function () {
     };
     /********************************************************************************************
     *                                                                                           *
+    *   Funktion erstellt eine Wochentags-Überschrift für den Raumplan.                         *
+    *                                                                                           *
+    *   wochentag -> Name des Wochentags                                                        *
+    *   inhalt -> HTML-Element, zu dem die Überschrift hinzugefügt wird                         *
+    *                                                                                           *
+    ********************************************************************************************/
+    Darstellung.prototype.erstelleUeberschrift = function (wochentag, inhalt) {
+        var ueberschrift = this.erstelleElement(wochentag, "h5");
+        inhalt.appendChild(ueberschrift);
+    };
+    /********************************************************************************************
+    *                                                                                           *
     *   Funktion ermittelt Lehrveranstaltungen für einen Raum                                   *
     *                                                                                           *
     *   raumname -> Name des Raums für den der Raumplan ermittelt werden soll                   *
+    *                                                                                           *
+    *   RETURN-Wert: Der erstellte Raumplan                                                     *
     *                                                                                           *
     ********************************************************************************************/
     Darstellung.prototype.getLehrveranstaltungen = function (raumname) {
@@ -2165,16 +2256,20 @@ var Darstellung = /** @class */ (function () {
         var name;
         var enduhrzeit;
         var enduhrzeittmp = "";
-        for (var i = 0; i < this.parseToRaum(raumname).veranstaltungen.length; i++) {
-            name = this.parseToRaum(raumname).veranstaltungen[i].name;
-            if (this.parseToRaum(raumname).veranstaltungen[i].wochentag != Wochentag) {
-                Wochentag = this.parseToRaum(raumname).veranstaltungen[i].wochentag;
+        var raum = this.parseToRaum(raumname);
+        for (var i = 0; i < raum.veranstaltungen.length; i++) {
+            name = raum.veranstaltungen[i].name;
+            //Der Wochentag wird ermittelt und in den Array geschrieben
+            //Damit der Wochentag nur einmal vorkommt:
+            if (raum.veranstaltungen[i].wochentag != Wochentag) {
+                Wochentag = raum.veranstaltungen[i].wochentag;
                 LehrveranstaltungoffreeRooms.push(Wochentag);
                 enduhrzeittmp = "";
                 uhrzeittmp = "";
             }
-            uhrzeit = this.changeZeit(this.parseToRaum(raumname).veranstaltungen[i].uhrzeit);
-            enduhrzeit = this.changeZeit(this.parseToRaum(raumname).veranstaltungen[i].enduhrzeit);
+            uhrzeit = this.changeZeit(raum.veranstaltungen[i].uhrzeit);
+            enduhrzeit = this.changeZeit(raum.veranstaltungen[i].enduhrzeit);
+            //Die Uhrzeit wird überprüft, damit parallele Veranstaltungen nicht vorkommen:
             if (uhrzeit != uhrzeittmp && enduhrzeit != enduhrzeittmp) {
                 name = name.replace("\\", "");
                 name = name.replace(",", "");

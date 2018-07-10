@@ -16,7 +16,6 @@ export class RaumModel{
 
   constructor (raumname:string){
     this.raumname = raumname;
-
   }
 
   /********************************************************************************************
@@ -36,24 +35,12 @@ export class RaumModel{
   *                                                                                           *
   *   text -> Text, der gesplittet werden soll                                                *
   *                                                                                           *
+  *   RETURN-Wert: Array mit Einträgen aus dem übergebenen Text(ics-Datei)                    *
+  *                                                                                           *
   ********************************************************************************************/
   getICS(text:string) {
     text.trim();
-    //console.log("text.split(\\r\\n): "+text.split("\\r\\n"));
     return text.split("\\r\\n");
-  }
-
-  /********************************************************************************************
-  *                                                                                           *
-  *   Funktion parst die Uhrzeit aus dem Raumplan in das Format HH:MM:SS.                     *
-  *                                                                                           *
-  *   text -> Uhrzeit, die geparst werden soll                                                *
-  *                                                                                           *
-  ********************************************************************************************/
-  getUhrZeit(text:string) {
-    var datum:any = text.split("T");
-    var tmp:any = datum[1];
-    return tmp;
   }
 
   /********************************************************************************************
@@ -62,6 +49,8 @@ export class RaumModel{
   *                                                                                           *
   *   uhrzeit -> Uhrzeit, zu der der Raum frei sein soll                                      *
   *   wochentag -> Wochentag, zu dem der Raum frei sein soll                                  *
+  *                                                                                           *
+  *   RETURN-Wert: true, wenn der Raum frei ist; false falls nicht                            *
   *                                                                                           *
   ********************************************************************************************/
   isFree(uhrzeit:string, wochentag:string){
@@ -73,5 +62,4 @@ export class RaumModel{
     });
     return result;
   }
-
 }

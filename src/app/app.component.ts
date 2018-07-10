@@ -19,7 +19,8 @@ export class MyApp {
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
   this.platform.ready().then(() => {
     this.statusBar.styleDefault();
-    this.splashScreen.hide
+    this.splashScreen.hide;
+    //Der Hardware-Backbutton des Handys bekommt eine Aktion:
     platform.registerBackButtonAction(() => {
       var page:string;
       if(null != localStorage.getItem("page")){
@@ -35,6 +36,7 @@ export class MyApp {
     },1);
   });
 
+  //Die Seiten des Menüs:
     this.pages = [
       { title: 'Campusplan', component: HomePage, item: "Home" },
       { title: 'Gebäude C', component: Gebaude, item: "C" },
@@ -44,6 +46,14 @@ export class MyApp {
     ];
   }
 
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion öffnet die übergebene Seite                                                    *
+  *                                                                                           *
+  *   page -> Seite, die geöffnet werden soll                                                 *
+  *   item -> item mit dem Inhalt, der an die Seite übermittelt werden soll                   *
+  *                                                                                           *
+  ********************************************************************************************/
   openPage(page, item) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
@@ -52,7 +62,7 @@ export class MyApp {
 
   /********************************************************************************************
   *                                                                                           *
-  *   Funktion löscht die Benutzerdaten                                                       *
+  *   Funktion ruft die Startseite auf                                                        *
   *                                                                                           *
   ********************************************************************************************/
   deleteDaten() {

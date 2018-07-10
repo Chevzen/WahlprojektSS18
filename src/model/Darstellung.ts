@@ -78,6 +78,8 @@ export class Darstellung {
   *                                                                                           *
   *   Funktion gibt den aktuellen Wochentag zurück                                            *
   *                                                                                           *
+  *   RETURN-Wert: Der aktuelle Wochentag als String                                          *
+  *                                                                                           *
   ********************************************************************************************/
   giveWochentag(){
     var jetzt = new Date();
@@ -95,9 +97,12 @@ export class Darstellung {
 
   /********************************************************************************************
   *                                                                                           *
-  *   Funktion ermittelt anhand eines Datums den dazugehörigen Wochentag.                     *
+  *   Funktion parst ein Datum aus dem Raumplan (Format: HH:MM:SSTJahr-Monat-Tag)             *
+  *   und ermittelt dessen Wochentag.                                                         *
   *                                                                                           *
   *   text -> Datum                                                                           *
+  *                                                                                           *
+  *   RETURN-Wert: Der Wochentag eines Datums                                                 *
   *                                                                                           *
   ********************************************************************************************/
   parseDateToWochentag(text:string) {
@@ -112,9 +117,12 @@ export class Darstellung {
 
   /********************************************************************************************
   *                                                                                           *
-  *   Funktion parst die Uhrzeit aus dem Raumplan in das Format HH:MM:SS.                     *
+  *   Funktion parst ein Datum aus dem Raumplan (Format: HH:MM:SSTJahr-Monat-Tag)             *
+  *   und ermittelt dessen Uhrzeit.                                                           *
   *                                                                                           *
   *   text -> Uhrzeit, die geparst werden soll                                                *
+  *                                                                                           *
+  *   RETURN-Wert: Die Uhrzeit eines Datums                                                   *
   *                                                                                           *
   ********************************************************************************************/
   parseUhrZeit(text:string) {
@@ -130,6 +138,8 @@ export class Darstellung {
   *   raumnamen -> Array mit Namen der Räume                                                  *
   *   name -> Name des Gebäudes                                                               *
   *                                                                                           *
+  *   RETURN-Wert: Das erstellte Gebäude                                                      *
+  *                                                                                           *
   ********************************************************************************************/
   parseGebaude(raumnamen:string[], name:string){
     var gebaude = new GebaudeModel(name);
@@ -143,14 +153,15 @@ export class Darstellung {
 
   /********************************************************************************************
   *                                                                                           *
-  *   Funktion parst die Raumpläne und legt Veranstaltungen an.                               *
+  *   Funktion parst die Raumpläne und fügt Veranstaltungen einem Raum hinzu.                 *
   *                                                                                           *
   *   raumname -> Name des Raums für den der Raumplan ermittelt werden soll                   *
+  *                                                                                           *
+  *   RETURN-Wert: Der erstellte Raum                                                         *
   *                                                                                           *
   ********************************************************************************************/
   parseToRaum(raumname: string){
     var raum = new RaumModel(raumname);
-
     var ics = raum.getICS(localStorage.getItem(raumname));
     ics.pop();
 
@@ -165,90 +176,95 @@ export class Darstellung {
       var endZeit = this.parseUhrZeit(end.toString());
       var name = vevent[i].getFirstPropertyValue('description');
       var wochentag = this.parseDateToWochentag(start.toString());
-      var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
-      raum.addVeranstaltung(veranstaltung);
 
-      switch(startZeit){
+      this.neueVeranstaltung(name, wochentag, startZeit, endZeit, raum);
 
-        case "08:15:00":
-        if (endZeit == "11:30:00") {
-          var veranstaltung1 = new Veranstaltung(name, wochentag, "10:00:00", endZeit);
-          raum.addVeranstaltung(veranstaltung1);
-        }
-        else if (endZeit == "13:15:00"){
-          var veranstaltung2 = new Veranstaltung(name, wochentag, "10:00:00", endZeit);
-          raum.addVeranstaltung(veranstaltung2);
-          var veranstaltung3 = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
-          raum.addVeranstaltung(veranstaltung3);
-        }
-        break;
-
-        case "10:00:00":
-        if (endZeit == "13:15:00") {
-          var veranstaltung4 = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
-          raum.addVeranstaltung(veranstaltung4);
-        }
-        else if (endZeit == "15:45:00") {
-          var veranstaltung5 = new Veranstaltung(name, wochentag, "11:45:00", endZeit);
-          raum.addVeranstaltung(veranstaltung5);
-          var veranstaltung6 = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
-          raum.addVeranstaltung(veranstaltung6);
-        }
-        break;
-
-        case "11:45:00":
-        if (endZeit == "15:45:00") {
-          var veranstaltung7 = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
-          raum.addVeranstaltung(veranstaltung7);
-        }
-        else if (endZeit == "17:30:00") {
-          var veranstaltung8 = new Veranstaltung(name, wochentag, "14:15:00", endZeit);
-          raum.addVeranstaltung(veranstaltung8);
-          var veranstaltung9 = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
-          raum.addVeranstaltung(veranstaltung9);
-        }
-        break;
-
-        case "14:15:00":
-        if (endZeit == "17:30:00") {
-          var veranstaltung10 = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
-          raum.addVeranstaltung(veranstaltung10);
-        }
-        else if (endZeit == "19:15:00"){
-          var veranstaltung11 = new Veranstaltung(name, wochentag, "16:00:00", endZeit);
-          raum.addVeranstaltung(veranstaltung11);
-          var veranstaltung12 = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
-          raum.addVeranstaltung(veranstaltung12);
-        }
-        break;
-
-        case "16:00:00":
-        if (endZeit == "19:15:00") {
-          var veranstaltung13 = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
-          raum.addVeranstaltung(veranstaltung13);
-        }
-        else if (endZeit == "21:00:00"){
-          var veranstaltung14 = new Veranstaltung(name, wochentag, "17:45:00", endZeit);
-          raum.addVeranstaltung(veranstaltung14);
-          var veranstaltung15 = new Veranstaltung(name, wochentag, "19:30:00", endZeit);
-          raum.addVeranstaltung(veranstaltung15);
-        }
-        break;
-
-        case "17:45:00":
-        if (endZeit == "21:00:00") {
-          var veranstaltung16 = new Veranstaltung(name, wochentag, "19:30:00", endZeit);
-          raum.addVeranstaltung(veranstaltung16);
-        }
-        default:
-      }
+      this.laengereVeranstaltungen(name, wochentag, startZeit, endZeit, raum);
     }
     return raum;
   }
 
   /********************************************************************************************
   *                                                                                           *
+  *   Funktion erstellt eine neue Veranstaltung.                                              *
+  *                                                                                           *
+  *   name -> Name der Veranstaltung                                                          *
+  *   wochentag -> Wochtag der Veranstaltung                                                  *
+  *   startZeit -> Beginn der Veranstaltung                                                   *
+  *   endZeit -> Ende der Veranstaltung                                                       *
+  *   raum -> Raum, zu dem die Veranstaltung hinzugefügt werden soll                          *
+  *                                                                                           *
+  ********************************************************************************************/
+  neueVeranstaltung(name:string, wochentag:string, startZeit:string, endZeit:string, raum:RaumModel){
+    var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
+    raum.addVeranstaltung(veranstaltung);
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion erstellt eine neue Veranstaltung.                                              *
+  *                                                                                           *
+  *   name -> Name der Veranstaltung                                                          *
+  *   wochentag -> Wochtag der Veranstaltung                                                  *
+  *   startZeit -> Beginn der Veranstaltung                                                   *
+  *   endZeit -> Ende der Veranstaltung                                                       *
+  *   raum -> Raum, in der die Veranstaltung stattfindet                                      *
+  *                                                                                           *
+  ********************************************************************************************/
+  laengereVeranstaltungen(name:string, wochentag:string, startZeit:string, endZeit:string, raum:RaumModel){
+    switch(startZeit){
+      case "08:15:00":
+      if(endZeit == "11:30:00") {
+        this.neueVeranstaltung(name, wochentag, "10:00:00", endZeit, raum);
+      }else if(endZeit == "13:15:00"){
+        this.neueVeranstaltung(name, wochentag, "10:00:00", endZeit, raum);
+        this.neueVeranstaltung(name, wochentag, "11:45:00", endZeit, raum);
+      }break;
+
+      case "10:00:00":
+      if(endZeit == "13:15:00") {
+        this.neueVeranstaltung(name, wochentag, "11:45:00", endZeit, raum);
+      }else if(endZeit == "15:45:00") {
+        this.neueVeranstaltung(name, wochentag, "11:45:00", endZeit, raum);
+        this.neueVeranstaltung(name, wochentag, "14:15:00", endZeit, raum);
+      }break;
+
+      case "11:45:00":
+      if(endZeit == "15:45:00") {
+        this.neueVeranstaltung(name, wochentag, "14:15:00", endZeit, raum);
+      }else if(endZeit == "17:30:00") {
+        this.neueVeranstaltung(name, wochentag, "14:15:00", endZeit, raum);
+        this.neueVeranstaltung(name, wochentag, "16:00:00", endZeit, raum);
+      }break;
+
+      case "14:15:00":
+      if(endZeit == "17:30:00") {
+        this.neueVeranstaltung(name, wochentag, "16:00:00", endZeit, raum);
+      }else if(endZeit == "19:15:00"){
+        this.neueVeranstaltung(name, wochentag, "16:00:00", endZeit, raum);
+        this.neueVeranstaltung(name, wochentag, "17:45:00", endZeit, raum);
+      }break;
+
+      case "16:00:00":
+      if(endZeit == "19:15:00") {
+        this.neueVeranstaltung(name, wochentag, "17:45:00", endZeit, raum);
+      }else if(endZeit == "21:00:00"){
+        this.neueVeranstaltung(name, wochentag, "17:45:00", endZeit, raum);
+        this.neueVeranstaltung(name, wochentag, "19:30:00", endZeit, raum);
+      }break;
+
+      case "17:45:00":
+      if(endZeit == "21:00:00") {
+        this.neueVeranstaltung(name, wochentag, "19:30:00", endZeit, raum);
+      }
+    }
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
   *   Funktion erstellt den Campus und füllt den Array freeRooms mit den freien Räumen.       *
+  *                                                                                           *
+  *   RETURN-Wert: Der erstellte Campus                                                       *
   *                                                                                           *
   ********************************************************************************************/
   parseToCampus(){
@@ -260,7 +276,7 @@ export class Darstellung {
     for(var i: number = 0; i < campus.gebaude[this.GebaudeAuswahl].getFreeRooms().length; i++){
       this.freeRooms.push(campus.gebaude[this.GebaudeAuswahl].getFreeRooms()[i]);
     }
-    for(var j:number = 0;j<campus.gebaude[this.GebaudeAuswahl].zugangsberechtigung.length;j++){//zugang1.length;i++){
+    for(var j:number = 0;j<campus.gebaude[this.GebaudeAuswahl].zugangsberechtigung.length;j++){
       this.zugang.push(campus.gebaude[this.GebaudeAuswahl].zugangsberechtigung[j]);
     }
     return campus;
@@ -271,6 +287,8 @@ export class Darstellung {
   *   Funktion entfernt die Sekunden in der Uhrzeit                                           *
   *                                                                                           *
   *   zeit -> Uhrzeit, die bearbeitet werden soll                                             *
+  *                                                                                           *
+  *   RETURN-Wert: Die geänderte Uhrzeit                                                      *
   *                                                                                           *
   ********************************************************************************************/
   changeZeit(zeit:string){
@@ -298,6 +316,8 @@ export class Darstellung {
   *                                                                                           *
   *   text -> Text der in das HTML-Element gefüllt werden soll.                               *
   *   tag -> Tag des HTML-Elements                                                            *
+  *                                                                                           *
+  *   RETURN-Wert: Das erstellte HTML-Element                                                 *
   *                                                                                           *
   ********************************************************************************************/
   erstelleElement(text:string, tag:string){
@@ -328,7 +348,7 @@ export class Darstellung {
   *   raumname -> Name des Raums für den der Raumplan dargestellt werden soll                 *
   *                                                                                           *
   *   Aufbau des DOM-Trees:                                                                   *
-  *   <show2> //in c.ts bzw. d.ts                                                             *
+  *   <show2> //in page.ts                                                                    *
   *     <inhalt>                              #                                               *
   *       <ueberschrift>                        #                                             *
   *       ...Kann mehrere Ueberschriften         # werden in dieser Funktion erstellt         *
@@ -336,6 +356,8 @@ export class Darstellung {
   *       ...und Veranstaltungen enthalten      #                                             *
   *     </inhalt>                             #                                               *
   *   </show2>                                                                                *
+  *                                                                                           *
+  *   RETURN-Wert: Der erstellte Raumplan                                                     *
   *                                                                                           *
   ********************************************************************************************/
   zeigeLehrveranstaltungen(lehrveranstaltungen:string[], raumname:string){
@@ -353,28 +375,22 @@ export class Darstellung {
       return inhalt;
     }
     for(var j:number = 0;j < lehrveranstaltungen.length;j++){
+      //Wenn im Array ein Wochentag steht, dann wird eine Wochentagsüberschrift erstellt:
       switch(lehrveranstaltungen[j]){
         case "Montag":
-          ueberschrift = this.erstelleElement("Montag", "h5");
-          inhalt.appendChild(ueberschrift);continue;
+          this.erstelleUeberschrift("Montag", inhalt);continue;
         case "Dienstag":
-          ueberschrift = this.erstelleElement("Dienstag", "h5");
-          inhalt.appendChild(ueberschrift);continue;
+          this.erstelleUeberschrift("Dienstag", inhalt);continue;
         case "Mittwoch":
-          ueberschrift = this.erstelleElement("Mittwoch", "h5");
-          inhalt.appendChild(ueberschrift);continue;
+          this.erstelleUeberschrift("Mittwoch", inhalt);continue;
         case "Donnerstag":
-          ueberschrift = this.erstelleElement("Donnerstag", "h5");
-          inhalt.appendChild(ueberschrift);continue;
+          this.erstelleUeberschrift("Donnerstag", inhalt);continue;
         case "Freitag":
-          ueberschrift = this.erstelleElement("Freitag", "h5");
-          inhalt.appendChild(ueberschrift);continue;
+          this.erstelleUeberschrift("Freitag", inhalt);continue;
         case "Samstag":
-          ueberschrift = this.erstelleElement("Samstag", "h5");
-          inhalt.appendChild(ueberschrift);continue;
+          this.erstelleUeberschrift("Samstag", inhalt);continue;
         case "Sonntag":
-          ueberschrift = this.erstelleElement("Sonntag", "h5");
-          inhalt.appendChild(ueberschrift);continue;
+          this.erstelleUeberschrift("Sonntag", inhalt);continue;
       }
       if(lehrveranstaltungen[j] != lehrvtmp){
         //Ermitteln welcher Veranstaltungstyp es ist:
@@ -383,37 +399,33 @@ export class Darstellung {
         var pr = lehrveranstaltungen[j].indexOf("Praktikum");
         var ue = lehrveranstaltungen[j].indexOf("Übung");
 
+        veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
         if(vl != -1){
-          //Vorlesung erstellen:
-          veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
+          //Farben für Vorlesungen festlegen:
           veranstaltung.style.backgroundColor = "rgba(74, 106, 255, 0.5)";
           veranstaltung.style.border = "2px solid rgb(74, 106, 255)";
-          inhalt.appendChild(veranstaltung);
         }else if(se != -1){
-          //Seminar erstellen:
+          //Farben für Seminar festlegen:
           veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(26, 123, 81, 0.5)";
           veranstaltung.style.border = "2px solid rgb(26, 123, 81)";
-          inhalt.appendChild(veranstaltung);
         }else if(pr != -1){
-          //Praktikum erstellen:
+          //Farben für Praktikum festlegen:
           veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(255, 146, 63, 0.5)";
           veranstaltung.style.border = "2px solid rgb(255, 146, 63)";
-          inhalt.appendChild(veranstaltung);
         }else if(ue != -1){
-          //Uebung erstellen:
+          //Farben für Uebung festlegen:
           veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(44, 250, 40, 0.4)";
           veranstaltung.style.border = "2px solid rgb(44, 250, 40)";
-          inhalt.appendChild(veranstaltung);
         }else {
-          //Sonstige Veranstaltung erstellen:
+          //Farben für Sonstige Veranstaltung festlegen:
           veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(140, 140, 140, 0.3)";
           veranstaltung.style.border = "2px solid rgb(140, 140, 140)";
-          inhalt.appendChild(veranstaltung);
         }
+        inhalt.appendChild(veranstaltung);
         lehrvtmp = lehrveranstaltungen[j+1];
       }
     }
@@ -422,9 +434,24 @@ export class Darstellung {
 
   /********************************************************************************************
   *                                                                                           *
+  *   Funktion erstellt eine Wochentags-Überschrift für den Raumplan.                         *
+  *                                                                                           *
+  *   wochentag -> Name des Wochentags                                                        *
+  *   inhalt -> HTML-Element, zu dem die Überschrift hinzugefügt wird                         *
+  *                                                                                           *
+  ********************************************************************************************/
+  erstelleUeberschrift(wochentag:string,inhalt:HTMLElement){
+    var ueberschrift = this.erstelleElement(wochentag, "h5");
+    inhalt.appendChild(ueberschrift);
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
   *   Funktion ermittelt Lehrveranstaltungen für einen Raum                                   *
   *                                                                                           *
   *   raumname -> Name des Raums für den der Raumplan ermittelt werden soll                   *
+  *                                                                                           *
+  *   RETURN-Wert: Der erstellte Raumplan                                                     *
   *                                                                                           *
   ********************************************************************************************/
   getLehrveranstaltungen(raumname:string){
@@ -436,18 +463,23 @@ export class Darstellung {
     var enduhrzeit:string;
     var enduhrzeittmp:string = "";
 
-    for(var i:number = 0; i< this.parseToRaum(raumname).veranstaltungen.length; i++){
-      name = this.parseToRaum(raumname).veranstaltungen[i].name;
+    var raum = this.parseToRaum(raumname);
 
-      if(this.parseToRaum(raumname).veranstaltungen[i].wochentag != Wochentag){
-        Wochentag = this.parseToRaum(raumname).veranstaltungen[i].wochentag;
+    for(var i:number = 0; i< raum.veranstaltungen.length; i++){
+      name = raum.veranstaltungen[i].name;
+
+      //Der Wochentag wird ermittelt und in den Array geschrieben
+      //Damit der Wochentag nur einmal vorkommt:
+      if(raum.veranstaltungen[i].wochentag != Wochentag){
+        Wochentag = raum.veranstaltungen[i].wochentag;
         LehrveranstaltungoffreeRooms.push(Wochentag);
         enduhrzeittmp = "";
         uhrzeittmp = "";
       }
 
-      uhrzeit = this.changeZeit(this.parseToRaum(raumname).veranstaltungen[i].uhrzeit);
-      enduhrzeit = this.changeZeit(this.parseToRaum(raumname).veranstaltungen[i].enduhrzeit);
+      uhrzeit = this.changeZeit(raum.veranstaltungen[i].uhrzeit);
+      enduhrzeit = this.changeZeit(raum.veranstaltungen[i].enduhrzeit);
+      //Die Uhrzeit wird überprüft, damit parallele Veranstaltungen nicht vorkommen:
       if(uhrzeit != uhrzeittmp && enduhrzeit != enduhrzeittmp){
         name = name.replace("\\","");
         name = name.replace(",","");

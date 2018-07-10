@@ -43,12 +43,14 @@ export class Search {
 
   @ViewChild(Nav) nav:Nav;
 
-  constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController,
+    public navParams: NavParams) {
 
     platform.registerBackButtonAction(() => {
       var page:string;
       if(null != localStorage.getItem("from")){
         page = localStorage.getItem("from");
+        localStorage.setItem("from", "Search");
         switch(page){
           case "Home":
           this.nav.setRoot(HomePage);
@@ -61,9 +63,14 @@ export class Search {
           console.log("backPressed 1");return;
         }
       }
-    },101);
+    },1);
   }
 
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+  *                                                                                           *
+  ********************************************************************************************/
   ionViewDidLoad(){
     console.log('ionViewDidLoad SearchPage');
     this.darstellung = new Darstellung(0);
@@ -132,6 +139,7 @@ export class Search {
     console.log(freeTimeSlot);
     liste.style.display = "block";
 
+    //Markiert?
     var markiert:string[] = [];
     if(localStorage.getItem("markiert") != null){
       markiert = localStorage.getItem("markiert").split(",");
@@ -165,5 +173,4 @@ export class Search {
     });
     toast.present();
   }
-
 }

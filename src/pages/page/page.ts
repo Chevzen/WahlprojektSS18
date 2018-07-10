@@ -32,15 +32,20 @@ export class Gebaude {
   private freeRooms:string[] = [];
   private zugang:string[] = [];
   private markiert:string[] = [];
-  private entmarkiert:string[] = ["D01", "D02", "D12", "D13", "D14", "D15", "D17", "D18", "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"];
+  private entmarkiert:string[] = [
+    "D01","D02","D12","D13","D14","D15","D17","D18",
+    "C001","C007","C035","C037","C113","C213","C237","C305","C313","C361","C375","C377","C405","C407","C413"
+  ];
 
 
   @ViewChild(Content) content: Content;
   @ViewChild(Nav) nav:Nav;
 
   private darstellung:Darstellung;
-  constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController,
+    public navParams: NavParams) {
 
+    //Der Hardware-Backbutton des Handys bekommt eine Aktion:
     platform.registerBackButtonAction(() => {
       var page:string;
       if(null != localStorage.getItem("page")){
@@ -53,9 +58,14 @@ export class Gebaude {
       }
       this.nav.pop();
       console.log("backPressed 1");
-    },101);
+    },1);
   }
 
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+  *                                                                                           *
+  ********************************************************************************************/
   ionViewDidLoad() {
     console.log("NAVPARAMS: "+ this.navParams.get('item'));
     var page:string = this.navParams.get('item');
@@ -110,22 +120,6 @@ export class Gebaude {
     if(tmp != ""){
       this.getL(tmp);
     }
-  }
-
-  /********************************************************************************************
-  *                                                                                           *
-  *   Funktion erstellt eine Meldung                                                          *
-  *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
-  *                                                                                           *
-  ********************************************************************************************/
-  toasts(message:string){
-    let toast = this.toastCtrl.create({
-        message:  message,
-        duration: 2000,
-        position: 'middle',
-        cssClass: "my-toast"
-    });
-    toast.present();
   }
 
   /********************************************************************************************
@@ -296,6 +290,7 @@ export class Gebaude {
     show2.appendChild(this.darstellung.getLehrveranstaltungen(raumname));
 
     localStorage.setItem("page", "room");
+    console.log("PAGE: "+localStorage.getItem("page"));
     this.scrollTop();
   }
 
@@ -323,7 +318,11 @@ export class Gebaude {
     var button: HTMLElement = document.getElementById('button');
     button.style.display = "none";
     var page:string = this.navParams.get('item');
+    if(page.length > 1){
+      page = page.substring(0,1);
+    }
     localStorage.setItem("page", page);
+    console.log("PAGE: "+page);
     this.scrollTop();
   }
 
@@ -336,4 +335,19 @@ export class Gebaude {
     this.content.scrollToTop();
   }
 
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion erstellt eine Meldung                                                          *
+  *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
+  *                                                                                           *
+  ********************************************************************************************/
+  toasts(message:string){
+    let toast = this.toastCtrl.create({
+        message:  message,
+        duration: 2000,
+        position: 'middle',
+        cssClass: "my-toast"
+    });
+    toast.present();
+  }
 }
