@@ -40,8 +40,6 @@ export class LoginPage {
   *                                                                                           *
   ********************************************************************************************/
   ionViewDidLoad() {
-    console.log('Dat is die LoginPage');
-
 		var FehlerFeld: HTMLElement = document.getElementById('Fehler');
 		FehlerFeld.style.display = "none";
 
@@ -87,8 +85,6 @@ export class LoginPage {
 	********************************************************************************************/
   doLogin() {
     if(this.showLogin) {
-      console.log('login im gange');
-			console.log("checkbox: "+this.speichern);
       if(this.benutzername.length != 8 || this.password === '') {
         var fehlerFeld: HTMLElement = document.getElementById('Fehler');
         fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
@@ -219,10 +215,10 @@ export class LoginPage {
 					//nächsten Raumplan:
 					this.download(options,stelle+1);
 				}, error => {
-					console.log("Error: "+ JSON.stringify(error, null, 2));
+          this.fehler("Fehler beim Laden der Daten.", "Bitte starte die App erneut.");
 				});
 		}else{
-			if(this.speichern){
+			if(this.speichern && localStorage.getItem("benutzer") == null){
 				localStorage.setItem("benutzer", this.benutzername);
 				localStorage.setItem("passwort", this.password);
 				let toast = this.toastCtrl.create({
@@ -284,13 +280,12 @@ export class LoginPage {
 							return -1;
 						}
 					}, error => {
-						//console.log("Error: POST: "+ JSON.stringify(error, null, 2));;
 						this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
 						return -1;
 
 					});//post
 			}, error => {
-				console.log("Error: "+ JSON.stringify(error, null, 2));
+				this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
 			});//get
 	}
 
@@ -342,10 +337,8 @@ export class LoginPage {
 		if(monat == 4 && (tag >= 1 && tag <= 10) || monat == 10 && (tag >= 1 && tag <= 10)){
 			//Wenn das Datum zwischen dem 1.4. und dem 10.4.
 			//oder zwischen dem 1.10. und dem 10.10. liegt hat ein neues Semester begonnen!
-			console.log("1");
 			return 1;
 		}else{
-			console.log("0");
 			return 0;
 		}
 	}

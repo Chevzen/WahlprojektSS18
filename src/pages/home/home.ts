@@ -82,13 +82,10 @@ export class HomePage {
           this.freeRooms[x].charAt(0) == '8' || this.freeRooms[x].charAt(0) == '9') {
 
           c++;
-          //console.log("Slot endeckt c: " + c);
         }//if
         else{
           //Wenn Favoriten im ersten Slot der freien Räume sind
-          //console.log("Raum: " + this.freeRooms[x]);
           if(this.freeRooms[x] == this.favoriten[i]) {
-            //console.log("Dieser Raum ist in den Favoriten");
             //Ist der Favorit schon in Temp
             for(var t = 0; t < this.temp.length; t++) {
               if(this.temp[t] == this.favoriten[i]) {
@@ -154,21 +151,10 @@ export class HomePage {
   *                                                                                           *
   ********************************************************************************************/
   deleteDaten() {
-    var raum:string[] = [
-      "D01","D02","D11","D12","D13","D14","D15","D17","D18",
-  	  "C001","C007","C035","C037","C113","C213","C237","C305","C313","C361","C375","C377","C405","C407","C413"
-    ];
     let alert = this.alertCtrl.create({
       title: 'Datenverwaltung',
       message: 'Welche Daten möchtest du löschen?',
       buttons: [
-        {
-          text: 'Nichts',
-          role: 'cancel',
-          handler: () => {
-            alert = null;
-          }
-        },
         {
           text: 'Benutzername und Passwort',
           handler: () => {
@@ -188,37 +174,96 @@ export class HomePage {
           text: 'Alles',
           handler: () => {
             alert = null;
-            let alert1 = this.alertCtrl.create({
-              title: 'Warnung!',
-              message: 'Alle Daten löschen und die App schließen?',
-              buttons: [
-                {
-                  text: 'Nein',
-                  role: 'cancel',
-                  handler: () => {
-                    alert1 = null;
-                  }
-                },
-                {
-                  text: 'Ja',
-                  handler: () => {
-                    localStorage.removeItem("benutzer");
-                    localStorage.removeItem("passwort");
-                    localStorage.removeItem("markiert");
-                    localStorage.removeItem("page");
-                    localStorage.removeItem("from");
-                    localStorage.removeItem("aktuell");
-                    localStorage.removeItem("markiert");
-                    for(var i:number = 0; i < raum.length; i++){
-                      localStorage.removeItem(raum[i]);
-                    }
-                    this.toasts("Alle Daten wurden gelöscht!");
-                    this.platform.exitApp();
-                  }
-                }
-              ]
-            });
-            alert1.present();
+            this.dialog();
+          }
+        },
+        {
+          text: 'Nichts',
+          role: 'cancel',
+          handler: () => {
+            alert = null;
+          }
+        },
+        {
+          text: 'Infos zum Datenschutz',
+          handler: () => {
+            alert = null;
+            this.infos();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion erstellt einen Alert, über den alle Daten gelöscht werden können.              *
+  *                                                                                           *
+  ********************************************************************************************/
+  dialog(){
+    var raum:string[] = [
+      "D01","D02","D11","D12","D13","D14","D15","D17","D18",
+  	  "C001","C007","C035","C037","C113","C213","C237","C305","C313","C361","C375","C377","C405","C407","C413"
+    ];
+    let alert = this.alertCtrl.create({
+      title: 'Warnung!',
+      message: 'Alle Daten löschen und die App schließen?',
+      buttons: [
+        {
+          text: 'Nein',
+          role: 'cancel',
+          handler: () => {
+            alert = null;
+          }
+        },
+        {
+          text: 'Ja',
+          handler: () => {
+            localStorage.removeItem("benutzer");
+            localStorage.removeItem("passwort");
+            localStorage.removeItem("markiert");
+            localStorage.removeItem("page");
+            localStorage.removeItem("from");
+            localStorage.removeItem("aktuell");
+            localStorage.removeItem("markiert");
+            for(var i:number = 0; i < raum.length; i++){
+              localStorage.removeItem(raum[i]);
+            }
+            this.toasts("Alle Daten wurden gelöscht!");
+            this.platform.exitApp();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion öffnet Infos zum Datenschutz                                                   *
+  *                                                                                           *
+  ********************************************************************************************/
+  infos(){
+    var message = "<p>Durch diese App werden keine personenbezogenen Daten erhoben.</p>";
+    message += "<p>Alle Daten werden lokal gespeichert und können jederzeit gelöscht werden.</p>";
+    message += "<p>Folgende Daten werden von der App gespeichert:<br>";
+    message += "<span>- Benutzername und Passwort (sofern gewünscht)</span><br>";
+    message += "<span>- Raumpläne aus dem AoR (Admin on Rails)</span><br>";
+    message += "<span>- Markierte Räume</span></p>";
+    message += "<p>Wir weisen darauf hin, dass die Datenübertragung im Internet Sicherheitslücken aufweisen kann. ";
+    message += "Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>";
+    message += "Quelle: <a href='http://www.e-recht24.de'>http://www.e-recht24.de</a>";
+
+    let alert = this.alertCtrl.create({
+      title: 'Datenschutz',
+      message: message,
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          handler: () => {
+            alert = null;
           }
         }
       ]

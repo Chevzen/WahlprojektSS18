@@ -1,3 +1,6 @@
+<!--
+Der Header der Seite mit dem Titel der Seite, einer Lupe für die Suche und dem Menü/Backbutton
+-->
 <span id="header">
   <ion-header>
     <ion-navbar>
@@ -5,6 +8,9 @@
         <ion-icon name="menu"></ion-icon>
       </button>
       <ion-title style="float: left;">
+        <!--
+        Der Titel der Seite wird eingefügt
+        -->
         <span *ngFor="let headTitle of ueberschrift; let i = index" [attr.data-index]="i">
           <ng-container *ngIf="i == 0">{{ headTitle }}</ng-container>
         </span>
@@ -14,31 +20,51 @@
   </ion-header>
 </span>
 
+<!--
+Der Inhalt der Seite
+-->
 <ion-content padding>
+  <!--
+  Der Inhalt der Seite für den Fall, dass ein Raumplan angezeigt wird.
+  Wird erst nach Klick auf einen Raum eingeblendet
+  -->
   <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">
+    <!--
+    Der Header mit Backbutton
+    -->
     <span id="span1" style="display: none; float: left; width: 100%; text-align:left;">
-      <!--<ion-icon id="button" name="close-circle" (click)="backClicked()" style="display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 5px; margin-right: 5px;"></ion-icon>-->
       <ion-icon id="button" (click)="backClicked()" style="float: left; display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 13px; margin-left: 20px;" name="arrow-back"></ion-icon>
       <ion-title style="float: left; margin-top: 13px;">
         &nbsp;Zurück zur Raumübersicht
       </ion-title>
     </span>
+    <!--
+    Der Raumplan
+    -->
     <span id="span2" style="display: none; float: right; width: 100%;">
       <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">
-        {{ item }}
+
       </div>
     </span>
   </div>
 
+  <!--
+  Die Auflistung aller freien Räume
+  -->
   <div id="anzeige" style="margin-top: 85px;">
     <b>
       <div style="margin-bottom: -30px;" *ngFor="let ueberschrift of ueberschrift; let i = index" [attr.data-index]="i">
+        <!--
+        Die Überschrift "... im C/D-Gebäude frei:"
+        -->
         <ng-container *ngIf="i == 1">{{ ueberschrift }}</ng-container>
       </div>
     </b>
     <ion-list style="margin-bottom: 170px;">
       <ng-container *ngFor="let item of freeRooms">
-
+        <!--
+        Die Uhrzeiten der Slots
+        -->
         <div style="clear: both;">
           <h3 style="clear: both; margin-top: 70px;" *ngIf="item == '08:15 bis 09:45:'">08:15 bis 09:45:</h3>
           <h3 style="clear: both; margin-top: 70px;" *ngIf="item == '10:00 bis 11:30:'">10:00 bis 11:30:</h3>
@@ -50,10 +76,15 @@
           <h3 style="clear: both; margin-top: 70px;" *ngIf="item == 'ab 21:00:'">ab 21:00:</h3>
         </div>
 
+        <!--
+        Die freien Räume
+        -->
         <ng-container *ngIf="item != '08:15 bis 09:45:' && item != '10:00 bis 11:30:' && item != '11:45 bis 13:15:' && item != '14:15 bis 15:45:' && item != '16:00 bis 17:30:' && item != '17:45 bis 19:15:' && item != '19:30 bis 21:00:' && item != 'ab 21:00:'">
           <span style="width: 100%; margin-bottom: 20px;">
             <ion-item (click)="getL(item)" [color]="primary" style="float: left; width: 75%;">
-              <!--Wenn ein Raum markiert wurde wird der Raumname hervorgehoben:-->
+              <!--
+              Wenn ein Raum markiert wurde wird der Raumname hervorgehoben:
+              -->
               <ng-container *ngFor="let markierte of markiert">
                 <span *ngIf="item == markierte" style="float: left; color: rgb(66, 134, 244);"><b>{{ item }}</b></span>
               </ng-container>
@@ -63,7 +94,9 @@
               </ng-container>
             </ion-item>
 
-            <!--Wenn ein Raum markiert wurde wird der Stern farbig:-->
+            <!--
+            Wenn ein Raum markiert wurde wird der Stern farbig:
+            -->
             <ng-container *ngFor="let markierte of markiert">
               <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(66, 134, 244);" name="star" *ngIf="item == markierte" (click)="makeFav(item)"></ion-icon>
             </ng-container>
@@ -72,6 +105,9 @@
               <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(120, 120, 120);" name="star" *ngIf="item == entmarkierte" (click)="makeFav(item)"></ion-icon>
             </ng-container>
 
+            <!--
+            Falls Zugangsbeschränkung vorliegt wird ein Schlüssel angezeigt:
+            -->
             <ng-container *ngFor="let keys of zugang">
               <ion-icon style="height: 100%; padding-top: 17px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="key" *ngIf="item == keys" (click)="onTip(item)"></ion-icon>
             </ng-container>
@@ -80,6 +116,9 @@
       </ng-container>
     </ion-list>
 
+    <!--
+    Button zurück zum Campusplan
+    -->
     <button ion-button style="left: 50%; position: fixed; bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>
   </div>
 

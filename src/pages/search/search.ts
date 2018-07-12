@@ -33,12 +33,14 @@ export class Search {
   *   gebaude -> ein Gebäude (wird benötigt für die Anzeige der Zugangsbeschränkung)          *
   *   freeTimeSlot -> Array für die freien Slots eines Raums                                  *
   *   freeUeberschrift -> Array für die Überschrift des Ergebnisses der Raumsuche             *
+  *   items -> Liste für die Autovervollständigung der Searchbar                              *
   *                                                                                           *
   ********************************************************************************************/
   private darstellung:Darstellung;
   private gebaude:GebaudeModel = new GebaudeModel("C");
   private freeTimeSlot:number [] = freeTimeSlot;
   private freeUeberschrift:string[] = freeUeberschrift;
+  private items: Array<string>;
 
 
   @ViewChild(Nav) nav:Nav;
@@ -53,14 +55,11 @@ export class Search {
         localStorage.setItem("from", "Search");
         switch(page){
           case "Home":
-          this.nav.setRoot(HomePage);
-          console.log("backPressed 1");return;
+          this.nav.setRoot(HomePage);return;
           case "C":
-          this.nav.setRoot(Gebaude, {item: "C"});
-          console.log("backPressed 1");return;
+          this.nav.setRoot(Gebaude, {item: "C"});return;
           case "D":
-          this.nav.setRoot(Gebaude, {item: "D"});
-          console.log("backPressed 1");return;
+          this.nav.setRoot(Gebaude, {item: "D"});return;
         }
       }
     },1);
@@ -72,54 +71,57 @@ export class Search {
   *                                                                                           *
   ********************************************************************************************/
   ionViewDidLoad(){
-    console.log('ionViewDidLoad SearchPage');
     this.darstellung = new Darstellung(0);
     localStorage.setItem("page","Search");
   }
 
   /********************************************************************************************
   *                                                                                           *
-  *   Funktion ermittelt für einen Raum die freien Slots                                      *
+  *   Funktion ermittelt den Raum, der gesucht werden soll.                                   *
   *   searchbar -> die Suchmaske                                                              *
   *                                                                                           *
   ********************************************************************************************/
   searchRoom(searchbar){
-    freeTimeSlot = [];
     var room:string = searchbar.target.value;
+    this.searchRoom2(room);
+    //this.items = [];
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion ermittelt für einen Raum die freien Slots                                      *
+  *   room -> die Raum                                                                        *
+  *                                                                                           *
+  ********************************************************************************************/
+  searchRoom2(room:string){
+    freeTimeSlot = [];
     var raume:string[] = [];
     var zahl:number = 0;
     var lieblingsraum = "Der Raum";
 
     var liste:HTMLElement = document.getElementById('liste');
 
-    var fehlerFeld: HTMLElement = document.getElementById('Fehler');
-    fehlerFeld.innerText = "Raum konnte nicht gefunden werden";
-    fehlerFeld.style.display = "none";
-
     //Raumliste wird gefüllt:
     if(room.indexOf("C") == 0){
       for(var i:number = 0; i < this.darstellung.CampusConfig[0].raumnamen.length; i++){
         raume.push(this.darstellung.CampusConfig[0].raumnamen[i]);
-        console.log(this.darstellung.CampusConfig[0].raumnamen[i]);
       }
     }
     else if(room.indexOf("D") == 0){
       for(var j:number = 0; j < this.darstellung.CampusConfig[1].raumnamen.length; j++){
         raume.push(this.darstellung.CampusConfig[1].raumnamen[j]);
-        console.log(this.darstellung.CampusConfig[1].raumnamen[j]);
       }
     }
 
     //Fehlerbehandlung:
     if(raume.indexOf(room) == -1){
-      fehlerFeld.style.display = "block";
       liste.style.display = "none";
+      this.filterItems(room);
       return;
     }
 
     //Die einzelnen Timeslots werden überprüft:
     for(var y:number = 0; y < StundenSlot.length; y++){
-      console.log(StundenSlot[y]);
       if(this.darstellung.parseToRaum(room).isFree(StundenSlot[y],this.darstellung.giveWochentag())){
         freeTimeSlot.push(y);
        }
@@ -131,12 +133,10 @@ export class Search {
 
     //Zugangsbeschränkung?:
     var zugang:string[] = this.gebaude.zugangsberechtigung;
-    console.log(zugang);
     if(zugang.indexOf(room) != -1){
       this.toasts("Für den Raum "+room+" brauchst du eine Zugangsberechtigung!");
     }
 
-    console.log(freeTimeSlot);
     liste.style.display = "block";
 
     //Markiert?
@@ -156,6 +156,59 @@ export class Search {
     }
 
     this.navCtrl.setRoot(this.navCtrl.getActive().component);
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion füllt Array mit Räumen                                                         *
+  *                                                                                           *
+  ********************************************************************************************/
+  setItems() {
+    var raume:string[] = [];
+    for(var i:number = 0; i < this.darstellung.CampusConfig[0].raumnamen.length; i++){
+      raume.push(this.darstellung.CampusConfig[0].raumnamen[i]);
+    }
+    for(var j:number = 0; j < this.darstellung.CampusConfig[1].raumnamen.length; j++){
+      raume.push(this.darstellung.CampusConfig[1].raumnamen[j]);
+    }
+    this.items = raume;
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion ruft die Filterfunktion mit dem Inhalt der Searchbar auf.                      *
+  *   event -> die Searchbar                                                                  *
+  *                                                                                           *
+  ********************************************************************************************/
+  filterItems2(event:any){
+    var liste:HTMLElement = document.getElementById('liste');
+    liste.style.display = "none";
+    this.filterItems(event.target.value);
+  }
+
+  /********************************************************************************************
+  *                                                                                           *
+  *   Funktion filtert die Räume                                                              *
+  *   value -> String, nach dem in den Raumnamen gesucht werden soll                          *
+  *                                                                                           *
+  ********************************************************************************************/
+  filterItems(value:string) {
+    this.setItems();
+    let val = value;
+
+    if (val && val.trim() !== '') {
+      this.items = this.items.filter(function(item) {
+        return item.toLowerCase().includes(val.toLowerCase());
+      });
+      if(this.items.length == 0){
+        this.items.unshift("Dieser Raum existiert leider nicht!");
+      }else{
+        this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
+      }
+
+    }else{
+      this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
+    }
   }
 
   /********************************************************************************************

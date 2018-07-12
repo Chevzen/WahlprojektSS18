@@ -1,4 +1,7 @@
 <ion-menu [content]="content">
+  <!--
+  Der Header der Seite mit dem Logo und dem Slogan
+  -->
   <ion-header>
     <ion-toolbar>
       <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>
@@ -16,7 +19,7 @@
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p, p.item)">
         {{p.title}}
       </button>
-      <button menuClose ion-item (click)="deleteDaten()">
+      <button menuClose ion-item (click)="datenverwaltung()">
         Datenverwaltung
       </button>
     </ion-list>

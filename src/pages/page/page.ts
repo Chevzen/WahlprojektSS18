@@ -52,12 +52,10 @@ export class Gebaude {
         page = localStorage.getItem("page");
         switch(page){
           case "room":
-          this.backClicked();
-          console.log("backPressed 1");return;
+          this.backClicked();return;
         }
       }
       this.nav.pop();
-      console.log("backPressed 1");
     },1);
   }
 
@@ -67,7 +65,6 @@ export class Gebaude {
   *                                                                                           *
   ********************************************************************************************/
   ionViewDidLoad() {
-    console.log("NAVPARAMS: "+ this.navParams.get('item'));
     var page:string = this.navParams.get('item');
     var show: HTMLElement = document.getElementById('Lehraussen');
     show.style.display = "none";
@@ -79,12 +76,9 @@ export class Gebaude {
     span2.style.display = "none";
     var button: HTMLElement = document.getElementById('button');
     button.style.display = "none";
-    console.log('ionViewDidLoad '+page+'Page');
     var tmp:string = "";
 
-    console.log(page.length);
     if(page.length > 1){
-      console.log(page);
       tmp = page;
       page = page.substring(0,1);
     }
@@ -92,30 +86,22 @@ export class Gebaude {
     //Unterscheide Seiten:
     switch(page){
       case "C":
-        console.log("C");
         this.darstellung = new Darstellung(0);
         ueberschrift[0] = "C-Gebäude";
         ueberschrift[1] = "Folgende Räume sind zur Zeit im C-Gebäude frei:";
         break;
       case "D":
-        console.log("D");
         this.darstellung = new Darstellung(1);
         ueberschrift[0] = "D-Gebäude";
         ueberschrift[1] = "Folgende Räume sind zur Zeit im D-Gebäude frei:";
         break;
     }
 
-    console.log(this.darstellung);
     this.darstellung.parseToCampus();
-    console.log(this.darstellung);
     this.freeRooms = this.darstellung.freeRooms;
     this.zugang = this.darstellung.zugang;
-    console.log(this.freeRooms);
-    console.log(this.zugang);
     //Favoriten laden:
     this.getMarkierung();
-    console.log("Markiert: "+this.markiert);
-    console.log("Entmarkiert: "+this.entmarkiert);
     //Raumplan anzeigen, falls gefordert durch Startseite:
     if(tmp != ""){
       this.getL(tmp);
@@ -162,8 +148,6 @@ export class Gebaude {
     }
     localStorage.setItem("markiert", tmp.join(","));
     this.markiert = tmp;
-    console.log("Markiert: "+ this.markiert);
-    console.log("Entmarkiert: "+ this.entmarkiert);
   }
 
   /********************************************************************************************
@@ -209,13 +193,10 @@ export class Gebaude {
   entferneEntmarkiertAusMarkiert(raum:string){
     //tmp ist nun der Array mit den markierten Räumen.
     var tmp = this.markiert;
-    console.log("Markiert vor Entfernen: "+tmp);
     if(tmp.length == 1 && tmp[0] == raum){
       tmp.pop();
       this.markiert = tmp;
-      console.log("Markiert nach Entfernen: "+tmp);
       this.entmarkiert.push(raum);
-      console.log("Entmarkiert nach Entfernen aus Markiert: "+tmp);
       return;
     }
     var index = tmp.indexOf(raum);
@@ -228,9 +209,7 @@ export class Gebaude {
       }
     }
     this.markiert = tmp;
-    console.log("Markiert nach Entfernen: "+tmp);
     this.entmarkiert.push(raum);
-    console.log("Entmarkiert nach Entfernen aus Markiert: "+tmp);
   }
 
   /********************************************************************************************
@@ -259,8 +238,6 @@ export class Gebaude {
   *                                                                                           *
   ********************************************************************************************/
   getL(raumname:string){
-    console.log("GETL");
-
     var show2: HTMLElement = document.getElementById('Lehrinnen');
 
     //Entfernen der Lehrveranstaltungen:
@@ -290,7 +267,6 @@ export class Gebaude {
     show2.appendChild(this.darstellung.getLehrveranstaltungen(raumname));
 
     localStorage.setItem("page", "room");
-    console.log("PAGE: "+localStorage.getItem("page"));
     this.scrollTop();
   }
 
@@ -300,7 +276,6 @@ export class Gebaude {
   *                                                                                           *
   ********************************************************************************************/
   backClicked(){
-    console.log("backklicked");
     //Freie Räume einblenden:
     var show: HTMLElement = document.getElementById('anzeige');
     show.style.display = "block";
@@ -322,7 +297,6 @@ export class Gebaude {
       page = page.substring(0,1);
     }
     localStorage.setItem("page", page);
-    console.log("PAGE: "+page);
     this.scrollTop();
   }
 

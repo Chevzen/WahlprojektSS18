@@ -55,7 +55,6 @@ var LoginPage = /** @class */ (function () {
   *                                                                                           *
   ********************************************************************************************/
     LoginPage.prototype.ionViewDidLoad = function () {
-        console.log('Dat is die LoginPage');
         var FehlerFeld = document.getElementById('Fehler');
         FehlerFeld.style.display = "none";
         var ladeicon = document.getElementById('laden');
@@ -96,8 +95,6 @@ var LoginPage = /** @class */ (function () {
     ********************************************************************************************/
     LoginPage.prototype.doLogin = function () {
         if (this.showLogin) {
-            console.log('login im gange');
-            console.log("checkbox: " + this.speichern);
             if (this.benutzername.length != 8 || this.password === '') {
                 var fehlerFeld = document.getElementById('Fehler');
                 fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
@@ -217,11 +214,11 @@ var LoginPage = /** @class */ (function () {
                 //nächsten Raumplan:
                 _this.download(options, stelle + 1);
             }, function (error) {
-                console.log("Error: " + JSON.stringify(error, null, 2));
+                _this.fehler("Fehler beim Laden der Daten.", "Bitte starte die App erneut.");
             });
         }
         else {
-            if (this.speichern) {
+            if (this.speichern && localStorage.getItem("benutzer") == null) {
                 localStorage.setItem("benutzer", this.benutzername);
                 localStorage.setItem("passwort", this.password);
                 var toast = this.toastCtrl.create({
@@ -277,12 +274,11 @@ var LoginPage = /** @class */ (function () {
                     return -1;
                 }
             }, function (error) {
-                //console.log("Error: POST: "+ JSON.stringify(error, null, 2));;
                 _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
                 return -1;
             }); //post
         }, function (error) {
-            console.log("Error: " + JSON.stringify(error, null, 2));
+            _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
         }); //get
     };
     /********************************************************************************************
@@ -332,11 +328,9 @@ var LoginPage = /** @class */ (function () {
         if (monat == 4 && (tag >= 1 && tag <= 10) || monat == 10 && (tag >= 1 && tag <= 10)) {
             //Wenn das Datum zwischen dem 1.4. und dem 10.4.
             //oder zwischen dem 1.10. und dem 10.10. liegt hat ein neues Semester begonnen!
-            console.log("1");
             return 1;
         }
         else {
-            console.log("0");
             return 0;
         }
     };
@@ -401,7 +395,7 @@ var LoginPage = /** @class */ (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--<ion-content id="content" padding>\n  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <div *ngIf="showLogin" style="margin-top: 10px;">\n    <ion-item>\n      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>\n    </ion-item>\n  </div>\n  <span style="width: 100%; text-align: center;">\n    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>\n  </span>\n</ion-content>-->\n\n<ion-content id="content" padding>\n  <div id="laden" style="display:none; margin: -16px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      <span id="lademessage">Login wird durchgeführt.</span>\n    </div>\n  </div>\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>\n        </ion-item>\n\n        <ion-item text-wrap>\n          <ion-label>Benutzerdaten speichern und angemeldet bleiben.</ion-label>\n          <ion-checkbox [(ngModel)]="speichern"></ion-checkbox>\n        </ion-item>\n      </div>\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<ion-content id="login" padding style="display:none;white-space:pre-line;">\n  <ion-grid style="height: 60%">\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n    </ion-row>\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>\n    </ion-row>\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite und dem Logo\n-->\n<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--\nDer Inhalt der Seite. Das Loginformular\nDieser Inhaltsabschnitt wird nur eingeblendet, wenn keine Benutzerdaten gespeichert wurden.\n-->\n<ion-content id="content" padding>\n  <!--\n  Dieser Abschnitt beinhaltet das Ladeicon, sowie eine Nachricht über den Loginverlauf\n  Der Abschnitt wird erst nach dem Absenden eingeblendet\n  -->\n  <div id="laden" style="display:none; margin: -16px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      <span id="lademessage">Login wird durchgeführt.</span>\n    </div>\n  </div>\n  <!--\n  Das Formular\n  -->\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <!--\n          Benutzername\n          -->\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <!--\n          Passwort\n          -->\n          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>\n        </ion-item>\n\n        <!--\n        angemeldet bleiben? Standardmäßig auf "true" gesetzt\n        -->\n        <ion-item text-wrap>\n          <ion-label>Benutzerdaten speichern und angemeldet bleiben.</ion-label>\n          <ion-checkbox [(ngModel)]="speichern"></ion-checkbox>\n        </ion-item>\n      </div>\n      <!--\n      Absendebutton\n      -->\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<!--\nDer zweite Inhaltsabschnitt:\nFalls Logindaten gespeichert sind, startet der automatische Login.\n-->\n<ion-content id="login" padding style="display:none;white-space:pre-line;">\n  <ion-grid style="height: 60%">\n    <!--\n    Ladeicon\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n    </ion-row>\n    <!--\n    Meldung über den Verlauf des Loginvorgangs\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>\n    </ion-row>\n    <!--\n    Slogan\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
@@ -581,93 +575,35 @@ var GebaudeModel = /** @class */ (function () {
         var stunden = jetzt.getHours();
         var minuten = jetzt.getMinutes();
         switch (true) {
-            /*0:00 - 0:59*/ case (stunden == 0) && (minuten >= 0 && minuten <= 59):
-                console.log("1");
-                return "08:15:00";
-            /*1:00 - 1:59*/ case (stunden == 1) && (minuten >= 0 && minuten <= 59):
-                console.log("2");
-                return "08:15:00";
-            /*2:00 - 2:59*/ case (stunden == 2) && (minuten >= 0 && minuten <= 59):
-                console.log("3");
-                return "08:15:00";
-            /*3:00 - 3:59*/ case (stunden == 3) && (minuten >= 0 && minuten <= 59):
-                console.log("4");
-                return "08:15:00";
-            /*4:00 - 4:59*/ case (stunden == 4) && (minuten >= 0 && minuten <= 59):
-                console.log("5");
-                return "08:15:00";
-            /*5:00 - 5:59*/ case (stunden == 5) && (minuten >= 0 && minuten <= 59):
-                console.log("6");
-                return "08:15:00";
-            /*6:00 - 6:59*/ case (stunden == 6) && (minuten >= 0 && minuten <= 59):
-                console.log("7");
-                return "08:15:00";
-            /*7:00 - 7:59*/ case (stunden == 7) && (minuten >= 0 && minuten <= 59):
-                console.log("8");
-                return "08:15:00";
-            /*8:00 - 8:59*/ case (stunden == 8) && (minuten >= 0 && minuten <= 59):
-                console.log("9");
-                return "08:15:00";
-            /*9:00 - 9:44*/ case (stunden == 9) && (minuten >= 0 && minuten <= 44):
-                console.log("10");
-                return "08:15:00";
-            /*9:45 - 9:59*/ case (stunden == 9) && (minuten >= 45 && minuten <= 59):
-                console.log("11");
-                return "10:00:00";
-            /*10:00 - 10:59*/ case (stunden == 10) && (minuten >= 0 && minuten <= 59):
-                console.log("12");
-                return "10:00:00";
-            /*11:00 - 11:44*/ case (stunden == 11) && (minuten >= 0 && minuten <= 44):
-                console.log("13");
-                return "10:00:00";
-            /*11:45 - 11:59*/ case (stunden == 11) && (minuten >= 45 && minuten <= 59):
-                console.log("14");
-                return "11:45:00";
-            /*12:00 - 12:59*/ case (stunden == 12) && (minuten >= 0 && minuten <= 59):
-                console.log("15");
-                return "11:45:00";
-            /*13:00 - 13:59*/ case (stunden == 13) && (minuten >= 0 && minuten <= 59):
-                console.log("16");
-                return "11:45:00";
-            /*14:00 - 14:14*/ case (stunden == 14) && (minuten >= 0 && minuten <= 14):
-                console.log("17");
-                return "11:45:00";
-            /*14:15 - 14:59*/ case (stunden == 14) && (minuten >= 15 && minuten <= 59):
-                console.log("18");
-                return "14:15:00";
-            /*15:00 - 15:59*/ case (stunden == 15) && (minuten >= 0 && minuten <= 59):
-                console.log("19");
-                return "14:15:00";
-            /*16:00 - 16:59*/ case (stunden == 16) && (minuten >= 0 && minuten <= 59):
-                console.log("20");
-                return "16:00:00";
-            /*17:00 - 17:44*/ case (stunden == 17) && (minuten >= 0 && minuten <= 44):
-                console.log("21");
-                return "16:00:00";
-            /*17:45 - 17:59*/ case (stunden == 17) && (minuten >= 45 && minuten <= 59):
-                console.log("22");
-                return "17:45:00";
-            /*18:00 - 18:59*/ case (stunden == 18) && (minuten >= 0 && minuten <= 59):
-                console.log("23");
-                return "17:45:00";
-            /*19:00 - 19:29*/ case (stunden == 19) && (minuten >= 0 && minuten <= 29):
-                console.log("24");
-                return "17:45:00";
-            /*19:30 - 19:59*/ case (stunden == 19) && (minuten >= 30 && minuten <= 59):
-                console.log("25");
-                return "19:30:00";
-            /*20:00 - 20:59*/ case (stunden == 20) && (minuten >= 0 && minuten <= 59):
-                console.log("26");
-                return "19:30:00";
-            /*21:00 - 21:59*/ case (stunden == 21) && (minuten >= 0 && minuten <= 59):
-                console.log("27");
-                return "21:00:00";
-            /*22:00 - 22:59*/ case (stunden == 22) && (minuten >= 0 && minuten <= 59):
-                console.log("28");
-                return "21:00:00";
-            /*23:00 - 23:59*/ case (stunden == 23) && (minuten >= 0 && minuten <= 59):
-                console.log("29");
-                return "21:00:00";
+            /*0:00 - 0:59*/ case (stunden == 0) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*1:00 - 1:59*/ case (stunden == 1) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*2:00 - 2:59*/ case (stunden == 2) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*3:00 - 3:59*/ case (stunden == 3) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*4:00 - 4:59*/ case (stunden == 4) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*5:00 - 5:59*/ case (stunden == 5) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*6:00 - 6:59*/ case (stunden == 6) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*7:00 - 7:59*/ case (stunden == 7) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*8:00 - 8:59*/ case (stunden == 8) && (minuten >= 0 && minuten <= 59): return "08:15:00";
+            /*9:00 - 9:44*/ case (stunden == 9) && (minuten >= 0 && minuten <= 44): return "08:15:00";
+            /*9:45 - 9:59*/ case (stunden == 9) && (minuten >= 45 && minuten <= 59): return "10:00:00";
+            /*10:00 - 10:59*/ case (stunden == 10) && (minuten >= 0 && minuten <= 59): return "10:00:00";
+            /*11:00 - 11:44*/ case (stunden == 11) && (minuten >= 0 && minuten <= 44): return "10:00:00";
+            /*11:45 - 11:59*/ case (stunden == 11) && (minuten >= 45 && minuten <= 59): return "11:45:00";
+            /*12:00 - 12:59*/ case (stunden == 12) && (minuten >= 0 && minuten <= 59): return "11:45:00";
+            /*13:00 - 13:59*/ case (stunden == 13) && (minuten >= 0 && minuten <= 59): return "11:45:00";
+            /*14:00 - 14:14*/ case (stunden == 14) && (minuten >= 0 && minuten <= 14): return "11:45:00";
+            /*14:15 - 14:59*/ case (stunden == 14) && (minuten >= 15 && minuten <= 59): return "14:15:00";
+            /*15:00 - 15:59*/ case (stunden == 15) && (minuten >= 0 && minuten <= 59): return "14:15:00";
+            /*16:00 - 16:59*/ case (stunden == 16) && (minuten >= 0 && minuten <= 59): return "16:00:00";
+            /*17:00 - 17:44*/ case (stunden == 17) && (minuten >= 0 && minuten <= 44): return "16:00:00";
+            /*17:45 - 17:59*/ case (stunden == 17) && (minuten >= 45 && minuten <= 59): return "17:45:00";
+            /*18:00 - 18:59*/ case (stunden == 18) && (minuten >= 0 && minuten <= 59): return "17:45:00";
+            /*19:00 - 19:29*/ case (stunden == 19) && (minuten >= 0 && minuten <= 29): return "17:45:00";
+            /*19:30 - 19:59*/ case (stunden == 19) && (minuten >= 30 && minuten <= 59): return "19:30:00";
+            /*20:00 - 20:59*/ case (stunden == 20) && (minuten >= 0 && minuten <= 59): return "19:30:00";
+            /*21:00 - 21:59*/ case (stunden == 21) && (minuten >= 0 && minuten <= 59): return "21:00:00";
+            /*22:00 - 22:59*/ case (stunden == 22) && (minuten >= 0 && minuten <= 59): return "21:00:00";
+            /*23:00 - 23:59*/ case (stunden == 23) && (minuten >= 0 && minuten <= 59): return "21:00:00";
             default: break;
         }
     };
@@ -952,13 +888,10 @@ var MyApp = /** @class */ (function () {
                     page = localStorage.getItem("page");
                     switch (page) {
                         case "room":
-                            console.log("backPressed 1");
                             return;
                     }
                 }
                 _this.nav.pop();
-                console.log("backPressed 1");
-                //this.navCtrl.setRoot(HomePage);
             }, 1);
         });
         //Die Seiten des Menüs:
@@ -988,7 +921,7 @@ var MyApp = /** @class */ (function () {
     *   Funktion ruft die Startseite auf                                                        *
     *                                                                                           *
     ********************************************************************************************/
-    MyApp.prototype.deleteDaten = function () {
+    MyApp.prototype.datenverwaltung = function () {
         this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */], { item: "daten" });
     };
     __decorate([
@@ -996,7 +929,7 @@ var MyApp = /** @class */ (function () {
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <!--Das Menü wird erstellt:-->\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p, p.item)">\n        {{p.title}}\n      </button>\n      <button menuClose ion-item (click)="deleteDaten()">\n        Datenverwaltung\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/'<ion-menu [content]="content">\n  <!--\n  Der Header der Seite mit dem Logo und dem Slogan\n  -->\n  <ion-header>\n    <ion-toolbar>\n      <img class="logo" style="margin-left: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="40px"/>\n      <div style="padding-left: 20px; float: left; height: 40px; text-align: center; font-size: 12pt; vertical-align: middle;">\n        &nbsp;Finde deinen<br>&nbsp;freien Raum!\n      </div>\n      <ion-title>\n      </ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <!--Das Menü wird erstellt:-->\n  <ion-content padding>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p, p.item)">\n        {{p.title}}\n      </button>\n      <button menuClose ion-item (click)="datenverwaltung()">\n        Datenverwaltung\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/app/app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
@@ -1087,13 +1020,10 @@ var HomePage = /** @class */ (function () {
                     this.freeRooms[x].charAt(0) == '6' || this.freeRooms[x].charAt(0) == '7' ||
                     this.freeRooms[x].charAt(0) == '8' || this.freeRooms[x].charAt(0) == '9') {
                     c++;
-                    //console.log("Slot endeckt c: " + c);
                 } //if
                 else {
                     //Wenn Favoriten im ersten Slot der freien Räume sind
-                    //console.log("Raum: " + this.freeRooms[x]);
                     if (this.freeRooms[x] == this.favoriten[i]) {
-                        //console.log("Dieser Raum ist in den Favoriten");
                         //Ist der Favorit schon in Temp
                         for (var t = 0; t < this.temp.length; t++) {
                             if (this.temp[t] == this.favoriten[i]) {
@@ -1155,21 +1085,10 @@ var HomePage = /** @class */ (function () {
     ********************************************************************************************/
     HomePage.prototype.deleteDaten = function () {
         var _this = this;
-        var raum = [
-            "D01", "D02", "D11", "D12", "D13", "D14", "D15", "D17", "D18",
-            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
-        ];
         var alert = this.alertCtrl.create({
             title: 'Datenverwaltung',
             message: 'Welche Daten möchtest du löschen?',
             buttons: [
-                {
-                    text: 'Nichts',
-                    role: 'cancel',
-                    handler: function () {
-                        alert = null;
-                    }
-                },
                 {
                     text: 'Benutzername und Passwort',
                     handler: function () {
@@ -1189,37 +1108,94 @@ var HomePage = /** @class */ (function () {
                     text: 'Alles',
                     handler: function () {
                         alert = null;
-                        var alert1 = _this.alertCtrl.create({
-                            title: 'Warnung!',
-                            message: 'Alle Daten löschen und die App schließen?',
-                            buttons: [
-                                {
-                                    text: 'Nein',
-                                    role: 'cancel',
-                                    handler: function () {
-                                        alert1 = null;
-                                    }
-                                },
-                                {
-                                    text: 'Ja',
-                                    handler: function () {
-                                        localStorage.removeItem("benutzer");
-                                        localStorage.removeItem("passwort");
-                                        localStorage.removeItem("markiert");
-                                        localStorage.removeItem("page");
-                                        localStorage.removeItem("from");
-                                        localStorage.removeItem("aktuell");
-                                        localStorage.removeItem("markiert");
-                                        for (var i = 0; i < raum.length; i++) {
-                                            localStorage.removeItem(raum[i]);
-                                        }
-                                        _this.toasts("Alle Daten wurden gelöscht!");
-                                        _this.platform.exitApp();
-                                    }
-                                }
-                            ]
-                        });
-                        alert1.present();
+                        _this.dialog();
+                    }
+                },
+                {
+                    text: 'Nichts',
+                    role: 'cancel',
+                    handler: function () {
+                        alert = null;
+                    }
+                },
+                {
+                    text: 'Infos zum Datenschutz',
+                    handler: function () {
+                        alert = null;
+                        _this.infos();
+                    }
+                }
+            ]
+        });
+        alert.present();
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion erstellt einen Alert, über den alle Daten gelöscht werden können.              *
+    *                                                                                           *
+    ********************************************************************************************/
+    HomePage.prototype.dialog = function () {
+        var _this = this;
+        var raum = [
+            "D01", "D02", "D11", "D12", "D13", "D14", "D15", "D17", "D18",
+            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
+        ];
+        var alert = this.alertCtrl.create({
+            title: 'Warnung!',
+            message: 'Alle Daten löschen und die App schließen?',
+            buttons: [
+                {
+                    text: 'Nein',
+                    role: 'cancel',
+                    handler: function () {
+                        alert = null;
+                    }
+                },
+                {
+                    text: 'Ja',
+                    handler: function () {
+                        localStorage.removeItem("benutzer");
+                        localStorage.removeItem("passwort");
+                        localStorage.removeItem("markiert");
+                        localStorage.removeItem("page");
+                        localStorage.removeItem("from");
+                        localStorage.removeItem("aktuell");
+                        localStorage.removeItem("markiert");
+                        for (var i = 0; i < raum.length; i++) {
+                            localStorage.removeItem(raum[i]);
+                        }
+                        _this.toasts("Alle Daten wurden gelöscht!");
+                        _this.platform.exitApp();
+                    }
+                }
+            ]
+        });
+        alert.present();
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion öffnet Infos zum Datenschutz                                                   *
+    *                                                                                           *
+    ********************************************************************************************/
+    HomePage.prototype.infos = function () {
+        var message = "<p>Durch diese App werden keine personenbezogenen Daten erhoben.</p>";
+        message += "<p>Alle Daten werden lokal gespeichert und können jederzeit gelöscht werden.</p>";
+        message += "<p>Folgende Daten werden von der App gespeichert:<br>";
+        message += "<span>- Benutzername und Passwort (sofern gewünscht)</span><br>";
+        message += "<span>- Raumpläne aus dem AoR (Admin on Rails)</span><br>";
+        message += "<span>- Markierte Räume</span></p>";
+        message += "<p>Wir weisen darauf hin, dass die Datenübertragung im Internet Sicherheitslücken aufweisen kann. ";
+        message += "Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>";
+        message += "Quelle: <a href='http://www.e-recht24.de'>http://www.e-recht24.de</a>";
+        var alert = this.alertCtrl.create({
+            title: 'Datenschutz',
+            message: message,
+            buttons: [
+                {
+                    text: 'Ok',
+                    role: 'cancel',
+                    handler: function () {
+                        alert = null;
                     }
                 }
             ]
@@ -1243,7 +1219,7 @@ var HomePage = /** @class */ (function () {
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row>\n      <h5>Herzlich Willkommen!</h5>\n    </ion-row>\n    <ion-row>\n      <ng-container *ngFor="let temp of temp; let i = index" [attr.data-index]="i">\n        <span *ngIf="i == 0"><b>Folgende markierte Räume sind gerade frei:</b></span>\n        <span style="width: 100%;">\n          <ion-item style="float: left; width: 85%;" (click)="onTip(temp)">\n            {{temp}}\n          </ion-item>\n          <ion-icon style="height: 100%; font-size: 2em; padding-top: 15px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="arrow-dropright" (click)="onTip(temp)"></ion-icon>\n        </span>\n      </ng-container>\n    </ion-row>\n    <ion-row style="margin-top: 20px;">\n      Bitte wähle dein Gebäude:\n    </ion-row>\n    <ion-row style="text-align:center;">\n      <img id="img1" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img2" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n    	<img id="img3" style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n    	<img id="img4" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img5" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img6" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n    	<img id="img7" style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n    	<img id="img8" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img9" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite, einer Lupe für die Suche und dem Menü/Backbutton\n-->\n<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title style="float: left;">Campusplan</ion-title>\n    <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n  </ion-navbar>\n</ion-header>\n\n<!--\nDer Inhalt der Seite\n-->\n<ion-content padding>\n  <ion-grid>\n    <ion-row>\n      <h5>Herzlich Willkommen!</h5>\n    </ion-row>\n    <ion-row>\n      <!--\n      Falls Räume markiert wurden, stehen hier die freien\n      -->\n      <ng-container *ngFor="let temp of temp; let i = index" [attr.data-index]="i">\n        <span *ngIf="i == 0"><b>Folgende markierte Räume sind gerade frei:</b></span>\n        <span style="width: 100%;">\n          <ion-item style="float: left; width: 85%;" (click)="onTip(temp)">\n            {{temp}}\n          </ion-item>\n          <ion-icon style="height: 100%; font-size: 2em; padding-top: 15px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="arrow-dropright" (click)="onTip(temp)"></ion-icon>\n        </span>\n      </ng-container>\n    </ion-row>\n    <!--\n    Der Campusplan besteht aus 9 Bildern, die teilweise zum Anklicken sind\n    -->\n    <ion-row style="margin-top: 20px;">\n      Bitte wähle dein Gebäude:\n    </ion-row>\n    <ion-row style="text-align:center;">\n      <img id="img1" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_01.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img2" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_02.jpg"/>\n    	<img id="img3" style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_03.jpg" (click)="nextD()"/>\n    	<img id="img4" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_04.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img5" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_05.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img6" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_06.jpg"/>\n    	<img id="img7" style="cursor: pointer; margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_07.jpg" (click)="nextC()"/>\n    	<img id="img8" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_08.jpg"/>\n    </ion-row>\n    <ion-row style="text-align:center">\n      <img id="img9" style="margin: 0px; padding: 0px; float: left;" src="assets/imgs/Campusplan_09.jpg"/>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/home/home.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
@@ -1318,12 +1294,10 @@ var Gebaude = /** @class */ (function () {
                 switch (page) {
                     case "room":
                         _this.backClicked();
-                        console.log("backPressed 1");
                         return;
                 }
             }
             _this.nav.pop();
-            console.log("backPressed 1");
         }, 1);
     }
     /********************************************************************************************
@@ -1332,7 +1306,6 @@ var Gebaude = /** @class */ (function () {
     *                                                                                           *
     ********************************************************************************************/
     Gebaude.prototype.ionViewDidLoad = function () {
-        console.log("NAVPARAMS: " + this.navParams.get('item'));
         var page = this.navParams.get('item');
         var show = document.getElementById('Lehraussen');
         show.style.display = "none";
@@ -1344,40 +1317,29 @@ var Gebaude = /** @class */ (function () {
         span2.style.display = "none";
         var button = document.getElementById('button');
         button.style.display = "none";
-        console.log('ionViewDidLoad ' + page + 'Page');
         var tmp = "";
-        console.log(page.length);
         if (page.length > 1) {
-            console.log(page);
             tmp = page;
             page = page.substring(0, 1);
         }
         //Unterscheide Seiten:
         switch (page) {
             case "C":
-                console.log("C");
                 this.darstellung = new __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__["a" /* Darstellung */](0);
                 ueberschrift[0] = "C-Gebäude";
                 ueberschrift[1] = "Folgende Räume sind zur Zeit im C-Gebäude frei:";
                 break;
             case "D":
-                console.log("D");
                 this.darstellung = new __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__["a" /* Darstellung */](1);
                 ueberschrift[0] = "D-Gebäude";
                 ueberschrift[1] = "Folgende Räume sind zur Zeit im D-Gebäude frei:";
                 break;
         }
-        console.log(this.darstellung);
         this.darstellung.parseToCampus();
-        console.log(this.darstellung);
         this.freeRooms = this.darstellung.freeRooms;
         this.zugang = this.darstellung.zugang;
-        console.log(this.freeRooms);
-        console.log(this.zugang);
         //Favoriten laden:
         this.getMarkierung();
-        console.log("Markiert: " + this.markiert);
-        console.log("Entmarkiert: " + this.entmarkiert);
         //Raumplan anzeigen, falls gefordert durch Startseite:
         if (tmp != "") {
             this.getL(tmp);
@@ -1422,8 +1384,6 @@ var Gebaude = /** @class */ (function () {
         }
         localStorage.setItem("markiert", tmp.join(","));
         this.markiert = tmp;
-        console.log("Markiert: " + this.markiert);
-        console.log("Entmarkiert: " + this.entmarkiert);
     };
     /********************************************************************************************
     *                                                                                           *
@@ -1466,13 +1426,10 @@ var Gebaude = /** @class */ (function () {
     Gebaude.prototype.entferneEntmarkiertAusMarkiert = function (raum) {
         //tmp ist nun der Array mit den markierten Räumen.
         var tmp = this.markiert;
-        console.log("Markiert vor Entfernen: " + tmp);
         if (tmp.length == 1 && tmp[0] == raum) {
             tmp.pop();
             this.markiert = tmp;
-            console.log("Markiert nach Entfernen: " + tmp);
             this.entmarkiert.push(raum);
-            console.log("Entmarkiert nach Entfernen aus Markiert: " + tmp);
             return;
         }
         var index = tmp.indexOf(raum);
@@ -1485,9 +1442,7 @@ var Gebaude = /** @class */ (function () {
             }
         }
         this.markiert = tmp;
-        console.log("Markiert nach Entfernen: " + tmp);
         this.entmarkiert.push(raum);
-        console.log("Entmarkiert nach Entfernen aus Markiert: " + tmp);
     };
     /********************************************************************************************
     *                                                                                           *
@@ -1513,7 +1468,6 @@ var Gebaude = /** @class */ (function () {
     *                                                                                           *
     ********************************************************************************************/
     Gebaude.prototype.getL = function (raumname) {
-        console.log("GETL");
         var show2 = document.getElementById('Lehrinnen');
         //Entfernen der Lehrveranstaltungen:
         var remove = show2.firstChild;
@@ -1538,7 +1492,6 @@ var Gebaude = /** @class */ (function () {
         header.style.display = "none";
         show2.appendChild(this.darstellung.getLehrveranstaltungen(raumname));
         localStorage.setItem("page", "room");
-        console.log("PAGE: " + localStorage.getItem("page"));
         this.scrollTop();
     };
     /********************************************************************************************
@@ -1547,7 +1500,6 @@ var Gebaude = /** @class */ (function () {
     *                                                                                           *
     ********************************************************************************************/
     Gebaude.prototype.backClicked = function () {
-        console.log("backklicked");
         //Freie Räume einblenden:
         var show = document.getElementById('anzeige');
         show.style.display = "block";
@@ -1569,7 +1521,6 @@ var Gebaude = /** @class */ (function () {
             page = page.substring(0, 1);
         }
         localStorage.setItem("page", page);
-        console.log("PAGE: " + page);
         this.scrollTop();
     };
     /********************************************************************************************
@@ -1597,20 +1548,20 @@ var Gebaude = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]) === "function" && _a || Object)
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
     ], Gebaude.prototype, "content", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
-        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]) === "function" && _b || Object)
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
     ], Gebaude.prototype, "nav", void 0);
     Gebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'gebaude',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/'<span id="header">\n  <ion-header>\n    <ion-navbar>\n      <button ion-button menuToggle>\n        <ion-icon name="menu"></ion-icon>\n      </button>\n      <ion-title style="float: left;">\n        <span *ngFor="let headTitle of ueberschrift; let i = index" [attr.data-index]="i">\n          <ng-container *ngIf="i == 0">{{ headTitle }}</ng-container>\n        </span>\n      </ion-title>\n      <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n    </ion-navbar>\n  </ion-header>\n</span>\n\n<ion-content padding>\n  <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">\n    <span id="span1" style="display: none; float: left; width: 100%; text-align:left;">\n      <!--<ion-icon id="button" name="close-circle" (click)="backClicked()" style="display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 5px; margin-right: 5px;"></ion-icon>-->\n      <ion-icon id="button" (click)="backClicked()" style="float: left; display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 13px; margin-left: 20px;" name="arrow-back"></ion-icon>\n      <ion-title style="float: left; margin-top: 13px;">\n        &nbsp;Zurück zur Raumübersicht\n      </ion-title>\n    </span>\n    <span id="span2" style="display: none; float: right; width: 100%;">\n      <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">\n        {{ item }}\n      </div>\n    </span>\n  </div>\n\n  <div id="anzeige" style="margin-top: 85px;">\n    <b>\n      <div style="margin-bottom: -30px;" *ngFor="let ueberschrift of ueberschrift; let i = index" [attr.data-index]="i">\n        <ng-container *ngIf="i == 1">{{ ueberschrift }}</ng-container>\n      </div>\n    </b>\n    <ion-list style="margin-bottom: 170px;">\n      <ng-container *ngFor="let item of freeRooms">\n\n        <div style="clear: both;">\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        </div>\n\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <span style="width: 100%; margin-bottom: 20px;">\n            <ion-item (click)="getL(item)" [color]="primary" style="float: left; width: 75%;">\n              <!--Wenn ein Raum markiert wurde wird der Raumname hervorgehoben:-->\n              <ng-container *ngFor="let markierte of markiert">\n                <span *ngIf="item == markierte" style="float: left; color: rgb(66, 134, 244);"><b>{{ item }}</b></span>\n              </ng-container>\n\n              <ng-container *ngFor="let entmarkierte of entmarkiert">\n                <span *ngIf="item == entmarkierte" style="float: left;">{{ item }}</span>\n              </ng-container>\n            </ion-item>\n\n            <!--Wenn ein Raum markiert wurde wird der Stern farbig:-->\n            <ng-container *ngFor="let markierte of markiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(66, 134, 244);" name="star" *ngIf="item == markierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <ng-container *ngFor="let entmarkierte of entmarkiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(120, 120, 120);" name="star" *ngIf="item == entmarkierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <ng-container *ngFor="let keys of zugang">\n              <ion-icon style="height: 100%; padding-top: 17px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="key" *ngIf="item == keys" (click)="onTip(item)"></ion-icon>\n            </ng-container>\n          </span>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n    <button ion-button style="left: 50%; position: fixed; bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/,
+            selector: 'gebaude',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite, einer Lupe für die Suche und dem Menü/Backbutton\n-->\n<span id="header">\n  <ion-header>\n    <ion-navbar>\n      <button ion-button menuToggle>\n        <ion-icon name="menu"></ion-icon>\n      </button>\n      <ion-title style="float: left;">\n        <!--\n        Der Titel der Seite wird eingefügt\n        -->\n        <span *ngFor="let headTitle of ueberschrift; let i = index" [attr.data-index]="i">\n          <ng-container *ngIf="i == 0">{{ headTitle }}</ng-container>\n        </span>\n      </ion-title>\n      <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n    </ion-navbar>\n  </ion-header>\n</span>\n\n<!--\nDer Inhalt der Seite\n-->\n<ion-content padding>\n  <!--\n  Der Inhalt der Seite für den Fall, dass ein Raumplan angezeigt wird.\n  Wird erst nach Klick auf einen Raum eingeblendet\n  -->\n  <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">\n    <!--\n    Der Header mit Backbutton\n    -->\n    <span id="span1" style="display: none; float: left; width: 100%; text-align:left;">\n      <ion-icon id="button" (click)="backClicked()" style="float: left; display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 13px; margin-left: 20px;" name="arrow-back"></ion-icon>\n      <ion-title style="float: left; margin-top: 13px;">\n        &nbsp;Zurück zur Raumübersicht\n      </ion-title>\n    </span>\n    <!--\n    Der Raumplan\n    -->\n    <span id="span2" style="display: none; float: right; width: 100%;">\n      <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">\n\n      </div>\n    </span>\n  </div>\n\n  <!--\n  Die Auflistung aller freien Räume\n  -->\n  <div id="anzeige" style="margin-top: 85px;">\n    <b>\n      <div style="margin-bottom: -30px;" *ngFor="let ueberschrift of ueberschrift; let i = index" [attr.data-index]="i">\n        <!--\n        Die Überschrift "... im C/D-Gebäude frei:"\n        -->\n        <ng-container *ngIf="i == 1">{{ ueberschrift }}</ng-container>\n      </div>\n    </b>\n    <ion-list style="margin-bottom: 170px;">\n      <ng-container *ngFor="let item of freeRooms">\n        <!--\n        Die Uhrzeiten der Slots\n        -->\n        <div style="clear: both;">\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        </div>\n\n        <!--\n        Die freien Räume\n        -->\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <span style="width: 100%; margin-bottom: 20px;">\n            <ion-item (click)="getL(item)" [color]="primary" style="float: left; width: 75%;">\n              <!--\n              Wenn ein Raum markiert wurde wird der Raumname hervorgehoben:\n              -->\n              <ng-container *ngFor="let markierte of markiert">\n                <span *ngIf="item == markierte" style="float: left; color: rgb(66, 134, 244);"><b>{{ item }}</b></span>\n              </ng-container>\n\n              <ng-container *ngFor="let entmarkierte of entmarkiert">\n                <span *ngIf="item == entmarkierte" style="float: left;">{{ item }}</span>\n              </ng-container>\n            </ion-item>\n\n            <!--\n            Wenn ein Raum markiert wurde wird der Stern farbig:\n            -->\n            <ng-container *ngFor="let markierte of markiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(66, 134, 244);" name="star" *ngIf="item == markierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <ng-container *ngFor="let entmarkierte of entmarkiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(120, 120, 120);" name="star" *ngIf="item == entmarkierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <!--\n            Falls Zugangsbeschränkung vorliegt wird ein Schlüssel angezeigt:\n            -->\n            <ng-container *ngFor="let keys of zugang">\n              <ion-icon style="height: 100%; padding-top: 17px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="key" *ngIf="item == keys" (click)="onTip(item)"></ion-icon>\n            </ng-container>\n          </span>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n    <!--\n    Button zurück zum Campusplan\n    -->\n    <button ion-button style="left: 50%; position: fixed; bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _f || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Gebaude);
     return Gebaude;
-    var _a, _b, _c, _d, _e, _f;
 }());
 
 //# sourceMappingURL=page.js.map
@@ -1673,15 +1624,12 @@ var Search = /** @class */ (function () {
                 switch (page) {
                     case "Home":
                         _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_4__home_home__["a" /* HomePage */]);
-                        console.log("backPressed 1");
                         return;
                     case "C":
                         _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_5__page_page__["a" /* Gebaude */], { item: "C" });
-                        console.log("backPressed 1");
                         return;
                     case "D":
                         _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_5__page_page__["a" /* Gebaude */], { item: "D" });
-                        console.log("backPressed 1");
                         return;
                 }
             }
@@ -1693,48 +1641,51 @@ var Search = /** @class */ (function () {
     *                                                                                           *
     ********************************************************************************************/
     Search.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad SearchPage');
         this.darstellung = new __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__["a" /* Darstellung */](0);
         localStorage.setItem("page", "Search");
     };
     /********************************************************************************************
     *                                                                                           *
-    *   Funktion ermittelt für einen Raum die freien Slots                                      *
+    *   Funktion ermittelt den Raum, der gesucht werden soll.                                   *
     *   searchbar -> die Suchmaske                                                              *
     *                                                                                           *
     ********************************************************************************************/
     Search.prototype.searchRoom = function (searchbar) {
-        freeTimeSlot = [];
         var room = searchbar.target.value;
+        this.searchRoom2(room);
+        //this.items = [];
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion ermittelt für einen Raum die freien Slots                                      *
+    *   room -> die Raum                                                                        *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.searchRoom2 = function (room) {
+        freeTimeSlot = [];
         var raume = [];
         var zahl = 0;
         var lieblingsraum = "Der Raum";
         var liste = document.getElementById('liste');
-        var fehlerFeld = document.getElementById('Fehler');
-        fehlerFeld.innerText = "Raum konnte nicht gefunden werden";
-        fehlerFeld.style.display = "none";
         //Raumliste wird gefüllt:
         if (room.indexOf("C") == 0) {
             for (var i = 0; i < this.darstellung.CampusConfig[0].raumnamen.length; i++) {
                 raume.push(this.darstellung.CampusConfig[0].raumnamen[i]);
-                console.log(this.darstellung.CampusConfig[0].raumnamen[i]);
             }
         }
         else if (room.indexOf("D") == 0) {
             for (var j = 0; j < this.darstellung.CampusConfig[1].raumnamen.length; j++) {
                 raume.push(this.darstellung.CampusConfig[1].raumnamen[j]);
-                console.log(this.darstellung.CampusConfig[1].raumnamen[j]);
             }
         }
         //Fehlerbehandlung:
         if (raume.indexOf(room) == -1) {
-            fehlerFeld.style.display = "block";
             liste.style.display = "none";
+            this.filterItems(room);
             return;
         }
         //Die einzelnen Timeslots werden überprüft:
         for (var y = 0; y < StundenSlot.length; y++) {
-            console.log(StundenSlot[y]);
             if (this.darstellung.parseToRaum(room).isFree(StundenSlot[y], this.darstellung.giveWochentag())) {
                 freeTimeSlot.push(y);
             }
@@ -1745,11 +1696,9 @@ var Search = /** @class */ (function () {
         }
         //Zugangsbeschränkung?:
         var zugang = this.gebaude.zugangsberechtigung;
-        console.log(zugang);
         if (zugang.indexOf(room) != -1) {
             this.toasts("Für den Raum " + room + " brauchst du eine Zugangsberechtigung!");
         }
-        console.log(freeTimeSlot);
         liste.style.display = "block";
         //Markiert?
         var markiert = [];
@@ -1767,6 +1716,56 @@ var Search = /** @class */ (function () {
             freeUeberschrift[0] = lieblingsraum + " \"" + room + "\" ist heute zu folgenden Uhrzeiten frei:";
         }
         this.navCtrl.setRoot(this.navCtrl.getActive().component);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion füllt Array mit Räumen                                                         *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.setItems = function () {
+        var raume = [];
+        for (var i = 0; i < this.darstellung.CampusConfig[0].raumnamen.length; i++) {
+            raume.push(this.darstellung.CampusConfig[0].raumnamen[i]);
+        }
+        for (var j = 0; j < this.darstellung.CampusConfig[1].raumnamen.length; j++) {
+            raume.push(this.darstellung.CampusConfig[1].raumnamen[j]);
+        }
+        this.items = raume;
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion ruft die Filterfunktion mit dem Inhalt der Searchbar auf.                      *
+    *   event -> die Searchbar                                                                  *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.filterItems2 = function (event) {
+        var liste = document.getElementById('liste');
+        liste.style.display = "none";
+        this.filterItems(event.target.value);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert die Räume                                                              *
+    *   value -> String, nach dem in den Raumnamen gesucht werden soll                          *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.filterItems = function (value) {
+        this.setItems();
+        var val = value;
+        if (val && val.trim() !== '') {
+            this.items = this.items.filter(function (item) {
+                return item.toLowerCase().includes(val.toLowerCase());
+            });
+            if (this.items.length == 0) {
+                this.items.unshift("Dieser Raum existiert leider nicht!");
+            }
+            else {
+                this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
+            }
+        }
+        else {
+            this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
+        }
     };
     /********************************************************************************************
     *                                                                                           *
@@ -1789,7 +1788,7 @@ var Search = /** @class */ (function () {
     ], Search.prototype, "nav", void 0);
     Search = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-search',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <ion-searchbar (ionCancel)="onCancel($event)" (change)="searchRoom($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n  <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n  </span>\n  <ion-list>\n    <span id="liste">\n      <ng-container *ngFor="let item of freeTimeSlot; let i = index" [attr.data-index]="i">\n        <ng-container *ngFor="let head of freeUeberschrift">\n          <h5 *ngIf="i == 0" style="margin-top: 30px;"> {{ head }} </h5>\n        </ng-container>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 0">08:15 bis 09:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 1">10:00 bis 11:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 2">11:45 bis 13:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 3">14:15 bis 15:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 4">16:00 bis 17:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 5">17:45 bis 19:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 6">19:30 bis 21:00</ion-item>\n        <ion-item style="margin-top: 20px; margin-bottom: 50px;" *ngIf="item == 7">ab 21:00</ion-item>\n      </ng-container>\n    </span>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
+            selector: 'page-search',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite und dem Menü/Backbutton\n-->\n<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<!--\nDer Inhalt der Seite\n-->\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <!--\n  Die Searchbar\n  -->\n  <ion-searchbar (ionCancel)="onCancel($event)" (change)="searchRoom($event)" (input)="filterItems2($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n  <!--\n  Eine Liste mit Suchvorschlägen\n  -->\n  <ion-list>\n    <ng-container *ngFor="let item of items; let i = index" [attr.data-index]="i">\n      <div style="margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;" *ngIf="i == 0">{{ item }}</div>\n      <ion-item (click)="searchRoom2(item)" *ngIf="i != 0">\n        {{ item }}\n      </ion-item>\n    </ng-container>\n  </ion-list>\n\n  <!--\n  Die Uhrzeiten, zu denen der Raum frei ist\n  -->\n  <ion-list>\n    <span id="liste">\n      <ng-container *ngFor="let item of freeTimeSlot; let i = index" [attr.data-index]="i">\n        <ng-container *ngFor="let head of freeUeberschrift">\n          <!--\n          Überschrift mit Raumnamen:\n          -->\n          <h5 *ngIf="i == 0" style="margin-top: 30px;"> {{ head }} </h5>\n        </ng-container>\n        <!--\n        Uhrzeiten\n        -->\n        <ion-item style="margin-top: 20px;" *ngIf="item == 0">08:15 bis 09:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 1">10:00 bis 11:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 2">11:45 bis 13:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 3">14:15 bis 15:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 4">16:00 bis 17:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 5">17:45 bis 19:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 6">19:30 bis 21:00</ion-item>\n        <ion-item style="margin-top: 20px; margin-bottom: 50px;" *ngIf="item == 7">ab 21:00</ion-item>\n      </ng-container>\n    </span>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])

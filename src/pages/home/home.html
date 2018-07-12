@@ -1,3 +1,6 @@
+<!--
+Der Header der Seite mit dem Titel der Seite, einer Lupe für die Suche und dem Menü/Backbutton
+-->
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
@@ -8,12 +11,18 @@
   </ion-navbar>
 </ion-header>
 
+<!--
+Der Inhalt der Seite
+-->
 <ion-content padding>
   <ion-grid>
     <ion-row>
       <h5>Herzlich Willkommen!</h5>
     </ion-row>
     <ion-row>
+      <!--
+      Falls Räume markiert wurden, stehen hier die freien
+      -->
       <ng-container *ngFor="let temp of temp; let i = index" [attr.data-index]="i">
         <span *ngIf="i == 0"><b>Folgende markierte Räume sind gerade frei:</b></span>
         <span style="width: 100%;">
@@ -24,6 +33,9 @@
         </span>
       </ng-container>
     </ion-row>
+    <!--
+    Der Campusplan besteht aus 9 Bildern, die teilweise zum Anklicken sind
+    -->
     <ion-row style="margin-top: 20px;">
       Bitte wähle dein Gebäude:
     </ion-row>

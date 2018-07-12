@@ -1,3 +1,6 @@
+<!--
+Der Header der Seite mit dem Titel der Seite und dem Logo
+-->
 <ion-header id="header" hide-nav-bar="true">
 
   <ion-navbar>
@@ -6,32 +9,24 @@
 
 </ion-header>
 
-<!--<ion-content id="content" padding>
-  <span style="margin-left: 15px;">Bitte mit deinem HDS-Account anmelden.</span><br>
-  <span id="Fehler" style="display: none; margin: 20px; margin-bottom: 10px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">
-  </span>
-  <div *ngIf="showLogin" style="margin-top: 10px;">
-    <ion-item>
-      <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input (click)="clicked()" type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
-    </ion-item>
-  </div>
-  <span style="width: 100%; text-align: center;">
-    <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>
-    <span id="Feld2" style="margin-top: 25px; width: 100%; text-align: center;"></span><br>
-  </span>
-</ion-content>-->
-
+<!--
+Der Inhalt der Seite. Das Loginformular
+Dieser Inhaltsabschnitt wird nur eingeblendet, wenn keine Benutzerdaten gespeichert wurden.
+-->
 <ion-content id="content" padding>
+  <!--
+  Dieser Abschnitt beinhaltet das Ladeicon, sowie eine Nachricht über den Loginverlauf
+  Der Abschnitt wird erst nach dem Absenden eingeblendet
+  -->
   <div id="laden" style="display:none; margin: -16px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">
     <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">
       <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>
       <span id="lademessage">Login wird durchgeführt.</span>
     </div>
   </div>
+  <!--
+  Das Formular
+  -->
   <ion-grid style="height: 50%">
     <ion-row style="height: 100%">
       <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>
@@ -39,18 +34,30 @@
       </span>
       <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">
         <ion-item>
+          <!--
+          Benutzername
+          -->
           <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>
         </ion-item>
 
         <ion-item>
+          <!--
+          Passwort
+          -->
           <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>
         </ion-item>
 
+        <!--
+        angemeldet bleiben? Standardmäßig auf "true" gesetzt
+        -->
         <ion-item text-wrap>
           <ion-label>Benutzerdaten speichern und angemeldet bleiben.</ion-label>
           <ion-checkbox [(ngModel)]="speichern"></ion-checkbox>
         </ion-item>
       </div>
+      <!--
+      Absendebutton
+      -->
       <span style="width: 100%; text-align: center;">
         <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>
       </span>
@@ -58,14 +65,27 @@
   </ion-grid>
 </ion-content>
 
+<!--
+Der zweite Inhaltsabschnitt:
+Falls Logindaten gespeichert sind, startet der automatische Login.
+-->
 <ion-content id="login" padding style="display:none;white-space:pre-line;">
   <ion-grid style="height: 60%">
+    <!--
+    Ladeicon
+    -->
     <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">
       <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>
     </ion-row>
+    <!--
+    Meldung über den Verlauf des Loginvorgangs
+    -->
     <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">
       <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>
     </ion-row>
+    <!--
+    Slogan
+    -->
     <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">
       <h1>Finde deinen freien Raum!</h1>
     </ion-row>

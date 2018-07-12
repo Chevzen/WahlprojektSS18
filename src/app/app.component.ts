@@ -27,12 +27,10 @@ export class MyApp {
         page = localStorage.getItem("page");
         switch(page){
           case "room":
-          console.log("backPressed 1");return;
+          return;
         }
       }
       this.nav.pop();
-      console.log("backPressed 1");
-      //this.navCtrl.setRoot(HomePage);
     },1);
   });
 
@@ -65,7 +63,7 @@ export class MyApp {
   *   Funktion ruft die Startseite auf                                                        *
   *                                                                                           *
   ********************************************************************************************/
-  deleteDaten() {
+  datenverwaltung() {
     this.nav.setRoot(HomePage, {item: "daten"});
   }
 }
