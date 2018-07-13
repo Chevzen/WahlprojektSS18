@@ -2,8 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Platform, Nav } from 'ionic-angular';
 import { GebaudeModel } from '../../model/GebaudeModel';
 import { Darstellung } from '../../model/Darstellung';
-import { HomePage } from '../home/home';
-import { Gebaude } from '../page/page';
 
 /********************************************************************************************
 *                                                                                           *
@@ -48,22 +46,7 @@ export class Search {
   constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController,
     public navParams: NavParams) {
 
-    platform.registerBackButtonAction(() => {
-      var page:string;
-      if(null != localStorage.getItem("from")){
-        page = localStorage.getItem("from");
-        localStorage.setItem("from", "Search");
-        switch(page){
-          case "Home":
-          this.nav.setRoot(HomePage);return;
-          case "C":
-          this.nav.setRoot(Gebaude, {item: "C"});return;
-          case "D":
-          this.nav.setRoot(Gebaude, {item: "D"});return;
-        }
-      }
-    },1);
-  }
+    }
 
   /********************************************************************************************
   *                                                                                           *
@@ -84,7 +67,6 @@ export class Search {
   searchRoom(searchbar){
     var room:string = searchbar.target.value;
     this.searchRoom2(room);
-    //this.items = [];
   }
 
   /********************************************************************************************
@@ -97,7 +79,7 @@ export class Search {
     freeTimeSlot = [];
     var raume:string[] = [];
     var zahl:number = 0;
-    var lieblingsraum = "Der Raum";
+    var lieblingsraum = "Der Raum ";
 
     var liste:HTMLElement = document.getElementById('liste');
 
@@ -226,4 +208,15 @@ export class Search {
     });
     toast.present();
   }
+
+  /********************************************************************************************
+ 	*                                                                                           *
+ 	*   Funktion löscht beim Verlassen die Variable from.                                       *
+ 	*                                                                                           *
+ 	********************************************************************************************/
+   ionViewDidLeave() {
+     if(null != localStorage.getItem("from")){
+       localStorage.removeItem("from");
+     }
+   }
 }

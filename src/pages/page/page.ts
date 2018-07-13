@@ -45,19 +45,7 @@ export class Gebaude {
   constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController,
     public navParams: NavParams) {
 
-    //Der Hardware-Backbutton des Handys bekommt eine Aktion:
-    platform.registerBackButtonAction(() => {
-      var page:string;
-      if(null != localStorage.getItem("page")){
-        page = localStorage.getItem("page");
-        switch(page){
-          case "room":
-          this.backClicked();return;
-        }
-      }
-      this.nav.pop();
-    },1);
-  }
+    }
 
   /********************************************************************************************
   *                                                                                           *
@@ -229,7 +217,10 @@ export class Gebaude {
   search() {
     this.navCtrl.push( Search);
     var page:string = this.navParams.get('item');
-    localStorage.setItem("from",page);
+    if(page.length > 1){
+      page = page.substring(0,1);
+    }
+    localStorage.setItem("from", page);
   }
 
   /********************************************************************************************
@@ -266,7 +257,9 @@ export class Gebaude {
 
     show2.appendChild(this.darstellung.getLehrveranstaltungen(raumname));
 
-    localStorage.setItem("page", "room");
+    //Für die Navigation wird die Variable page gesetzt:
+    var page:string = this.navParams.get('item');
+    localStorage.setItem("page", page);
     this.scrollTop();
   }
 
@@ -292,11 +285,8 @@ export class Gebaude {
     span2.style.display = "none";
     var button: HTMLElement = document.getElementById('button');
     button.style.display = "none";
-    var page:string = this.navParams.get('item');
-    if(page.length > 1){
-      page = page.substring(0,1);
-    }
-    localStorage.setItem("page", page);
+
+    localStorage.removeItem("page");
     this.scrollTop();
   }
 

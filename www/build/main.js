@@ -7,7 +7,7 @@ webpackJsonp([3],{
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(159);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -463,7 +463,7 @@ module.exports = webpackAsyncContext;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GebaudeModel; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Darstellung__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Darstellung__ = __webpack_require__(48);
 
 var GebaudeModel = /** @class */ (function () {
     function GebaudeModel(gebaudename) {
@@ -641,9 +641,9 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_status_bar__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(202);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(284);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_page_page__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_search_search__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_page_page__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_search_search__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_login_login__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -850,9 +850,9 @@ var CampusModel = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(202);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_page_page__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_search_search__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_page_page__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_search_search__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_login_login__ = __webpack_require__(103);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -885,13 +885,58 @@ var MyApp = /** @class */ (function () {
             platform.registerBackButtonAction(function () {
                 var page;
                 if (null != localStorage.getItem("page")) {
+                    //Wenn die Variable page gesetzt wurde, dann befindet sich der Benutzer
+                    //auf der Raumplanansicht eines Raums.
                     page = localStorage.getItem("page");
+                    if (page.length > 1) {
+                        page = page.substring(0, 1);
+                    }
+                    //Der Benutzer kommt mit dem Hardware-Backbutton auf die Gebäudeseite,
+                    //auf welcher der Raum mit der aktuellen Raumplanansicht steht.
+                    //Daraufhin wird die Variable page gelöscht.
                     switch (page) {
-                        case "room":
+                        case "C":
+                            _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_5__pages_page_page__["a" /* Gebaude */], { item: "C" });
+                            localStorage.removeItem("page");
+                            return;
+                        case "D":
+                            _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_5__pages_page_page__["a" /* Gebaude */], { item: "D" });
+                            localStorage.removeItem("page");
+                            return;
+                        default:
+                            _this.nav.pop();
+                            localStorage.removeItem("page");
                             return;
                     }
                 }
-                _this.nav.pop();
+                else if (null != localStorage.getItem("from")) {
+                    //Wenn die Variable from gesetzt ist, dann befindet sich der Benutzer
+                    //auf der Suchseite.
+                    page = localStorage.getItem("from");
+                    //Der Benutzer wird auf die Seite von der er auf die Suchseite kam zurückgeleitet.
+                    switch (page) {
+                        case "C":
+                            _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_5__pages_page_page__["a" /* Gebaude */], { item: "C" });
+                            localStorage.removeItem("from");
+                            return;
+                        case "D":
+                            _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_5__pages_page_page__["a" /* Gebaude */], { item: "D" });
+                            localStorage.removeItem("from");
+                            return;
+                        case "Home":
+                            _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_4__pages_home_home__["a" /* HomePage */], { item: "Home" });
+                            localStorage.removeItem("from");
+                            return;
+                        default:
+                            _this.nav.pop();
+                            localStorage.removeItem("from");
+                            return;
+                    }
+                }
+                else {
+                    //Wenn die Variablen page und from nicht gesetzt sind, gehe eine Seite rückwärts.
+                    _this.nav.pop();
+                }
             }, 1);
         });
         //Die Seiten des Menüs:
@@ -944,12 +989,230 @@ var MyApp = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Search; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_GebaudeModel__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__ = __webpack_require__(48);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+/********************************************************************************************
+*                                                                                           *
+*   freeTimeSlot -> Array für die freien Slots eines Raums                                  *
+*   freeUeberschrift -> Array für die Überschrift des Ergebnisses der Raumsuche             *
+*   StundenSlot -> Array mit den Slots                                                      *
+*                                                                                           *
+********************************************************************************************/
+var freeTimeSlot = [];
+var freeUeberschrift = [];
+var StundenSlot = [
+    '08:15:00', '10:00:00', '11:45:00', '14:15:00', '16:00:00', '17:45:00', '19:30:00', '21:00:00'
+];
+var Search = /** @class */ (function () {
+    function Search(platform, toastCtrl, navCtrl, navParams) {
+        this.platform = platform;
+        this.toastCtrl = toastCtrl;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.gebaude = new __WEBPACK_IMPORTED_MODULE_2__model_GebaudeModel__["a" /* GebaudeModel */]("C");
+        this.freeTimeSlot = freeTimeSlot;
+        this.freeUeberschrift = freeUeberschrift;
+    }
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.ionViewDidLoad = function () {
+        this.darstellung = new __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__["a" /* Darstellung */](0);
+        localStorage.setItem("page", "Search");
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion ermittelt den Raum, der gesucht werden soll.                                   *
+    *   searchbar -> die Suchmaske                                                              *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.searchRoom = function (searchbar) {
+        var room = searchbar.target.value;
+        this.searchRoom2(room);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion ermittelt für einen Raum die freien Slots                                      *
+    *   room -> die Raum                                                                        *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.searchRoom2 = function (room) {
+        freeTimeSlot = [];
+        var raume = [];
+        var zahl = 0;
+        var lieblingsraum = "Der Raum ";
+        var liste = document.getElementById('liste');
+        //Raumliste wird gefüllt:
+        if (room.indexOf("C") == 0) {
+            for (var i = 0; i < this.darstellung.CampusConfig[0].raumnamen.length; i++) {
+                raume.push(this.darstellung.CampusConfig[0].raumnamen[i]);
+            }
+        }
+        else if (room.indexOf("D") == 0) {
+            for (var j = 0; j < this.darstellung.CampusConfig[1].raumnamen.length; j++) {
+                raume.push(this.darstellung.CampusConfig[1].raumnamen[j]);
+            }
+        }
+        //Fehlerbehandlung:
+        if (raume.indexOf(room) == -1) {
+            liste.style.display = "none";
+            this.filterItems(room);
+            return;
+        }
+        //Die einzelnen Timeslots werden überprüft:
+        for (var y = 0; y < StundenSlot.length; y++) {
+            if (this.darstellung.parseToRaum(room).isFree(StundenSlot[y], this.darstellung.giveWochentag())) {
+                freeTimeSlot.push(y);
+            }
+            else {
+                freeTimeSlot.push(99);
+                zahl++;
+            }
+        }
+        //Zugangsbeschränkung?:
+        var zugang = this.gebaude.zugangsberechtigung;
+        if (zugang.indexOf(room) != -1) {
+            this.toasts("Für den Raum " + room + " brauchst du eine Zugangsberechtigung!");
+        }
+        liste.style.display = "block";
+        //Markiert?
+        var markiert = [];
+        if (localStorage.getItem("markiert") != null) {
+            markiert = localStorage.getItem("markiert").split(",");
+        }
+        if (markiert.indexOf(room) != -1) {
+            lieblingsraum = "Dein Lieblingsraum ";
+        }
+        //Überschrift anpassen:
+        if (zahl == StundenSlot.length) {
+            freeUeberschrift[0] = lieblingsraum + " \"" + room + "\" ist heute leider nicht frei!";
+        }
+        else {
+            freeUeberschrift[0] = lieblingsraum + " \"" + room + "\" ist heute zu folgenden Uhrzeiten frei:";
+        }
+        this.navCtrl.setRoot(this.navCtrl.getActive().component);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion füllt Array mit Räumen                                                         *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.setItems = function () {
+        var raume = [];
+        for (var i = 0; i < this.darstellung.CampusConfig[0].raumnamen.length; i++) {
+            raume.push(this.darstellung.CampusConfig[0].raumnamen[i]);
+        }
+        for (var j = 0; j < this.darstellung.CampusConfig[1].raumnamen.length; j++) {
+            raume.push(this.darstellung.CampusConfig[1].raumnamen[j]);
+        }
+        this.items = raume;
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion ruft die Filterfunktion mit dem Inhalt der Searchbar auf.                      *
+    *   event -> die Searchbar                                                                  *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.filterItems2 = function (event) {
+        var liste = document.getElementById('liste');
+        liste.style.display = "none";
+        this.filterItems(event.target.value);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert die Räume                                                              *
+    *   value -> String, nach dem in den Raumnamen gesucht werden soll                          *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.filterItems = function (value) {
+        this.setItems();
+        var val = value;
+        if (val && val.trim() !== '') {
+            this.items = this.items.filter(function (item) {
+                return item.toLowerCase().includes(val.toLowerCase());
+            });
+            if (this.items.length == 0) {
+                this.items.unshift("Dieser Raum existiert leider nicht!");
+            }
+            else {
+                this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
+            }
+        }
+        else {
+            this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion erstellt eine Meldung                                                          *
+    *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
+    *                                                                                           *
+    ********************************************************************************************/
+    Search.prototype.toasts = function (message) {
+        var toast = this.toastCtrl.create({
+            message: message,
+            duration: 2000,
+            position: 'middle',
+            cssClass: "my-toast"
+        });
+        toast.present();
+    };
+    /********************************************************************************************
+      *                                                                                           *
+      *   Funktion löscht beim Verlassen die Variable from.                                       *
+      *                                                                                           *
+      ********************************************************************************************/
+    Search.prototype.ionViewDidLeave = function () {
+        if (null != localStorage.getItem("from")) {
+            localStorage.removeItem("from");
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
+    ], Search.prototype, "nav", void 0);
+    Search = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-search',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite und dem Menü/Backbutton\n-->\n<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<!--\nDer Inhalt der Seite\n-->\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <!--\n  Die Searchbar\n  -->\n  <ion-searchbar (ionCancel)="onCancel($event)" (change)="searchRoom($event)" (input)="filterItems2($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n  <!--\n  Eine Liste mit Suchvorschlägen\n  -->\n  <ion-list>\n    <ng-container *ngFor="let item of items; let i = index" [attr.data-index]="i">\n      <div style="margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;" *ngIf="i == 0">{{ item }}</div>\n      <ion-item (click)="searchRoom2(item)" *ngIf="i != 0">\n        {{ item }}\n      </ion-item>\n    </ng-container>\n  </ion-list>\n\n  <!--\n  Die Uhrzeiten, zu denen der Raum frei ist\n  -->\n  <ion-list>\n    <span id="liste">\n      <ng-container *ngFor="let item of freeTimeSlot; let i = index" [attr.data-index]="i">\n        <ng-container *ngFor="let head of freeUeberschrift">\n          <!--\n          Überschrift mit Raumnamen:\n          -->\n          <h5 *ngIf="i == 0" style="margin-top: 30px;"> {{ head }} </h5>\n        </ng-container>\n        <!--\n        Uhrzeiten\n        -->\n        <ion-item style="margin-top: 20px;" *ngIf="item == 0">08:15 bis 09:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 1">10:00 bis 11:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 2">11:45 bis 13:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 3">14:15 bis 15:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 4">16:00 bis 17:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 5">17:45 bis 19:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 6">19:30 bis 21:00</ion-item>\n        <ion-item style="margin-top: 20px; margin-bottom: 50px;" *ngIf="item == 7">ab 21:00</ion-item>\n      </ng-container>\n    </span>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+    ], Search);
+    return Search;
+}());
+
+//# sourceMappingURL=search.js.map
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__page_page__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__page_page__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(48);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1231,576 +1494,7 @@ var HomePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 42:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Gebaude; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(49);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-/********************************************************************************************
-*                                                                                           *
-*   ueberschrift -> Array für die Überschrift der Seite                                     *
-*                                                                                           *
-********************************************************************************************/
-var ueberschrift = [];
-var Gebaude = /** @class */ (function () {
-    function Gebaude(platform, toastCtrl, navCtrl, navParams) {
-        var _this = this;
-        this.platform = platform;
-        this.toastCtrl = toastCtrl;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        /********************************************************************************************
-        *                                                                                           *
-        *   ueberschrift -> Array für die Überschriften der Seite                                   *
-        *   freeRooms -> Array mit den freien Räumen                                                *
-        *   zugang -> Array mit den Räumen, die eine Zugangsbeschränkung haben                      *
-        *   markiert -> Array mit allen markierten Räumen                                           *
-        *   entmarkiert -> Array mit allen nicht markierten Räumen                                  *
-        *                                                                                           *
-        ********************************************************************************************/
-        this.ueberschrift = ueberschrift;
-        this.freeRooms = [];
-        this.zugang = [];
-        this.markiert = [];
-        this.entmarkiert = [
-            "D01", "D02", "D12", "D13", "D14", "D15", "D17", "D18",
-            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
-        ];
-        //Der Hardware-Backbutton des Handys bekommt eine Aktion:
-        platform.registerBackButtonAction(function () {
-            var page;
-            if (null != localStorage.getItem("page")) {
-                page = localStorage.getItem("page");
-                switch (page) {
-                    case "room":
-                        _this.backClicked();
-                        return;
-                }
-            }
-            _this.nav.pop();
-        }, 1);
-    }
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion wird nach dem Laden der View ausgeführt.                                       *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.ionViewDidLoad = function () {
-        var page = this.navParams.get('item');
-        var show = document.getElementById('Lehraussen');
-        show.style.display = "none";
-        var innen = document.getElementById('Lehrinnen');
-        innen.style.display = "none";
-        var span1 = document.getElementById('span1');
-        span1.style.display = "none";
-        var span2 = document.getElementById('span2');
-        span2.style.display = "none";
-        var button = document.getElementById('button');
-        button.style.display = "none";
-        var tmp = "";
-        if (page.length > 1) {
-            tmp = page;
-            page = page.substring(0, 1);
-        }
-        //Unterscheide Seiten:
-        switch (page) {
-            case "C":
-                this.darstellung = new __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__["a" /* Darstellung */](0);
-                ueberschrift[0] = "C-Gebäude";
-                ueberschrift[1] = "Folgende Räume sind zur Zeit im C-Gebäude frei:";
-                break;
-            case "D":
-                this.darstellung = new __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__["a" /* Darstellung */](1);
-                ueberschrift[0] = "D-Gebäude";
-                ueberschrift[1] = "Folgende Räume sind zur Zeit im D-Gebäude frei:";
-                break;
-        }
-        this.darstellung.parseToCampus();
-        this.freeRooms = this.darstellung.freeRooms;
-        this.zugang = this.darstellung.zugang;
-        //Favoriten laden:
-        this.getMarkierung();
-        //Raumplan anzeigen, falls gefordert durch Startseite:
-        if (tmp != "") {
-            this.getL(tmp);
-        }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion zeigt Meldung für Räume mit Zugangsbeschränkung                                *
-    *   raum -> String mit dem Namen des Raums                                                  *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.onTip = function (raum) {
-        this.toasts("Für den Raum " + raum + " brauchst du eine Zugangsberechtigung.");
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion markiert bzw. entmarkiert Räume                                                *
-    *   item -> Raumname                                                                        *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.makeFav = function (item) {
-        //Gehe alle Räume durch
-        var isDelete = 0;
-        var tmp = this.markiert;
-        //Gehe über alle Favoriten druch
-        for (var i = 0; i < tmp.length; i++) {
-            //Ist der angeklickte Raum in den Favoriten? Lösche ihn
-            if (tmp[i] == item) {
-                tmp.splice(i, 1);
-                this.toasts('Raum ' + item + ' wurde aus der Liste \"Markiert\" entfernt.');
-                isDelete = -1;
-                //Der gelöschte Eintrag wird aus den markierten entfernt:
-                this.entferneEntmarkiertAusMarkiert(item);
-            }
-        }
-        //Wenn der Raum nicht in den Favoriten ist, füge ihn hinzu
-        if (isDelete == 0) {
-            tmp.push(item);
-            this.toasts('Raum ' + item + ' wurde markiert.');
-            //Der hinzugefügte Eintrag wird aus den entmarkierten gelöscht:
-            this.entferneMarkiertAusEntmarkiert();
-        }
-        localStorage.setItem("markiert", tmp.join(","));
-        this.markiert = tmp;
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion füllt den Array markiert mit allen markierten Räumen                           *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.getMarkierung = function () {
-        if (localStorage.getItem("markiert") != null) {
-            this.markiert = localStorage.getItem("markiert").split(",");
-        }
-        this.entferneMarkiertAusEntmarkiert();
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion entfernt alle markierten Räume aus den entmarkierten                           *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.entferneMarkiertAusEntmarkiert = function () {
-        //tmp ist nun der Array mit den entmarkierten Räumen.
-        var tmp = this.entmarkiert;
-        //die markierten Räume werden durchlaufen
-        for (var i = 0; i < this.markiert.length; i++) {
-            var index = tmp.indexOf(this.markiert[i]);
-            //Wenn ein markierter Raum in den entmarkierten vorkommt...
-            if (index != -1) {
-                //...wird der Raum entfernt
-                for (var j = index; j < tmp.length - 1; j++) {
-                    tmp[j] = tmp[j + 1];
-                }
-                tmp.pop();
-            }
-        }
-        this.entmarkiert = tmp;
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion entfernt alle entmarkierten Räume aus den markierten                           *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.entferneEntmarkiertAusMarkiert = function (raum) {
-        //tmp ist nun der Array mit den markierten Räumen.
-        var tmp = this.markiert;
-        if (tmp.length == 1 && tmp[0] == raum) {
-            tmp.pop();
-            this.markiert = tmp;
-            this.entmarkiert.push(raum);
-            return;
-        }
-        var index = tmp.indexOf(raum);
-        //Wenn ein entmarkierter Raum in den markierten vorkommt...
-        if (index != -1) {
-            //...wird der Raum entfernt
-            for (var i = index; i < tmp.length - 1; i++) {
-                tmp[i] = tmp[i + 1];
-                tmp.pop();
-            }
-        }
-        this.markiert = tmp;
-        this.entmarkiert.push(raum);
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion leitet ruft die Seite home.html auf                                            *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.BackToCampus = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion ruft die Seite search.html auf                                                 *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.search = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__search_search__["a" /* Search */]);
-        var page = this.navParams.get('item');
-        localStorage.setItem("from", page);
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion zeigt den Raumplan eines Raumes an                                             *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.getL = function (raumname) {
-        var show2 = document.getElementById('Lehrinnen');
-        //Entfernen der Lehrveranstaltungen:
-        var remove = show2.firstChild;
-        while (remove) {
-            show2.removeChild(remove);
-            remove = show2.firstChild;
-        }
-        //Raumplan-Popup einblenden:
-        var show = document.getElementById('Lehraussen');
-        show.style.display = "block";
-        show2.style.display = "block";
-        var span1 = document.getElementById('span1');
-        span1.style.display = "block";
-        var span2 = document.getElementById('span2');
-        span2.style.display = "block";
-        var button = document.getElementById('button');
-        button.style.display = "block";
-        //Freie Räume ausblenden:
-        var notShow = document.getElementById('anzeige');
-        notShow.style.display = "none";
-        var header = document.getElementById('header');
-        header.style.display = "none";
-        show2.appendChild(this.darstellung.getLehrveranstaltungen(raumname));
-        localStorage.setItem("page", "room");
-        this.scrollTop();
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion blendet den Raumplan eines Raumes aus                                          *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.backClicked = function () {
-        //Freie Räume einblenden:
-        var show = document.getElementById('anzeige');
-        show.style.display = "block";
-        var header = document.getElementById('header');
-        header.style.display = "block";
-        //Raumplan-Popup ausblenden:
-        var notShow = document.getElementById('Lehraussen');
-        notShow.style.display = "none";
-        var notShow2 = document.getElementById('Lehrinnen');
-        notShow2.style.display = "none";
-        var span1 = document.getElementById('span1');
-        span1.style.display = "none";
-        var span2 = document.getElementById('span2');
-        span2.style.display = "none";
-        var button = document.getElementById('button');
-        button.style.display = "none";
-        var page = this.navParams.get('item');
-        if (page.length > 1) {
-            page = page.substring(0, 1);
-        }
-        localStorage.setItem("page", page);
-        this.scrollTop();
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion scrollt nach oben                                                              *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.scrollTop = function () {
-        this.content.scrollToTop();
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion erstellt eine Meldung                                                          *
-    *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
-    *                                                                                           *
-    ********************************************************************************************/
-    Gebaude.prototype.toasts = function (message) {
-        var toast = this.toastCtrl.create({
-            message: message,
-            duration: 2000,
-            position: 'middle',
-            cssClass: "my-toast"
-        });
-        toast.present();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
-    ], Gebaude.prototype, "content", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
-    ], Gebaude.prototype, "nav", void 0);
-    Gebaude = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'gebaude',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite, einer Lupe für die Suche und dem Menü/Backbutton\n-->\n<span id="header">\n  <ion-header>\n    <ion-navbar>\n      <button ion-button menuToggle>\n        <ion-icon name="menu"></ion-icon>\n      </button>\n      <ion-title style="float: left;">\n        <!--\n        Der Titel der Seite wird eingefügt\n        -->\n        <span *ngFor="let headTitle of ueberschrift; let i = index" [attr.data-index]="i">\n          <ng-container *ngIf="i == 0">{{ headTitle }}</ng-container>\n        </span>\n      </ion-title>\n      <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n    </ion-navbar>\n  </ion-header>\n</span>\n\n<!--\nDer Inhalt der Seite\n-->\n<ion-content padding>\n  <!--\n  Der Inhalt der Seite für den Fall, dass ein Raumplan angezeigt wird.\n  Wird erst nach Klick auf einen Raum eingeblendet\n  -->\n  <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">\n    <!--\n    Der Header mit Backbutton\n    -->\n    <span id="span1" style="display: none; float: left; width: 100%; text-align:left;">\n      <ion-icon id="button" (click)="backClicked()" style="float: left; display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 13px; margin-left: 20px;" name="arrow-back"></ion-icon>\n      <ion-title style="float: left; margin-top: 13px;">\n        &nbsp;Zurück zur Raumübersicht\n      </ion-title>\n    </span>\n    <!--\n    Der Raumplan\n    -->\n    <span id="span2" style="display: none; float: right; width: 100%;">\n      <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">\n\n      </div>\n    </span>\n  </div>\n\n  <!--\n  Die Auflistung aller freien Räume\n  -->\n  <div id="anzeige" style="margin-top: 85px;">\n    <b>\n      <div style="margin-bottom: -30px;" *ngFor="let ueberschrift of ueberschrift; let i = index" [attr.data-index]="i">\n        <!--\n        Die Überschrift "... im C/D-Gebäude frei:"\n        -->\n        <ng-container *ngIf="i == 1">{{ ueberschrift }}</ng-container>\n      </div>\n    </b>\n    <ion-list style="margin-bottom: 170px;">\n      <ng-container *ngFor="let item of freeRooms">\n        <!--\n        Die Uhrzeiten der Slots\n        -->\n        <div style="clear: both;">\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        </div>\n\n        <!--\n        Die freien Räume\n        -->\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <span style="width: 100%; margin-bottom: 20px;">\n            <ion-item (click)="getL(item)" [color]="primary" style="float: left; width: 75%;">\n              <!--\n              Wenn ein Raum markiert wurde wird der Raumname hervorgehoben:\n              -->\n              <ng-container *ngFor="let markierte of markiert">\n                <span *ngIf="item == markierte" style="float: left; color: rgb(66, 134, 244);"><b>{{ item }}</b></span>\n              </ng-container>\n\n              <ng-container *ngFor="let entmarkierte of entmarkiert">\n                <span *ngIf="item == entmarkierte" style="float: left;">{{ item }}</span>\n              </ng-container>\n            </ion-item>\n\n            <!--\n            Wenn ein Raum markiert wurde wird der Stern farbig:\n            -->\n            <ng-container *ngFor="let markierte of markiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(66, 134, 244);" name="star" *ngIf="item == markierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <ng-container *ngFor="let entmarkierte of entmarkiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(120, 120, 120);" name="star" *ngIf="item == entmarkierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <!--\n            Falls Zugangsbeschränkung vorliegt wird ein Schlüssel angezeigt:\n            -->\n            <ng-container *ngFor="let keys of zugang">\n              <ion-icon style="height: 100%; padding-top: 17px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="key" *ngIf="item == keys" (click)="onTip(item)"></ion-icon>\n            </ng-container>\n          </span>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n    <!--\n    Button zurück zum Campusplan\n    -->\n    <button ion-button style="left: 50%; position: fixed; bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
-    ], Gebaude);
-    return Gebaude;
-}());
-
-//# sourceMappingURL=page.js.map
-
-/***/ }),
-
-/***/ 43:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Search; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model_GebaudeModel__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__home_home__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__page_page__ = __webpack_require__(42);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-/********************************************************************************************
-*                                                                                           *
-*   freeTimeSlot -> Array für die freien Slots eines Raums                                  *
-*   freeUeberschrift -> Array für die Überschrift des Ergebnisses der Raumsuche             *
-*   StundenSlot -> Array mit den Slots                                                      *
-*                                                                                           *
-********************************************************************************************/
-var freeTimeSlot = [];
-var freeUeberschrift = [];
-var StundenSlot = [
-    '08:15:00', '10:00:00', '11:45:00', '14:15:00', '16:00:00', '17:45:00', '19:30:00', '21:00:00'
-];
-var Search = /** @class */ (function () {
-    function Search(platform, toastCtrl, navCtrl, navParams) {
-        var _this = this;
-        this.platform = platform;
-        this.toastCtrl = toastCtrl;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.gebaude = new __WEBPACK_IMPORTED_MODULE_2__model_GebaudeModel__["a" /* GebaudeModel */]("C");
-        this.freeTimeSlot = freeTimeSlot;
-        this.freeUeberschrift = freeUeberschrift;
-        platform.registerBackButtonAction(function () {
-            var page;
-            if (null != localStorage.getItem("from")) {
-                page = localStorage.getItem("from");
-                localStorage.setItem("from", "Search");
-                switch (page) {
-                    case "Home":
-                        _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_4__home_home__["a" /* HomePage */]);
-                        return;
-                    case "C":
-                        _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_5__page_page__["a" /* Gebaude */], { item: "C" });
-                        return;
-                    case "D":
-                        _this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_5__page_page__["a" /* Gebaude */], { item: "D" });
-                        return;
-                }
-            }
-        }, 1);
-    }
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion wird nach dem Laden der View ausgeführt.                                       *
-    *                                                                                           *
-    ********************************************************************************************/
-    Search.prototype.ionViewDidLoad = function () {
-        this.darstellung = new __WEBPACK_IMPORTED_MODULE_3__model_Darstellung__["a" /* Darstellung */](0);
-        localStorage.setItem("page", "Search");
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion ermittelt den Raum, der gesucht werden soll.                                   *
-    *   searchbar -> die Suchmaske                                                              *
-    *                                                                                           *
-    ********************************************************************************************/
-    Search.prototype.searchRoom = function (searchbar) {
-        var room = searchbar.target.value;
-        this.searchRoom2(room);
-        //this.items = [];
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion ermittelt für einen Raum die freien Slots                                      *
-    *   room -> die Raum                                                                        *
-    *                                                                                           *
-    ********************************************************************************************/
-    Search.prototype.searchRoom2 = function (room) {
-        freeTimeSlot = [];
-        var raume = [];
-        var zahl = 0;
-        var lieblingsraum = "Der Raum";
-        var liste = document.getElementById('liste');
-        //Raumliste wird gefüllt:
-        if (room.indexOf("C") == 0) {
-            for (var i = 0; i < this.darstellung.CampusConfig[0].raumnamen.length; i++) {
-                raume.push(this.darstellung.CampusConfig[0].raumnamen[i]);
-            }
-        }
-        else if (room.indexOf("D") == 0) {
-            for (var j = 0; j < this.darstellung.CampusConfig[1].raumnamen.length; j++) {
-                raume.push(this.darstellung.CampusConfig[1].raumnamen[j]);
-            }
-        }
-        //Fehlerbehandlung:
-        if (raume.indexOf(room) == -1) {
-            liste.style.display = "none";
-            this.filterItems(room);
-            return;
-        }
-        //Die einzelnen Timeslots werden überprüft:
-        for (var y = 0; y < StundenSlot.length; y++) {
-            if (this.darstellung.parseToRaum(room).isFree(StundenSlot[y], this.darstellung.giveWochentag())) {
-                freeTimeSlot.push(y);
-            }
-            else {
-                freeTimeSlot.push(99);
-                zahl++;
-            }
-        }
-        //Zugangsbeschränkung?:
-        var zugang = this.gebaude.zugangsberechtigung;
-        if (zugang.indexOf(room) != -1) {
-            this.toasts("Für den Raum " + room + " brauchst du eine Zugangsberechtigung!");
-        }
-        liste.style.display = "block";
-        //Markiert?
-        var markiert = [];
-        if (localStorage.getItem("markiert") != null) {
-            markiert = localStorage.getItem("markiert").split(",");
-        }
-        if (markiert.indexOf(room) != -1) {
-            lieblingsraum = "Dein Lieblingsraum ";
-        }
-        //Überschrift anpassen:
-        if (zahl == StundenSlot.length) {
-            freeUeberschrift[0] = lieblingsraum + " \"" + room + "\" ist heute leider nicht frei!";
-        }
-        else {
-            freeUeberschrift[0] = lieblingsraum + " \"" + room + "\" ist heute zu folgenden Uhrzeiten frei:";
-        }
-        this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion füllt Array mit Räumen                                                         *
-    *                                                                                           *
-    ********************************************************************************************/
-    Search.prototype.setItems = function () {
-        var raume = [];
-        for (var i = 0; i < this.darstellung.CampusConfig[0].raumnamen.length; i++) {
-            raume.push(this.darstellung.CampusConfig[0].raumnamen[i]);
-        }
-        for (var j = 0; j < this.darstellung.CampusConfig[1].raumnamen.length; j++) {
-            raume.push(this.darstellung.CampusConfig[1].raumnamen[j]);
-        }
-        this.items = raume;
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion ruft die Filterfunktion mit dem Inhalt der Searchbar auf.                      *
-    *   event -> die Searchbar                                                                  *
-    *                                                                                           *
-    ********************************************************************************************/
-    Search.prototype.filterItems2 = function (event) {
-        var liste = document.getElementById('liste');
-        liste.style.display = "none";
-        this.filterItems(event.target.value);
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion filtert die Räume                                                              *
-    *   value -> String, nach dem in den Raumnamen gesucht werden soll                          *
-    *                                                                                           *
-    ********************************************************************************************/
-    Search.prototype.filterItems = function (value) {
-        this.setItems();
-        var val = value;
-        if (val && val.trim() !== '') {
-            this.items = this.items.filter(function (item) {
-                return item.toLowerCase().includes(val.toLowerCase());
-            });
-            if (this.items.length == 0) {
-                this.items.unshift("Dieser Raum existiert leider nicht!");
-            }
-            else {
-                this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
-            }
-        }
-        else {
-            this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
-        }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion erstellt eine Meldung                                                          *
-    *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
-    *                                                                                           *
-    ********************************************************************************************/
-    Search.prototype.toasts = function (message) {
-        var toast = this.toastCtrl.create({
-            message: message,
-            duration: 2000,
-            position: 'middle',
-            cssClass: "my-toast"
-        });
-        toast.present();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
-    ], Search.prototype, "nav", void 0);
-    Search = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-search',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite und dem Menü/Backbutton\n-->\n<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Raumsuche</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<!--\nDer Inhalt der Seite\n-->\n<ion-content padding>\n  <b>Suche nach deinem Lieblingsraum:</b>\n  <!--\n  Die Searchbar\n  -->\n  <ion-searchbar (ionCancel)="onCancel($event)" (change)="searchRoom($event)" (input)="filterItems2($event)" placeholder="Lieblingsraum" [attr.autofocus]="shouldFocus"></ion-searchbar>\n\n  <!--\n  Eine Liste mit Suchvorschlägen\n  -->\n  <ion-list>\n    <ng-container *ngFor="let item of items; let i = index" [attr.data-index]="i">\n      <div style="margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;" *ngIf="i == 0">{{ item }}</div>\n      <ion-item (click)="searchRoom2(item)" *ngIf="i != 0">\n        {{ item }}\n      </ion-item>\n    </ng-container>\n  </ion-list>\n\n  <!--\n  Die Uhrzeiten, zu denen der Raum frei ist\n  -->\n  <ion-list>\n    <span id="liste">\n      <ng-container *ngFor="let item of freeTimeSlot; let i = index" [attr.data-index]="i">\n        <ng-container *ngFor="let head of freeUeberschrift">\n          <!--\n          Überschrift mit Raumnamen:\n          -->\n          <h5 *ngIf="i == 0" style="margin-top: 30px;"> {{ head }} </h5>\n        </ng-container>\n        <!--\n        Uhrzeiten\n        -->\n        <ion-item style="margin-top: 20px;" *ngIf="item == 0">08:15 bis 09:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 1">10:00 bis 11:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 2">11:45 bis 13:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 3">14:15 bis 15:45</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 4">16:00 bis 17:30</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 5">17:45 bis 19:15</ion-item>\n        <ion-item style="margin-top: 20px;" *ngIf="item == 6">19:30 bis 21:00</ion-item>\n        <ion-item style="margin-top: 20px; margin-bottom: 50px;" *ngIf="item == 7">ab 21:00</ion-item>\n      </ng-container>\n    </span>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/search/search.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
-    ], Search);
-    return Search;
-}());
-
-//# sourceMappingURL=search.js.map
-
-/***/ }),
-
-/***/ 49:
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2289,6 +1983,330 @@ var Darstellung = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=Darstellung.js.map
+
+/***/ }),
+
+/***/ 53:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Gebaude; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(48);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+/********************************************************************************************
+*                                                                                           *
+*   ueberschrift -> Array für die Überschrift der Seite                                     *
+*                                                                                           *
+********************************************************************************************/
+var ueberschrift = [];
+var Gebaude = /** @class */ (function () {
+    function Gebaude(platform, toastCtrl, navCtrl, navParams) {
+        this.platform = platform;
+        this.toastCtrl = toastCtrl;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        /********************************************************************************************
+        *                                                                                           *
+        *   ueberschrift -> Array für die Überschriften der Seite                                   *
+        *   freeRooms -> Array mit den freien Räumen                                                *
+        *   zugang -> Array mit den Räumen, die eine Zugangsbeschränkung haben                      *
+        *   markiert -> Array mit allen markierten Räumen                                           *
+        *   entmarkiert -> Array mit allen nicht markierten Räumen                                  *
+        *                                                                                           *
+        ********************************************************************************************/
+        this.ueberschrift = ueberschrift;
+        this.freeRooms = [];
+        this.zugang = [];
+        this.markiert = [];
+        this.entmarkiert = [
+            "D01", "D02", "D12", "D13", "D14", "D15", "D17", "D18",
+            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
+        ];
+    }
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.ionViewDidLoad = function () {
+        var page = this.navParams.get('item');
+        var show = document.getElementById('Lehraussen');
+        show.style.display = "none";
+        var innen = document.getElementById('Lehrinnen');
+        innen.style.display = "none";
+        var span1 = document.getElementById('span1');
+        span1.style.display = "none";
+        var span2 = document.getElementById('span2');
+        span2.style.display = "none";
+        var button = document.getElementById('button');
+        button.style.display = "none";
+        var tmp = "";
+        if (page.length > 1) {
+            tmp = page;
+            page = page.substring(0, 1);
+        }
+        //Unterscheide Seiten:
+        switch (page) {
+            case "C":
+                this.darstellung = new __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__["a" /* Darstellung */](0);
+                ueberschrift[0] = "C-Gebäude";
+                ueberschrift[1] = "Folgende Räume sind zur Zeit im C-Gebäude frei:";
+                break;
+            case "D":
+                this.darstellung = new __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__["a" /* Darstellung */](1);
+                ueberschrift[0] = "D-Gebäude";
+                ueberschrift[1] = "Folgende Räume sind zur Zeit im D-Gebäude frei:";
+                break;
+        }
+        this.darstellung.parseToCampus();
+        this.freeRooms = this.darstellung.freeRooms;
+        this.zugang = this.darstellung.zugang;
+        //Favoriten laden:
+        this.getMarkierung();
+        //Raumplan anzeigen, falls gefordert durch Startseite:
+        if (tmp != "") {
+            this.getL(tmp);
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion zeigt Meldung für Räume mit Zugangsbeschränkung                                *
+    *   raum -> String mit dem Namen des Raums                                                  *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.onTip = function (raum) {
+        this.toasts("Für den Raum " + raum + " brauchst du eine Zugangsberechtigung.");
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion markiert bzw. entmarkiert Räume                                                *
+    *   item -> Raumname                                                                        *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.makeFav = function (item) {
+        //Gehe alle Räume durch
+        var isDelete = 0;
+        var tmp = this.markiert;
+        //Gehe über alle Favoriten druch
+        for (var i = 0; i < tmp.length; i++) {
+            //Ist der angeklickte Raum in den Favoriten? Lösche ihn
+            if (tmp[i] == item) {
+                tmp.splice(i, 1);
+                this.toasts('Raum ' + item + ' wurde aus der Liste \"Markiert\" entfernt.');
+                isDelete = -1;
+                //Der gelöschte Eintrag wird aus den markierten entfernt:
+                this.entferneEntmarkiertAusMarkiert(item);
+            }
+        }
+        //Wenn der Raum nicht in den Favoriten ist, füge ihn hinzu
+        if (isDelete == 0) {
+            tmp.push(item);
+            this.toasts('Raum ' + item + ' wurde markiert.');
+            //Der hinzugefügte Eintrag wird aus den entmarkierten gelöscht:
+            this.entferneMarkiertAusEntmarkiert();
+        }
+        localStorage.setItem("markiert", tmp.join(","));
+        this.markiert = tmp;
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion füllt den Array markiert mit allen markierten Räumen                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.getMarkierung = function () {
+        if (localStorage.getItem("markiert") != null) {
+            this.markiert = localStorage.getItem("markiert").split(",");
+        }
+        this.entferneMarkiertAusEntmarkiert();
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion entfernt alle markierten Räume aus den entmarkierten                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.entferneMarkiertAusEntmarkiert = function () {
+        //tmp ist nun der Array mit den entmarkierten Räumen.
+        var tmp = this.entmarkiert;
+        //die markierten Räume werden durchlaufen
+        for (var i = 0; i < this.markiert.length; i++) {
+            var index = tmp.indexOf(this.markiert[i]);
+            //Wenn ein markierter Raum in den entmarkierten vorkommt...
+            if (index != -1) {
+                //...wird der Raum entfernt
+                for (var j = index; j < tmp.length - 1; j++) {
+                    tmp[j] = tmp[j + 1];
+                }
+                tmp.pop();
+            }
+        }
+        this.entmarkiert = tmp;
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion entfernt alle entmarkierten Räume aus den markierten                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.entferneEntmarkiertAusMarkiert = function (raum) {
+        //tmp ist nun der Array mit den markierten Räumen.
+        var tmp = this.markiert;
+        if (tmp.length == 1 && tmp[0] == raum) {
+            tmp.pop();
+            this.markiert = tmp;
+            this.entmarkiert.push(raum);
+            return;
+        }
+        var index = tmp.indexOf(raum);
+        //Wenn ein entmarkierter Raum in den markierten vorkommt...
+        if (index != -1) {
+            //...wird der Raum entfernt
+            for (var i = index; i < tmp.length - 1; i++) {
+                tmp[i] = tmp[i + 1];
+                tmp.pop();
+            }
+        }
+        this.markiert = tmp;
+        this.entmarkiert.push(raum);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion leitet ruft die Seite home.html auf                                            *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.BackToCampus = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion ruft die Seite search.html auf                                                 *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.search = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__search_search__["a" /* Search */]);
+        var page = this.navParams.get('item');
+        if (page.length > 1) {
+            page = page.substring(0, 1);
+        }
+        localStorage.setItem("from", page);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion zeigt den Raumplan eines Raumes an                                             *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.getL = function (raumname) {
+        var show2 = document.getElementById('Lehrinnen');
+        //Entfernen der Lehrveranstaltungen:
+        var remove = show2.firstChild;
+        while (remove) {
+            show2.removeChild(remove);
+            remove = show2.firstChild;
+        }
+        //Raumplan-Popup einblenden:
+        var show = document.getElementById('Lehraussen');
+        show.style.display = "block";
+        show2.style.display = "block";
+        var span1 = document.getElementById('span1');
+        span1.style.display = "block";
+        var span2 = document.getElementById('span2');
+        span2.style.display = "block";
+        var button = document.getElementById('button');
+        button.style.display = "block";
+        //Freie Räume ausblenden:
+        var notShow = document.getElementById('anzeige');
+        notShow.style.display = "none";
+        var header = document.getElementById('header');
+        header.style.display = "none";
+        show2.appendChild(this.darstellung.getLehrveranstaltungen(raumname));
+        //Für die Navigation wird die Variable page gesetzt:
+        var page = this.navParams.get('item');
+        localStorage.setItem("page", page);
+        this.scrollTop();
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion blendet den Raumplan eines Raumes aus                                          *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.backClicked = function () {
+        //Freie Räume einblenden:
+        var show = document.getElementById('anzeige');
+        show.style.display = "block";
+        var header = document.getElementById('header');
+        header.style.display = "block";
+        //Raumplan-Popup ausblenden:
+        var notShow = document.getElementById('Lehraussen');
+        notShow.style.display = "none";
+        var notShow2 = document.getElementById('Lehrinnen');
+        notShow2.style.display = "none";
+        var span1 = document.getElementById('span1');
+        span1.style.display = "none";
+        var span2 = document.getElementById('span2');
+        span2.style.display = "none";
+        var button = document.getElementById('button');
+        button.style.display = "none";
+        localStorage.removeItem("page");
+        this.scrollTop();
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion scrollt nach oben                                                              *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.scrollTop = function () {
+        this.content.scrollToTop();
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion erstellt eine Meldung                                                          *
+    *   message -> String mit der Nachricht, die die Meldung enthalten soll                     *
+    *                                                                                           *
+    ********************************************************************************************/
+    Gebaude.prototype.toasts = function (message) {
+        var toast = this.toastCtrl.create({
+            message: message,
+            duration: 2000,
+            position: 'middle',
+            cssClass: "my-toast"
+        });
+        toast.present();
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]) === "function" && _a || Object)
+    ], Gebaude.prototype, "content", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
+        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]) === "function" && _b || Object)
+    ], Gebaude.prototype, "nav", void 0);
+    Gebaude = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'gebaude',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite, einer Lupe für die Suche und dem Menü/Backbutton\n-->\n<span id="header">\n  <ion-header>\n    <ion-navbar>\n      <button ion-button menuToggle>\n        <ion-icon name="menu"></ion-icon>\n      </button>\n      <ion-title style="float: left;">\n        <!--\n        Der Titel der Seite wird eingefügt\n        -->\n        <span *ngFor="let headTitle of ueberschrift; let i = index" [attr.data-index]="i">\n          <ng-container *ngIf="i == 0">{{ headTitle }}</ng-container>\n        </span>\n      </ion-title>\n      <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n    </ion-navbar>\n  </ion-header>\n</span>\n\n<!--\nDer Inhalt der Seite\n-->\n<ion-content padding>\n  <!--\n  Der Inhalt der Seite für den Fall, dass ein Raumplan angezeigt wird.\n  Wird erst nach Klick auf einen Raum eingeblendet\n  -->\n  <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">\n    <!--\n    Der Header mit Backbutton\n    -->\n    <span id="span1" style="display: none; float: left; width: 100%; text-align:left;">\n      <ion-icon id="button" (click)="backClicked()" style="float: left; display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 13px; margin-left: 20px;" name="arrow-back"></ion-icon>\n      <ion-title style="float: left; margin-top: 13px;">\n        &nbsp;Zurück zur Raumübersicht\n      </ion-title>\n    </span>\n    <!--\n    Der Raumplan\n    -->\n    <span id="span2" style="display: none; float: right; width: 100%;">\n      <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">\n\n      </div>\n    </span>\n  </div>\n\n  <!--\n  Die Auflistung aller freien Räume\n  -->\n  <div id="anzeige" style="margin-top: 85px;">\n    <b>\n      <div style="margin-bottom: -30px;" *ngFor="let ueberschrift of ueberschrift; let i = index" [attr.data-index]="i">\n        <!--\n        Die Überschrift "... im C/D-Gebäude frei:"\n        -->\n        <ng-container *ngIf="i == 1">{{ ueberschrift }}</ng-container>\n      </div>\n    </b>\n    <ion-list style="margin-bottom: 170px;">\n      <ng-container *ngFor="let item of freeRooms">\n        <!--\n        Die Uhrzeiten der Slots\n        -->\n        <div style="clear: both;">\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        </div>\n\n        <!--\n        Die freien Räume\n        -->\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <span style="width: 100%; margin-bottom: 20px;">\n            <ion-item (click)="getL(item)" [color]="primary" style="float: left; width: 75%;">\n              <!--\n              Wenn ein Raum markiert wurde wird der Raumname hervorgehoben:\n              -->\n              <ng-container *ngFor="let markierte of markiert">\n                <span *ngIf="item == markierte" style="float: left; color: rgb(66, 134, 244);"><b>{{ item }}</b></span>\n              </ng-container>\n\n              <ng-container *ngFor="let entmarkierte of entmarkiert">\n                <span *ngIf="item == entmarkierte" style="float: left;">{{ item }}</span>\n              </ng-container>\n            </ion-item>\n\n            <!--\n            Wenn ein Raum markiert wurde wird der Stern farbig:\n            -->\n            <ng-container *ngFor="let markierte of markiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(66, 134, 244);" name="star" *ngIf="item == markierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <ng-container *ngFor="let entmarkierte of entmarkiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(120, 120, 120);" name="star" *ngIf="item == entmarkierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <!--\n            Falls Zugangsbeschränkung vorliegt wird ein Schlüssel angezeigt:\n            -->\n            <ng-container *ngFor="let keys of zugang">\n              <ion-icon style="height: 100%; padding-top: 17px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="key" *ngIf="item == keys" (click)="onTip(item)"></ion-icon>\n            </ng-container>\n          </span>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n    <!--\n    Button zurück zum Campusplan\n    -->\n    <button ion-button style="left: 50%; position: fixed; bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/,
+        }),
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _f || Object])
+    ], Gebaude);
+    return Gebaude;
+    var _a, _b, _c, _d, _e, _f;
+}());
+
+//# sourceMappingURL=page.js.map
 
 /***/ })
 

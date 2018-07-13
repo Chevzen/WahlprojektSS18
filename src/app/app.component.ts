@@ -23,14 +23,39 @@ export class MyApp {
     //Der Hardware-Backbutton des Handys bekommt eine Aktion:
     platform.registerBackButtonAction(() => {
       var page:string;
+
       if(null != localStorage.getItem("page")){
+        //Wenn die Variable page gesetzt wurde, dann befindet sich der Benutzer
+        //auf der Raumplanansicht eines Raums.
+
         page = localStorage.getItem("page");
-        switch(page){
-          case "room":
-          return;
+        if(page.length > 1){
+          page = page.substring(0,1);
         }
+        //Der Benutzer kommt mit dem Hardware-Backbutton auf die Gebäudeseite,
+        //auf welcher der Raum mit der aktuellen Raumplanansicht steht.
+        //Daraufhin wird die Variable page gelöscht.
+        switch(page){
+          case "C": this.nav.setRoot(Gebaude, {item: "C"}); localStorage.removeItem("page"); return;
+          case "D": this.nav.setRoot(Gebaude, {item: "D"}); localStorage.removeItem("page"); return;
+          default: this.nav.pop(); localStorage.removeItem("page"); return;
+        }
+      }else if(null != localStorage.getItem("from")){
+        //Wenn die Variable from gesetzt ist, dann befindet sich der Benutzer
+        //auf der Suchseite.
+
+        page = localStorage.getItem("from");
+        //Der Benutzer wird auf die Seite von der er auf die Suchseite kam zurückgeleitet.
+        switch(page){
+          case "C": this.nav.setRoot(Gebaude, {item: "C"}); localStorage.removeItem("from"); return;
+          case "D": this.nav.setRoot(Gebaude, {item: "D"}); localStorage.removeItem("from"); return;
+          case "Home": this.nav.setRoot(HomePage, {item: "Home"}); localStorage.removeItem("from"); return;
+          default: this.nav.pop(); localStorage.removeItem("from"); return;
+        }
+      }else{
+        //Wenn die Variablen page und from nicht gesetzt sind, gehe eine Seite rückwärts.
+        this.nav.pop();
       }
-      this.nav.pop();
     },1);
   });
 
