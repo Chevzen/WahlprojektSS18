@@ -143,7 +143,7 @@ export class HomePage {
   search() {
     this.navCtrl.push( Search);
     localStorage.setItem("from","Home");
-  }
+  } 
 
   /********************************************************************************************
   *                                                                                           *
