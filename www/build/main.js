@@ -1,413 +1,5 @@
 webpackJsonp([3],{
 
-/***/ 103:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(159);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var LoginPage = /** @class */ (function () {
-    function LoginPage(toastCtrl, navCtrl, menuCtrl, alertCtrl, http, navParams) {
-        this.toastCtrl = toastCtrl;
-        this.navCtrl = navCtrl;
-        this.menuCtrl = menuCtrl;
-        this.alertCtrl = alertCtrl;
-        this.http = http;
-        this.navParams = navParams;
-        /********************************************************************************************
-        *                                                                                           *
-        *   showLogin -> bool ob Login angezeigt wird                                               *
-        *   benutzername -> String mit dem Benutzernamen im Formular                                *
-        *   password -> String mit dem Passwort im Formular                                         *
-        *   token -> String mit dem zu ermittelnden Token                                           *
-        *   x -> String für die Antwort des Servers                                                 *
-        *   semester -> String für das zu ermittelnde Semester                                      *
-        *   speicher -> boolean für die Checkbox -> Standard: true                                  *
-        *                                                                                           *
-        ********************************************************************************************/
-        this.showLogin = true;
-        this.benutzername = '';
-        this.password = '';
-        this.token = '';
-        this.x = '';
-        this.semester = '';
-        this.speichern = [true];
-    }
-    /********************************************************************************************
-  *                                                                                           *
-  *   Funktion wird nach dem Laden der View ausgeführt.                                       *
-  *                                                                                           *
-  ********************************************************************************************/
-    LoginPage.prototype.ionViewDidLoad = function () {
-        var FehlerFeld = document.getElementById('Fehler');
-        FehlerFeld.style.display = "none";
-        var ladeicon = document.getElementById('laden');
-        ladeicon.style.display = "none";
-        //Wenn Benutzerdaten vorhanden sind, dann Login-formular ausblenden und Login durchführen.
-        if (localStorage.getItem("benutzer") != null && localStorage.getItem("passwort") != null) {
-            this.benutzername = localStorage.getItem("benutzer");
-            this.password = localStorage.getItem("passwort");
-            //Das Loginformular wird ausgeblendet:
-            var formular = document.getElementById('content');
-            formular.style.display = "none";
-            var header = document.getElementById('header');
-            header.style.display = "none";
-            //Der Screen für den automatischen Login wird eingeblendet:
-            var login = document.getElementById('login');
-            login.style.display = "block";
-            if (this.navParams.get('item') == 'Aktualisieren') {
-                this.loginFunction();
-            }
-            else {
-                this.aktualisierungsAnfrage();
-            }
-        }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion blendet das Fehlerfeld des Loginformulars aus.                                 *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.clicked = function () {
-        var fehlerFeld = document.getElementById('Fehler');
-        fehlerFeld.style.display = "none";
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion führt den Login nach dem korrekten Ausfüllen des Formulars durch.              *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.doLogin = function () {
-        if (this.showLogin) {
-            if (this.benutzername.length != 8 || this.password === '') {
-                var fehlerFeld = document.getElementById('Fehler');
-                fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
-                fehlerFeld.style.display = "block";
-                return;
-            }
-            this.loginFunction();
-            var ladeicon = document.getElementById('laden');
-            ladeicon.style.display = "block";
-        }
-        else {
-            this.showLogin = true;
-        }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion filtert aus dem übergebenen String das Token für die                           *
-    *   Anmeldung beim Server.                                                                  *
-    *   text -> String mit einem Text, in der das Token steckt                                  *
-    *                                                                                           *
-    *   RETURN-Wert: Das csrf-Token                                                             *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.get_Token = function (text) {
-        return text.substring(text.indexOf("csrf-token") + 23, text.indexOf("csrf-token") + 111);
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion filtert aus dem übergebenen String das Semester für die                        *
-    *   Anmeldung beim Server.                                                                  *
-    *   text -> String mit einem Text, in der das Semester steckt                               *
-    *                                                                                           *
-    *   RETURN-Wert: Die ID des Semesters                                                       *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.get_Semester = function (text) {
-        return text.substring(text.indexOf("option selected") + 37, text.indexOf("option selected") + 46);
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion filtert aus dem übergebenen String einen bestimmten String heraus,             *
-    *   um festzustellen, ob die Anmeldung erfolgreich war.                                     *
-    *   text -> String mit einem Text, in dem die Antwort des Servers steckt                    *
-    *                                                                                           *
-    *   RETURN-Wert: Falls Anmeldung erfolgreich -1, sonst eine Zahl >= 0                       *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.get_Header = function (text) {
-        return text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten");
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion gibt eine Fehlermeldung aus.                                                   *
-    *   meldung1 -> String der ersten Fehlermeldung                                             *
-    *   meldung2 -> String der zweiten Fehlermeldung                                             *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.fehler = function (meldung1, meldung2) {
-        var fehlerFeld = document.getElementById('Fehler');
-        fehlerFeld.innerText = meldung1;
-        fehlerFeld.style.display = "block";
-        var fehlerFeldZwei = document.getElementById('Fehler2');
-        fehlerFeldZwei.innerText = meldung2;
-        fehlerFeldZwei.style.display = "block";
-        var ladeicon = document.getElementById('laden');
-        ladeicon.style.display = "none";
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion filtert aus dem übergebenen String den Quelltext der ics-Dateien heraus        *
-    *   text -> String mit der Antwort des Servers, in der der Quelltext steckt                 *
-    *                                                                                           *
-    *   RETURN-Wert: Der Inhalt der ics-Datei                                                   *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.get_Plan = function (text) {
-        if (-1 == text.indexOf("DOCTYPE")) {
-            return text.substring(text.indexOf("_body") + 9, text.indexOf("status") - 6);
-        }
-        //Sollte im String "DOCTYPE" stehen, dann ist das nicht der Inhalt der ics-Datei:
-        this.fehler("Fehler beim Herunterladen der Daten. Bitte versuche es erneut", "Fehler beim Herunterladen der Daten. Bitte App neu starten");
-        return "-1";
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion lädt die ics-Dateien herunter und speichert sie im localStorage                *
-    *   options -> der aus der loginFunction übergebenen Header für die get-Anfragen            *
-    *   stelle -> Zahl, die die Anzahl der Downloads enthält (Beginn bei 0 -> 1. Download)      *
-    *   loader -> Loader                                                                        *
-    *                                                                                           *
-    *   RETURN-Wert: -1 im Fehlerfall                                                           *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.download = function (options, stelle) {
-        var _this = this;
-        //Arrays mit der id des Raumplans und den Räumen:
-        var id = [
-            "1001264429", "1001264431", "454131924", "454131925", "454131926", "454131927", "454131928", "454131930", "454131931",
-            "967118069", "967118075", "967321020", "967321022", "975705394", "984225074", "984360376", "992677104", "992744751",
-            "1001264469", "1001264470", "1001264471", "1001196781", "1001196783", "1001264428"
-        ];
-        var raum = [
-            "D01", "D02", "D11", "D12", "D13", "D14", "D15", "D17", "D18",
-            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
-        ];
-        //Solange nicht alle Raumpläne heruntergeladen wurden:
-        if (stelle < id.length) {
-            //Raumplan über id herunterladen
-            this.http.get('https://aor.cs.hs-rm.de/rooms/' + id[stelle] + '/plans.ics', options).subscribe(function (result) {
-                _this.x = JSON.stringify(result, null, 2);
-                _this.x = _this.get_Plan(_this.x);
-                if ("-1" == _this.x) {
-                    return -1;
-                }
-                //Raumplan abspeichern
-                localStorage.setItem(raum[stelle], _this.x);
-                //nächsten Raumplan:
-                _this.download(options, stelle + 1);
-            }, function (error) {
-                _this.fehler("Fehler beim Laden der Daten.", "Bitte starte die App erneut.");
-            });
-        }
-        else {
-            if (this.speichern && localStorage.getItem("benutzer") == null) {
-                localStorage.setItem("benutzer", this.benutzername);
-                localStorage.setItem("passwort", this.password);
-                var toast = this.toastCtrl.create({
-                    message: "Benutzerdaten wurden gespeichert! Du kannst deine Benutzerdaten jederzeit löschen.",
-                    duration: 3000,
-                    position: 'middle',
-                    cssClass: "my-toast"
-                });
-                toast.present();
-            }
-            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-        }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion führt den Login durch.                                                         *
-    *                                                                                           *
-    *   RETURN-Wert: -1 im Fehlerfall                                                           *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.loginFunction = function () {
-        var _this = this;
-        //Header für die Anmeldung
-        var options = {
-            headers: new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-            withCredentials: true
-        };
-        //GET-Anfrage um den Content der Seite zu bekommen, damit das Token gefunden werden kann
-        this.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
-            _this.x = JSON.stringify(result, null, 2);
-            _this.token = _this.get_Token(_this.x);
-            _this.semester = _this.get_Semester(_this.x);
-            _this.token = encodeURIComponent(_this.token);
-            //Der Body für die Anmeldung:
-            var body = 'utf8=%E2%9C%93' +
-                '&authenticity_token=' + _this.token +
-                '&login[account]=' + _this.benutzername +
-                '&login[password]=' + _this.password +
-                '&login[term_id]=' + _this.semester +
-                '&commit=Anmeldung';
-            _this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
-                if (-1 == _this.get_Header(JSON.stringify(result, null, 2))) {
-                    var fehlerFeldZwei = document.getElementById('Fehler2');
-                    fehlerFeldZwei.innerText = "Login war erfolgreich. Daten werden geladen...";
-                    fehlerFeldZwei.style.display = "block";
-                    var lademessage = document.getElementById('lademessage');
-                    lademessage.innerText = "Login war erfolgreich. Daten werden geladen...";
-                    //Wenn die Anmeldung erfolgreich war, werden die Raumpläne heruntergeladen:
-                    _this.download(options, 0);
-                }
-                else {
-                    _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
-                    return -1;
-                }
-            }, function (error) {
-                _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
-                return -1;
-            }); //post
-        }, function (error) {
-            _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
-        }); //get
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion prüft ob der Benutzer zuletzt zu Beginn des letzten Semesters aufgefordert     *
-    *   wurde zu aktualisieren.                                                                 *
-    *   Beispiel:                                                                               *
-    *   Der Benutzer öffnet die App am 3.4.2018 also zu Beginn des Sommersemesters.             *
-    *   Im localStorage steht ein Datum, an dem er das letzte Mal aufgefordert wurde die        *
-    *   Raumpläne zu aktualisieren.                                                             *
-    *   In diesem Beispiel wurde der Benutzer am 4.10.2017 zuletzt aufgefordert.                *
-    *   Also liegt der letzte Aktualisierungsvorgang im letzten Semester.                       *
-    *   Der Benutzer kann natürlich während des letzten Semesters auch nach dem 4.10.2017       *
-    *   über das Menü aktualisiert haben, aber das spielt hier keine Rolle.                     *
-    *                                                                                           *
-    *   RETURN-Wert: 0 wenn kein neues Semester begonnen hat, sonst 1                           *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.getSemesterBeginn = function () {
-        var jetzt = new Date();
-        var monat = jetzt.getMonth();
-        var tag = jetzt.getDate();
-        monat++;
-        if (localStorage.getItem('aktuell') != null) {
-            var old = new Date(localStorage.getItem('aktuell'));
-            switch (monat) {
-                //Wenn der aktuelle Monat April ist und zuletzt im Oktober
-                //durch den Alert aktualisiert wurde wird 1 zurückgegeben
-                case 4:
-                    if (old.getMonth() + 1 == 10) {
-                        return 1;
-                    }
-                    else {
-                        return 0;
-                    }
-                //Wenn der aktuelle Monat Oktober ist und zuletzt im April
-                //durch den Alert aktualisiert wurde wird 1 zurückgegeben
-                case 10:
-                    if (old.getMonth() + 1 == 4) {
-                        return 1;
-                    }
-                    else {
-                        return 0;
-                    }
-            }
-        }
-        if (monat == 4 && (tag >= 1 && tag <= 10) || monat == 10 && (tag >= 1 && tag <= 10)) {
-            //Wenn das Datum zwischen dem 1.4. und dem 10.4.
-            //oder zwischen dem 1.10. und dem 10.10. liegt hat ein neues Semester begonnen!
-            return 1;
-        }
-        else {
-            return 0;
-        }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion zeigt entweder einen Aktualisierungshinweis an oder leitet auf die             *
-    *   Startseite weiter.                                                                      *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.aktualisierungsAnfrage = function () {
-        var _this = this;
-        //Es wird ermittelt ob ein Semester begonnen hat:
-        //Wenn ja, wird außerdem noch überprüft, ob bereits durch diesen Alert zu Semesterbeginn
-        //aktualisiert wurde.
-        var aktualisieren = this.getSemesterBeginn();
-        if (aktualisieren == 1) {
-            var alert_1 = this.alertCtrl.create({
-                title: 'Aktualisieren',
-                message: 'Ein neues Semester hat begonnen. Möchtest du die Raumpläne aktualisieren?',
-                buttons: [
-                    {
-                        text: 'Nein',
-                        role: 'cancel',
-                        handler: function () {
-                            alert_1 = null;
-                            _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-                        }
-                    },
-                    {
-                        text: 'Ja',
-                        handler: function () {
-                            //Es wird das Datum des Aktualisierungshinweises gesetzt:
-                            var jetzt = new Date("Tue Apr 03 2018 11:09:54 GMT+0200 (CEST)");
-                            localStorage.setItem('aktuell', jetzt.toString());
-                            _this.loginFunction();
-                        }
-                    }
-                ]
-            });
-            alert_1.present();
-        }
-        else {
-            //Wenn nicht aktualisiert werden muss:
-            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
-        }
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion setzt das Sidemenü für die Loginseite aus.                                     *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.ionViewWillEnter = function () {
-        this.menuCtrl.swipeEnable(false);
-    };
-    /********************************************************************************************
-    *                                                                                           *
-    *   Funktion setzt das Sidemenü nach der Loginseite aktiv.                                  *
-    *                                                                                           *
-    ********************************************************************************************/
-    LoginPage.prototype.ionViewDidLeave = function () {
-        this.menuCtrl.swipeEnable(true);
-    };
-    LoginPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite und dem Logo\n-->\n<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--\nDer Inhalt der Seite. Das Loginformular\nDieser Inhaltsabschnitt wird nur eingeblendet, wenn keine Benutzerdaten gespeichert wurden.\n-->\n<ion-content id="content" padding>\n  <!--\n  Dieser Abschnitt beinhaltet das Ladeicon, sowie eine Nachricht über den Loginverlauf\n  Der Abschnitt wird erst nach dem Absenden eingeblendet\n  -->\n  <div id="laden" style="display:none; margin: -16px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      <span id="lademessage">Login wird durchgeführt.</span>\n    </div>\n  </div>\n  <!--\n  Das Formular\n  -->\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <!--\n          Benutzername\n          -->\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <!--\n          Passwort\n          -->\n          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>\n        </ion-item>\n\n        <!--\n        angemeldet bleiben? Standardmäßig auf "true" gesetzt\n        -->\n        <ion-item text-wrap>\n          <ion-label>Benutzerdaten speichern und angemeldet bleiben.</ion-label>\n          <ion-checkbox [(ngModel)]="speichern"></ion-checkbox>\n        </ion-item>\n      </div>\n      <!--\n      Absendebutton\n      -->\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<!--\nDer zweite Inhaltsabschnitt:\nFalls Logindaten gespeichert sind, startet der automatische Login.\n-->\n<ion-content id="login" padding style="display:none;white-space:pre-line;">\n  <ion-grid style="height: 60%">\n    <!--\n    Ladeicon\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n    </ion-row>\n    <!--\n    Meldung über den Verlauf des Loginvorgangs\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>\n    </ion-row>\n    <!--\n    Slogan\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
-    ], LoginPage);
-    return LoginPage;
-}());
-
-;
-//# sourceMappingURL=login.js.map
-
-/***/ }),
-
 /***/ 115:
 /***/ (function(module, exports) {
 
@@ -642,9 +234,9 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_splash_screen__ = __webpack_require__(202);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(284);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_page_page__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_page_page__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_search_search__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_login_login__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_login_login__ = __webpack_require__(53);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -851,9 +443,9 @@ var CampusModel = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(202);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_page_page__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_page_page__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_search_search__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_login_login__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_login_login__ = __webpack_require__(53);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1210,9 +802,10 @@ var Search = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__page_page__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__page_page__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__model_Darstellung__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__login_login__ = __webpack_require__(53);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1222,6 +815,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1405,7 +999,7 @@ var HomePage = /** @class */ (function () {
         ];
         var alert = this.alertCtrl.create({
             title: 'Warnung!',
-            message: 'Alle Daten löschen und die App schließen?',
+            message: 'Alle Daten löschen?',
             buttons: [
                 {
                     text: 'Nein',
@@ -1428,7 +1022,7 @@ var HomePage = /** @class */ (function () {
                             localStorage.removeItem(raum[i]);
                         }
                         _this.toasts("Alle Daten wurden gelöscht!");
-                        _this.platform.exitApp();
+                        _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__login_login__["a" /* LoginPage */]);
                     }
                 }
             ]
@@ -1990,6 +1584,414 @@ var Darstellung = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(159);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var LoginPage = /** @class */ (function () {
+    function LoginPage(toastCtrl, navCtrl, menuCtrl, alertCtrl, http, navParams) {
+        this.toastCtrl = toastCtrl;
+        this.navCtrl = navCtrl;
+        this.menuCtrl = menuCtrl;
+        this.alertCtrl = alertCtrl;
+        this.http = http;
+        this.navParams = navParams;
+        /********************************************************************************************
+        *                                                                                           *
+        *   showLogin -> bool ob Login angezeigt wird                                               *
+        *   benutzername -> String mit dem Benutzernamen im Formular                                *
+        *   password -> String mit dem Passwort im Formular                                         *
+        *   token -> String mit dem zu ermittelnden Token                                           *
+        *   x -> String für die Antwort des Servers                                                 *
+        *   semester -> String für das zu ermittelnde Semester                                      *
+        *   speicher -> boolean für die Checkbox -> Standard: true                                  *
+        *                                                                                           *
+        ********************************************************************************************/
+        this.showLogin = true;
+        this.benutzername = '';
+        this.password = '';
+        this.token = '';
+        this.x = '';
+        this.semester = '';
+        this.speichern = [true];
+    }
+    /********************************************************************************************
+  *                                                                                           *
+  *   Funktion wird nach dem Laden der View ausgeführt.                                       *
+  *                                                                                           *
+  ********************************************************************************************/
+    LoginPage.prototype.ionViewDidLoad = function () {
+        var FehlerFeld = document.getElementById('Fehler');
+        FehlerFeld.style.display = "none";
+        var ladeicon = document.getElementById('laden');
+        ladeicon.style.display = "none";
+        //Wenn Benutzerdaten vorhanden sind, dann Login-formular ausblenden und Login durchführen.
+        if (localStorage.getItem("benutzer") != null && localStorage.getItem("passwort") != null) {
+            this.benutzername = localStorage.getItem("benutzer");
+            this.password = localStorage.getItem("passwort");
+            //Das Loginformular wird ausgeblendet:
+            var formular = document.getElementById('content');
+            formular.style.display = "none";
+            var header = document.getElementById('header');
+            header.style.display = "none";
+            //Der Screen für den automatischen Login wird eingeblendet:
+            var login = document.getElementById('login');
+            login.style.display = "block";
+            if (this.navParams.get('item') == 'Aktualisieren') {
+                this.loginFunction();
+            }
+            else {
+                this.aktualisierungsAnfrage();
+            }
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion blendet das Fehlerfeld des Loginformulars aus.                                 *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.clicked = function () {
+        var fehlerFeld = document.getElementById('Fehler');
+        fehlerFeld.style.display = "none";
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion führt den Login nach dem korrekten Ausfüllen des Formulars durch.              *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.doLogin = function () {
+        if (this.showLogin) {
+            if (this.benutzername.length != 8 || this.password === '') {
+                var fehlerFeld = document.getElementById('Fehler');
+                fehlerFeld.innerText = "Benutzername oder Passwort falsch.";
+                fehlerFeld.style.display = "block";
+                return;
+            }
+            this.loginFunction();
+            var ladeicon = document.getElementById('laden');
+            ladeicon.style.display = "block";
+        }
+        else {
+            this.showLogin = true;
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert aus dem übergebenen String das Token für die                           *
+    *   Anmeldung beim Server.                                                                  *
+    *   text -> String mit einem Text, in der das Token steckt                                  *
+    *                                                                                           *
+    *   RETURN-Wert: Das csrf-Token                                                             *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.get_Token = function (text) {
+        return text.substring(text.indexOf("csrf-token") + 23, text.indexOf("csrf-token") + 111);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert aus dem übergebenen String das Semester für die                        *
+    *   Anmeldung beim Server.                                                                  *
+    *   text -> String mit einem Text, in der das Semester steckt                               *
+    *                                                                                           *
+    *   RETURN-Wert: Die ID des Semesters                                                       *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.get_Semester = function (text) {
+        return text.substring(text.indexOf("option selected") + 37, text.indexOf("option selected") + 46);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert aus dem übergebenen String einen bestimmten String heraus,             *
+    *   um festzustellen, ob die Anmeldung erfolgreich war.                                     *
+    *   text -> String mit einem Text, in dem die Antwort des Servers steckt                    *
+    *                                                                                           *
+    *   RETURN-Wert: Falls Anmeldung erfolgreich -1, sonst eine Zahl >= 0                       *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.get_Header = function (text) {
+        return text.indexOf("Ihre Anmeldung war leider nicht erfolgreich, bitte überprüfen Sie ihre Login-Daten");
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion gibt eine Fehlermeldung aus.                                                   *
+    *   meldung1 -> String der ersten Fehlermeldung                                             *
+    *   meldung2 -> String der zweiten Fehlermeldung                                             *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.fehler = function (meldung1, meldung2) {
+        var fehlerFeld = document.getElementById('Fehler');
+        fehlerFeld.innerText = meldung1;
+        fehlerFeld.style.display = "block";
+        var fehlerFeldZwei = document.getElementById('Fehler2');
+        fehlerFeldZwei.innerText = meldung2;
+        fehlerFeldZwei.style.display = "block";
+        var ladeicon = document.getElementById('laden');
+        ladeicon.style.display = "none";
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion filtert aus dem übergebenen String den Quelltext der ics-Dateien heraus        *
+    *   text -> String mit der Antwort des Servers, in der der Quelltext steckt                 *
+    *                                                                                           *
+    *   RETURN-Wert: Der Inhalt der ics-Datei                                                   *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.get_Plan = function (text) {
+        if (-1 == text.indexOf("DOCTYPE")) {
+            return text.substring(text.indexOf("_body") + 9, text.indexOf("status") - 6);
+        }
+        //Sollte im String "DOCTYPE" stehen, dann ist das nicht der Inhalt der ics-Datei:
+        this.fehler("Fehler beim Herunterladen der Daten. Bitte versuche es erneut", "Fehler beim Herunterladen der Daten. Bitte App neu starten");
+        return "-1";
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion lädt die ics-Dateien herunter und speichert sie im localStorage                *
+    *   options -> der aus der loginFunction übergebenen Header für die get-Anfragen            *
+    *   stelle -> Zahl, die die Anzahl der Downloads enthält (Beginn bei 0 -> 1. Download)      *
+    *   loader -> Loader                                                                        *
+    *                                                                                           *
+    *   RETURN-Wert: -1 im Fehlerfall                                                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.download = function (options, stelle) {
+        var _this = this;
+        //Arrays mit der id des Raumplans und den Räumen:
+        var id = [
+            "1001264429", "1001264431", "454131924", "454131925", "454131926", "454131927", "454131928", "454131930", "454131931",
+            "967118069", "967118075", "967321020", "967321022", "975705394", "984225074", "984360376", "992677104", "992744751",
+            "1001264469", "1001264470", "1001264471", "1001196781", "1001196783", "1001264428"
+        ];
+        var raum = [
+            "D01", "D02", "D11", "D12", "D13", "D14", "D15", "D17", "D18",
+            "C001", "C007", "C035", "C037", "C113", "C213", "C237", "C305", "C313", "C361", "C375", "C377", "C405", "C407", "C413"
+        ];
+        //Solange nicht alle Raumpläne heruntergeladen wurden:
+        if (stelle < id.length) {
+            //Raumplan über id herunterladen
+            this.http.get('https://aor.cs.hs-rm.de/rooms/' + id[stelle] + '/plans.ics', options).subscribe(function (result) {
+                _this.x = JSON.stringify(result, null, 2);
+                _this.x = _this.get_Plan(_this.x);
+                if ("-1" == _this.x) {
+                    return -1;
+                }
+                //Raumplan abspeichern
+                localStorage.setItem(raum[stelle], _this.x);
+                //nächsten Raumplan:
+                _this.download(options, stelle + 1);
+            }, function (error) {
+                _this.fehler("Fehler beim Laden der Daten.", "Bitte starte die App erneut.");
+            });
+        }
+        else {
+            if (this.speichern && localStorage.getItem("benutzer") == null) {
+                localStorage.setItem("benutzer", this.benutzername);
+                localStorage.setItem("passwort", this.password);
+                var toast = this.toastCtrl.create({
+                    message: "Benutzerdaten wurden gespeichert! Du kannst deine Benutzerdaten jederzeit löschen.",
+                    duration: 3000,
+                    position: 'middle',
+                    cssClass: "my-toast"
+                });
+                toast.present();
+            }
+            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion führt den Login durch.                                                         *
+    *                                                                                           *
+    *   RETURN-Wert: -1 im Fehlerfall                                                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.loginFunction = function () {
+        var _this = this;
+        //Header für die Anmeldung
+        var options = {
+            headers: new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+            withCredentials: true
+        };
+        //GET-Anfrage um den Content der Seite zu bekommen, damit das Token gefunden werden kann
+        this.http.get('https://aor.cs.hs-rm.de/login', options).subscribe(function (result) {
+            _this.x = JSON.stringify(result, null, 2);
+            _this.token = _this.get_Token(_this.x);
+            _this.semester = _this.get_Semester(_this.x);
+            _this.token = encodeURIComponent(_this.token);
+            //Der Body für die Anmeldung:
+            var body = 'utf8=%E2%9C%93' +
+                '&authenticity_token=' + _this.token +
+                '&login[account]=' + _this.benutzername +
+                '&login[password]=' + _this.password +
+                '&login[term_id]=' + _this.semester +
+                '&commit=Anmeldung';
+            _this.http.post('https://aor.cs.hs-rm.de/login', body, options).subscribe(function (result) {
+                if (-1 == _this.get_Header(JSON.stringify(result, null, 2))) {
+                    var fehlerFeldZwei = document.getElementById('Fehler2');
+                    fehlerFeldZwei.innerText = "Login war erfolgreich. Daten werden geladen...";
+                    fehlerFeldZwei.style.display = "block";
+                    var lademessage = document.getElementById('lademessage');
+                    lademessage.innerText = "Login war erfolgreich. Daten werden geladen...";
+                    //Wenn die Anmeldung erfolgreich war, werden die Raumpläne heruntergeladen:
+                    _this.download(options, 0);
+                }
+                else {
+                    _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
+                    return -1;
+                }
+            }, function (error) {
+                _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
+                return -1;
+            }); //post
+        }, function (error) {
+            _this.fehler("Benutzername oder Passwort falsch.", "Login fehlgeschlagen. Bitte starte die App erneut.");
+        }); //get
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion prüft ob der Benutzer zuletzt zu Beginn des letzten Semesters aufgefordert     *
+    *   wurde zu aktualisieren.                                                                 *
+    *   Beispiel:                                                                               *
+    *   Der Benutzer öffnet die App am 3.4.2018 also zu Beginn des Sommersemesters.             *
+    *   Im localStorage steht ein Datum, an dem er das letzte Mal aufgefordert wurde die        *
+    *   Raumpläne zu aktualisieren.                                                             *
+    *   In diesem Beispiel wurde der Benutzer am 4.10.2017 zuletzt aufgefordert.                *
+    *   Also liegt der letzte Aktualisierungsvorgang im letzten Semester.                       *
+    *   Der Benutzer kann natürlich während des letzten Semesters auch nach dem 4.10.2017       *
+    *   über das Menü aktualisiert haben, aber das spielt hier keine Rolle.                     *
+    *                                                                                           *
+    *   RETURN-Wert: 0 wenn kein neues Semester begonnen hat, sonst 1                           *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.getSemesterBeginn = function () {
+        var jetzt = new Date();
+        var monat = jetzt.getMonth();
+        var tag = jetzt.getDate();
+        monat++;
+        if (localStorage.getItem('aktuell') != null) {
+            var old = new Date(localStorage.getItem('aktuell'));
+            switch (monat) {
+                //Wenn der aktuelle Monat April ist und zuletzt im Oktober
+                //durch den Alert aktualisiert wurde wird 1 zurückgegeben
+                case 4:
+                    if (old.getMonth() + 1 == 10) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                //Wenn der aktuelle Monat Oktober ist und zuletzt im April
+                //durch den Alert aktualisiert wurde wird 1 zurückgegeben
+                case 10:
+                    if (old.getMonth() + 1 == 4) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+            }
+        }
+        if (monat == 4 && (tag >= 1 && tag <= 10) || monat == 10 && (tag >= 1 && tag <= 10)) {
+            //Wenn das Datum zwischen dem 1.4. und dem 10.4.
+            //oder zwischen dem 1.10. und dem 10.10. liegt hat ein neues Semester begonnen!
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion zeigt entweder einen Aktualisierungshinweis an oder leitet auf die             *
+    *   Startseite weiter.                                                                      *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.aktualisierungsAnfrage = function () {
+        var _this = this;
+        //Es wird ermittelt ob ein Semester begonnen hat:
+        //Wenn ja, wird außerdem noch überprüft, ob bereits durch diesen Alert zu Semesterbeginn
+        //aktualisiert wurde.
+        var aktualisieren = this.getSemesterBeginn();
+        if (aktualisieren == 1) {
+            var alert_1 = this.alertCtrl.create({
+                title: 'Aktualisieren',
+                message: 'Ein neues Semester hat begonnen. Möchtest du die Raumpläne aktualisieren?',
+                buttons: [
+                    {
+                        text: 'Nein',
+                        role: 'cancel',
+                        handler: function () {
+                            alert_1 = null;
+                            _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+                        }
+                    },
+                    {
+                        text: 'Ja',
+                        handler: function () {
+                            //Es wird das Datum des Aktualisierungshinweises gesetzt:
+                            var jetzt = new Date("Tue Apr 03 2018 11:09:54 GMT+0200 (CEST)");
+                            localStorage.setItem('aktuell', jetzt.toString());
+                            _this.loginFunction();
+                        }
+                    }
+                ]
+            });
+            alert_1.present();
+        }
+        else {
+            //Wenn nicht aktualisiert werden muss:
+            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */]);
+        }
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion setzt das Sidemenü für die Loginseite aus.                                     *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.ionViewWillEnter = function () {
+        this.menuCtrl.swipeEnable(false);
+    };
+    /********************************************************************************************
+    *                                                                                           *
+    *   Funktion setzt das Sidemenü nach der Loginseite aktiv.                                  *
+    *                                                                                           *
+    ********************************************************************************************/
+    LoginPage.prototype.ionViewDidLeave = function () {
+        this.menuCtrl.swipeEnable(true);
+    };
+    LoginPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-login',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite und dem Logo\n-->\n<ion-header id="header" hide-nav-bar="true">\n\n  <ion-navbar>\n    <ion-title><img class="logo" style="margin-right: 10px; float: left;" src="assets/imgs/FreiRaumLogo.png" width="30px"/> Login</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<!--\nDer Inhalt der Seite. Das Loginformular\nDieser Inhaltsabschnitt wird nur eingeblendet, wenn keine Benutzerdaten gespeichert wurden.\n-->\n<ion-content id="content" padding>\n  <!--\n  Dieser Abschnitt beinhaltet das Ladeicon, sowie eine Nachricht über den Loginverlauf\n  Der Abschnitt wird erst nach dem Absenden eingeblendet\n  -->\n  <div id="laden" style="display:none; margin: -16px; width: 100%;height:100%;background: rgba(0,0,0,.5);display:block;z-index:100;position:absolute;">\n    <div id="ladeimage" style="background: rgba(255,255,255,1); display:block; z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:150px 50px;padding:10px;text-align:center;">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="100"/><br><br>\n      <span id="lademessage">Login wird durchgeführt.</span>\n    </div>\n  </div>\n  <!--\n  Das Formular\n  -->\n  <ion-grid style="height: 50%">\n    <ion-row style="height: 100%">\n      <span style="margin-left: 10px;">Bitte mit deinem HDS-Account anmelden.</span><br>\n      <span id="Fehler" style="display: none; margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;">\n      </span>\n      <div *ngIf="showLogin" style="margin-left: -5px; text-align:center; width: 100%;">\n        <ion-item>\n          <!--\n          Benutzername\n          -->\n          <ion-input (click)="clicked()" type="benutzername" placeholder="Benutzername" [(ngModel)]="benutzername" [attr.autofocus]="shouldFocus"></ion-input>\n        </ion-item>\n\n        <ion-item>\n          <!--\n          Passwort\n          -->\n          <ion-input (click)="clicked()" type="password" placeholder="Passwort" [(ngModel)]="password"></ion-input>\n        </ion-item>\n\n        <!--\n        angemeldet bleiben? Standardmäßig auf "true" gesetzt\n        -->\n        <ion-item text-wrap>\n          <ion-label>Benutzerdaten speichern und angemeldet bleiben.</ion-label>\n          <ion-checkbox [(ngModel)]="speichern"></ion-checkbox>\n        </ion-item>\n      </div>\n      <!--\n      Absendebutton\n      -->\n      <span style="width: 100%; text-align: center;">\n        <button ion-button style="margin: 20px; width: 200px;" (click)="doLogin()">Login</button>\n      </span>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n\n<!--\nDer zweite Inhaltsabschnitt:\nFalls Logindaten gespeichert sind, startet der automatische Login.\n-->\n<ion-content id="login" padding style="display:none;white-space:pre-line;">\n  <ion-grid style="height: 60%">\n    <!--\n    Ladeicon\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 60%">\n      <img class="logo" src="assets/imgs/Ladeicon.gif" width="250"/>\n    </ion-row>\n    <!--\n    Meldung über den Verlauf des Loginvorgangs\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <span id="Fehler2" style="margin-top: 15px;">Login wird durchgeführt.</span>\n    </ion-row>\n    <!--\n    Slogan\n    -->\n    <ion-row justify-content-center align-items-center style="text-align: center; height: 20%">\n      <h1>Finde deinen freien Raum!</h1>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/login/login.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* MenuController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+    ], LoginPage);
+    return LoginPage;
+}());
+
+;
+//# sourceMappingURL=login.js.map
+
+/***/ }),
+
+/***/ 54:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Gebaude; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
@@ -2290,20 +2292,20 @@ var Gebaude = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]) === "function" && _a || Object)
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
     ], Gebaude.prototype, "content", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]),
-        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */]) === "function" && _b || Object)
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Nav */])
     ], Gebaude.prototype, "nav", void 0);
     Gebaude = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'gebaude',template:/*ion-inline-start:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/'<!--\nDer Header der Seite mit dem Titel der Seite, einer Lupe für die Suche und dem Menü/Backbutton\n-->\n<span id="header">\n  <ion-header>\n    <ion-navbar>\n      <button ion-button menuToggle>\n        <ion-icon name="menu"></ion-icon>\n      </button>\n      <ion-title style="float: left;">\n        <!--\n        Der Titel der Seite wird eingefügt\n        -->\n        <span *ngFor="let headTitle of ueberschrift; let i = index" [attr.data-index]="i">\n          <ng-container *ngIf="i == 0">{{ headTitle }}</ng-container>\n        </span>\n      </ion-title>\n      <ion-icon (click)="search()" style="float: right; position: relative; font-size: 2em; margin-right: 5px;" name="search"></ion-icon>\n    </ion-navbar>\n  </ion-header>\n</span>\n\n<!--\nDer Inhalt der Seite\n-->\n<ion-content padding>\n  <!--\n  Der Inhalt der Seite für den Fall, dass ein Raumplan angezeigt wird.\n  Wird erst nach Klick auf einen Raum eingeblendet\n  -->\n  <div id="Lehraussen" style="display: none; margin: -15px; width: 100%;height:100%;background:rgba(255,255,255,1);z-index:100;position:absolute;">\n    <!--\n    Der Header mit Backbutton\n    -->\n    <span id="span1" style="display: none; float: left; width: 100%; text-align:left;">\n      <ion-icon id="button" (click)="backClicked()" style="float: left; display: none; cursor: pointer; font-size: 2em; color: rgb(66, 134, 244); margin: 13px; margin-left: 20px;" name="arrow-back"></ion-icon>\n      <ion-title style="float: left; margin-top: 13px;">\n        &nbsp;Zurück zur Raumübersicht\n      </ion-title>\n    </span>\n    <!--\n    Der Raumplan\n    -->\n    <span id="span2" style="display: none; float: right; width: 100%;">\n      <div id="Lehrinnen" style="display: none; background :rgba(255,255,255,1); z-index:101;border:1px solid #FFFFFF;border-radius:3px;position:relative;margin:0px 0px;padding:10px;text-align:left;">\n\n      </div>\n    </span>\n  </div>\n\n  <!--\n  Die Auflistung aller freien Räume\n  -->\n  <div id="anzeige" style="margin-top: 85px;">\n    <b>\n      <div style="margin-bottom: -30px;" *ngFor="let ueberschrift of ueberschrift; let i = index" [attr.data-index]="i">\n        <!--\n        Die Überschrift "... im C/D-Gebäude frei:"\n        -->\n        <ng-container *ngIf="i == 1">{{ ueberschrift }}</ng-container>\n      </div>\n    </b>\n    <ion-list style="margin-bottom: 170px;">\n      <ng-container *ngFor="let item of freeRooms">\n        <!--\n        Die Uhrzeiten der Slots\n        -->\n        <div style="clear: both;">\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'08:15 bis 09:45:\'">08:15 bis 09:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'10:00 bis 11:30:\'">10:00 bis 11:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'11:45 bis 13:15:\'">11:45 bis 13:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'14:15 bis 15:45:\'">14:15 bis 15:45:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'16:00 bis 17:30:\'">16:00 bis 17:30:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'17:45 bis 19:15:\'">17:45 bis 19:15:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'19:30 bis 21:00:\'">19:30 bis 21:00:</h3>\n          <h3 style="clear: both; margin-top: 70px;" *ngIf="item == \'ab 21:00:\'">ab 21:00:</h3>\n        </div>\n\n        <!--\n        Die freien Räume\n        -->\n        <ng-container *ngIf="item != \'08:15 bis 09:45:\' && item != \'10:00 bis 11:30:\' && item != \'11:45 bis 13:15:\' && item != \'14:15 bis 15:45:\' && item != \'16:00 bis 17:30:\' && item != \'17:45 bis 19:15:\' && item != \'19:30 bis 21:00:\' && item != \'ab 21:00:\'">\n          <span style="width: 100%; margin-bottom: 20px;">\n            <ion-item (click)="getL(item)" [color]="primary" style="float: left; width: 75%;">\n              <!--\n              Wenn ein Raum markiert wurde wird der Raumname hervorgehoben:\n              -->\n              <ng-container *ngFor="let markierte of markiert">\n                <span *ngIf="item == markierte" style="float: left; color: rgb(66, 134, 244);"><b>{{ item }}</b></span>\n              </ng-container>\n\n              <ng-container *ngFor="let entmarkierte of entmarkiert">\n                <span *ngIf="item == entmarkierte" style="float: left;">{{ item }}</span>\n              </ng-container>\n            </ion-item>\n\n            <!--\n            Wenn ein Raum markiert wurde wird der Stern farbig:\n            -->\n            <ng-container *ngFor="let markierte of markiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(66, 134, 244);" name="star" *ngIf="item == markierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <ng-container *ngFor="let entmarkierte of entmarkiert">\n              <ion-icon style="height: 100%; padding-top: 15px; width: 10%; float: right; font-size: 1.5em; color: rgb(120, 120, 120);" name="star" *ngIf="item == entmarkierte" (click)="makeFav(item)"></ion-icon>\n            </ng-container>\n\n            <!--\n            Falls Zugangsbeschränkung vorliegt wird ein Schlüssel angezeigt:\n            -->\n            <ng-container *ngFor="let keys of zugang">\n              <ion-icon style="height: 100%; padding-top: 17px; margin-left: 5%; padding-left: 5px; width: 10%; float: right;" name="key" *ngIf="item == keys" (click)="onTip(item)"></ion-icon>\n            </ng-container>\n          </span>\n        </ng-container>\n      </ng-container>\n    </ion-list>\n\n    <!--\n    Button zurück zum Campusplan\n    -->\n    <button ion-button style="left: 50%; position: fixed; bottom: 20px;" (click)="BackToCampus()">Zum Campusplan</button>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/patrick/Schreibtisch/WahlprojektSS18/src/pages/page/page.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _f || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], Gebaude);
     return Gebaude;
-    var _a, _b, _c, _d, _e, _f;
 }());
 
 //# sourceMappingURL=page.js.map

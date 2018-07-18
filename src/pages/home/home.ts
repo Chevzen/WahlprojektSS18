@@ -4,6 +4,7 @@ import { NavController } from 'ionic-angular';
 import { Gebaude } from '../page/page';
 import { Search } from '../search/search';
 import { Darstellung } from '../../model/Darstellung';
+import { LoginPage } from '../login/login';
 
 
 @Component({
@@ -208,7 +209,7 @@ export class HomePage {
     ];
     let alert = this.alertCtrl.create({
       title: 'Warnung!',
-      message: 'Alle Daten löschen und die App schließen?',
+      message: 'Alle Daten löschen?',
       buttons: [
         {
           text: 'Nein',
@@ -231,7 +232,7 @@ export class HomePage {
               localStorage.removeItem(raum[i]);
             }
             this.toasts("Alle Daten wurden gelöscht!");
-            this.platform.exitApp();
+            this.navCtrl.setRoot(LoginPage);
           }
         }
       ]
