@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Content, Platform, Nav } from 'ionic-angular';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { Search } from '../search/search';
 import { Darstellung } from '../../model/Darstellung';
@@ -43,7 +43,7 @@ export class Gebaude {
 
   private darstellung:Darstellung;
   constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController,
-    public navParams: NavParams) {
+    private alertCtrl: AlertController, public navParams: NavParams) {
 
     }
 

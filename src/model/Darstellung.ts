@@ -196,8 +196,8 @@ export class Darstellung {
   *                                                                                           *
   ********************************************************************************************/
   neueVeranstaltung(name:string, wochentag:string, startZeit:string, endZeit:string, raum:RaumModel){
-    var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
-    raum.addVeranstaltung(veranstaltung);
+    //var veranstaltung = new Veranstaltung(name, wochentag, startZeit, endZeit);
+    raum.addVeranstaltung(new Veranstaltung(name, wochentag, startZeit, endZeit));
   }
 
   /********************************************************************************************

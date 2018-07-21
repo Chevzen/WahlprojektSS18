@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Platform, Nav } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, ToastController, Platform, Nav } from 'ionic-angular';
 import { GebaudeModel } from '../../model/GebaudeModel';
 import { Darstellung } from '../../model/Darstellung';
 
@@ -44,7 +44,7 @@ export class Search {
   @ViewChild(Nav) nav:Nav;
 
   constructor(public platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController,
-    public navParams: NavParams) {
+    private alertCtrl: AlertController, public navParams: NavParams) {
 
     }
 

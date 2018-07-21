@@ -55,6 +55,9 @@ export class HomePage {
     if(this.navParams.get("item") == "daten"){
       this.deleteDaten();
     }
+    if(this.navParams.get("item") == "Markierte"){
+      this.toasts("Markierte Räume gelöscht!");
+    }
   }
 
   /********************************************************************************************
@@ -168,7 +171,7 @@ export class HomePage {
           text: 'Markierte Räume',
           handler: () => {
             localStorage.removeItem("markiert");
-            this.toasts("Markierte Räume gelöscht!");
+            this.navCtrl.setRoot(this.navCtrl.getActive().component, {item: "Markierte"});
           }
         },
         {
