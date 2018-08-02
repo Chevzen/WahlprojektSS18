@@ -25,7 +25,7 @@ Der Inhalt der Seite
   -->
   <ion-list>
     <ng-container *ngFor="let item of items; let i = index" [attr.data-index]="i">
-      <div style="margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;" *ngIf="i == 0">{{ item }}</div>
+      <div style="margin: 15px; padding: 5px; border: thin solid red; border-radius: 3px; color: red;" *ngIf="i == 0 && item != ''">{{ item }}</div>
       <ion-item (click)="searchRoom2(item)" *ngIf="i != 0">
         {{ item }}
       </ion-item>

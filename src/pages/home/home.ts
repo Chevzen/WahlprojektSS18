@@ -159,6 +159,7 @@ export class HomePage {
       title: 'Datenverwaltung',
       message: 'Welche Daten möchtest du löschen?',
       buttons: [
+        //Button 1:
         {
           text: 'Benutzername und Passwort',
           handler: () => {
@@ -167,6 +168,7 @@ export class HomePage {
             this.toasts("Benutzerdaten gelöscht!");
           }
         },
+        //Button 2:
         {
           text: 'Markierte Räume',
           handler: () => {
@@ -174,6 +176,7 @@ export class HomePage {
             this.navCtrl.setRoot(this.navCtrl.getActive().component, {item: "Markierte"});
           }
         },
+        //Button 3:
         {
           text: 'Alles',
           handler: () => {
@@ -181,6 +184,7 @@ export class HomePage {
             this.dialog();
           }
         },
+        //Button 4:
         {
           text: 'Nichts',
           role: 'cancel',
@@ -188,6 +192,7 @@ export class HomePage {
             alert = null;
           }
         },
+        //Button 5:
         {
           text: 'Infos zum Datenschutz',
           handler: () => {
@@ -214,6 +219,7 @@ export class HomePage {
       title: 'Warnung!',
       message: 'Alle Daten löschen?',
       buttons: [
+        //Button 1:
         {
           text: 'Nein',
           role: 'cancel',
@@ -221,6 +227,7 @@ export class HomePage {
             alert = null;
           }
         },
+        //Button 2:
         {
           text: 'Ja',
           handler: () => {

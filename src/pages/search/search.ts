@@ -184,8 +184,10 @@ export class Search {
       });
       if(this.items.length == 0){
         this.items.unshift("Dieser Raum existiert leider nicht!");
-      }else{
+      }else if(this.items.length != 1){
         this.items.unshift("Dieser Raum existiert leider nicht! Vielleicht hilft dir diese Liste:");
+      }else{
+        this.items.unshift("");
       }
 
     }else{

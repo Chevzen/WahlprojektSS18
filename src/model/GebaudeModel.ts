@@ -89,6 +89,8 @@ export class GebaudeModel{
   /********************************************************************************************
   *                                                                                           *
   *   Funktion gibt die Uhrzeit des aktuellen Slots zurück                                    *
+  *   Befinden wir uns vor dem ersten Timeslot wird dieser zurückgegeben.                     *
+  *   Befinden wir uns nach dem letzten Timeslot wird dieser zurückgegeben.                   *
   *                                                                                           *
   *   RETURN-Wert: Die Uhrzeit des aktuellen Slots                                            *
   *                                                                                           *

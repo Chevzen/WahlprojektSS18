@@ -406,22 +406,18 @@ export class Darstellung {
           veranstaltung.style.border = "2px solid rgb(74, 106, 255)";
         }else if(se != -1){
           //Farben für Seminar festlegen:
-          veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(26, 123, 81, 0.5)";
           veranstaltung.style.border = "2px solid rgb(26, 123, 81)";
         }else if(pr != -1){
           //Farben für Praktikum festlegen:
-          veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(255, 146, 63, 0.5)";
           veranstaltung.style.border = "2px solid rgb(255, 146, 63)";
         }else if(ue != -1){
           //Farben für Uebung festlegen:
-          veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(44, 250, 40, 0.4)";
           veranstaltung.style.border = "2px solid rgb(44, 250, 40)";
         }else {
           //Farben für Sonstige Veranstaltung festlegen:
-          veranstaltung = this.erstelleElement(""+lehrveranstaltungen[j]+","+lehrveranstaltungen[j+1],"p");
           veranstaltung.style.backgroundColor = "rgba(140, 140, 140, 0.3)";
           veranstaltung.style.border = "2px solid rgb(140, 140, 140)";
         }
